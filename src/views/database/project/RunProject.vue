@@ -152,7 +152,7 @@ export default {
     requestRunProjectInfo(srp) {
       showLoading()
       const url = config.baseUrl + config.uri.runProjectViewURI + '/' + srp
-      return axios.get(url, {
+      axios.get(url, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8' 
         }
@@ -169,11 +169,11 @@ export default {
 
     viewContigs(srp) {
       // TODO
-      // console.log('SRP080056')
+      console.log(srp)
       const facdeSRP = 'SRP080056'
       this.$router.push({
-        name: 'contigview',
-        query: {
+        name: 'datavisual',
+        params: { 
           param: facdeSRP
         }
       })

@@ -1,12 +1,12 @@
 <template>
   <div>
-    ContigList
+    ContigProject
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ContigList',
+  name: 'ContigProject',
 
   data() {
     return {

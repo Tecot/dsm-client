@@ -6,10 +6,11 @@ import ElementUI from 'element-ui'
 import ElementLocale from 'element-ui/lib/locale'
 import elementEnLocale from 'element-ui/lib/locale/lang/en';
 import 'element-ui/lib/theme-chalk/index.css'
+import VueClipBoard from 'vue-clipboard2';
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI)
+Vue.use(ElementUI).use(VueClipBoard)
 
 ElementLocale.use(elementEnLocale);
 

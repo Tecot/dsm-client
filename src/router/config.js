@@ -1,11 +1,11 @@
 import Home from '@/views/home/Home.vue'
 import Analysis from '@/views/analysis/Analysis.vue'
-import Overview from '@/views/database/Overview.vue'
 
+import Overview from '@/views/database/overview/Overview.vue'
 import BioProject from '@/views/database/project/BioProject.vue'
 import RunProject from '@/views/database/project/RunProject.vue'
-import ContigList from '@/views/database/contig/ContigList.vue'
-import ContigView from '@/views/database/ContigView.vue'
+import ContigProject from '@/views/database/contig/ContigProject.vue'
+import DataVisual from '@/views/database/DataVisual.vue'
 
 import Download from '@/views/download/Download.vue'
 import Tutorial from '@/views/tutorial/Tutorial.vue'
@@ -51,16 +51,15 @@ const routesConfig = [
         name: 'runproject',
         component: RunProject
     },
-    // 
     {
-        path: '/database/contiglist',
-        name: 'contiglist',
-        component: ContigList
+        path: '/database/contigproject',
+        name: 'contigproject',
+        component: ContigProject
     },
     {
-        path: '/database/contigview',
-        name: 'contigview',
-        component: ContigView
+        path: '/database/datavisual',
+        name: 'datavisual',
+        component: DataVisual
     },
 
     // download

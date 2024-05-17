@@ -6,6 +6,17 @@ const objectArrayDeduplication = (objects, targetKey) => {
     return uniqueObjects
 }
 
-export default {
-    objectArrayDeduplication
+const tcgaColor = (char) => {
+    const colors = {
+        'A': '#73D216',
+        'G': '#F5A902',
+        'C': '#FF0000',
+        'T': '#007BE4'
+    }
+    return colors[char]
+}
+
+export {
+    objectArrayDeduplication,
+    tcgaColor
 }
