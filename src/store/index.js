@@ -5,10 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    databaseRunProjectData: ''
   },
   getters: {
   },
   mutations: {
+    setDatabaseRunProjectData(state, data) {
+      state.databaseRunProjectData = data
+    }
   },
   actions: {
   },
