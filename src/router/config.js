@@ -2,34 +2,28 @@ import Home from '@/views/home/Home.vue'
 import Analysis from '@/views/analysis/Analysis.vue'
 
 import Overview from '@/views/database/overview/Overview.vue'
-import BioProject from '@/views/database/project/BioProject.vue'
-import RunProject from '@/views/database/project/RunProject.vue'
-import ContigProject from '@/views/database/contig/ContigProject.vue'
-import DataVisual from '@/views/database/DataVisual.vue'
+import SrpProject from '@/views/database/bioproject/SrpProject.vue'
+import RunProject from '@/views/database/bioproject/RunProject.vue'
+import ContigProject from '@/views/database/contigproject/ContigProject.vue'
+
+import DataVisual from '@/views/database/datavisual/DataVisual.vue'
+import ContigDetail from '@/views/database/ContigDetail.vue'
 
 import Download from '@/views/download/Download.vue'
 import Tutorial from '@/views/tutorial/Tutorial.vue'
+import NotFound from '@/views/notfound/NotFound.vue'
 
 const routesConfig = [
-    // home
-    {
-        path: '/',
-        redirect: '/index'
-    },
     {
         path: '/index',
         name: 'index',
         component: Home
     },
-
-    // analysis
     {
         path: '/analysis',
         name: 'analysis',
         component: Analysis
     },
-
-    // database
     {
         path: '/database',
         name: 'database',
@@ -40,14 +34,13 @@ const routesConfig = [
         name: 'overview',
         component: Overview
     },
-    // 
     {
-        path: '/database/bioproject',
-        name: 'bioproject',
-        component: BioProject
+        path: '/database/srpproject',
+        name: 'srpproject',
+        component: SrpProject
     },
     {
-        path: '/database/bioproject/runproject/:param',
+        path: '/database/srpproject/runproject/:param',
         name: 'runproject',
         component: RunProject
     },
@@ -61,21 +54,27 @@ const routesConfig = [
         name: 'datavisual',
         component: DataVisual
     },
-
-    // download
+    {
+        path: '/database/contigdetail',
+        name: 'contigdetail',
+        component: ContigDetail
+    },
     {
         path: '/download',
         name: 'download',
         component: Download
     },
-
-    // tutorial
     {
         path: '/tutorial',
         name: 'tutorial',
         component: Tutorial
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'notfound',
+        component: NotFound
     }
-    
 ]
+
 
 export default routesConfig

@@ -1,77 +1,16 @@
 <template>
   <div class="srp-detail-container">
     <div class="srp-description-container">
-      <el-descriptions title="SRP Description" direction="vertical" :column="6" size="small" border>
-        <el-descriptions-item 
-          v-for="(item, index) in srpDescriptionLabel" 
-          :key="index"
-          :label="item"
-        >
-          {{ srpInfo[item] }}
-        </el-descriptions-item>
-        <el-descriptions-item label="Contigs">
-          <el-button type="danger" size="mini" @click="viewContigs(srpInfo['SRAStudy'])">
-            View contigs
-          </el-button>
-        </el-descriptions-item>
-      </el-descriptions>
+      <SrpDescription :srpData="srpInfo" @output-value="viewContigs($event)"></SrpDescription>
     </div>
 
     <div class="run-info-container">
-      <div class="title">
-        Run Informations
-      </div>
-      <el-table
-        :data="runInfo.data"
-        :header-cell-style="headerCellStyle"
-        :cell-style="cellStyle"
-        size="small"
-        height="400"
-        style="width: 100%"
-      >
-          <el-table-column
-            v-for="(item, index) in runInfo.header"
-            :key="index"
-            :prop="item"
-            :label="item"
-          >
-          </el-table-column>
-          <el-table-column label="Option" width="100">
-            <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="handleDetail(scope.row)">
-                Detail
-              </el-button>
-            </template>
-          </el-table-column>
-      </el-table>
+      <RunInformation :runData="runInfo" @output-value="viewDetail($event)"></RunInformation>
     </div>
-
-    <!-- <div class="contigs-info-container">
-      <div class="title">
-        Contigs List
-      </div>
-      <div class="contigs-table">
-        
-      </div>
-    </div> -->
 
     <!-- dialog -->
     <el-dialog :visible.sync="runDetailVisible">
-      <el-descriptions 
-        :title="runDetailData['Run'] + ' detail'" 
-        direction="vertical" 
-        :column="3" 
-        size="small" 
-        border
-      >
-        <el-descriptions-item 
-          v-for="(item, index) in runHeader"
-          :key="index" 
-          :label="item"
-        >
-          {{ runDetailData[item] }}
-        </el-descriptions-item>
-      </el-descriptions>
+      <RunInfoDescription :runDetailData="runDetailData"></RunInfoDescription>
     </el-dialog>
   </div>
 </template>
@@ -80,6 +19,9 @@
 import config from '@/config'
 import axios from 'axios';
 import { showLoading, hideLoading } from '@/utils/loading'
+import SrpDescription from '@/components/bioproject/SrpDescription.vue'
+import RunInformation from '@/components/bioproject/RunInformation.vue'
+import RunInfoDescription from '@/components/bioproject/RunInfoDescription.vue'
 
 export default {
   name: 'RunProject',
@@ -90,21 +32,6 @@ export default {
       runInfo: {},
       runDetailData: {},
       runDetailVisible: false,
-      srpDescriptionLabel: [
-        'SRAStudy', 
-        'BioProject', 
-        'ProjectID', 
-        'Submission', 
-        'CenterName'
-      ],
-      headerCellStyle: {
-        textAlign: 'center', 
-        backgroundColor: 'gray', 
-        color: 'white'
-      },
-      cellStyle: {
-        textAlign: 'center'
-      },
       runHeader: [
         'Run', 
         'LibraryStrategy', 
@@ -119,6 +46,12 @@ export default {
         'collection date'
       ]
     };
+  },
+
+  components: {
+    SrpDescription,
+    RunInformation,
+    RunInfoDescription
   },
 
   mounted() {
@@ -158,7 +91,7 @@ export default {
         }
       }).then((response) => {
         this.runInfo = response.data
-        this.$store.commit('setDatabaseRunProjectData', {
+        this.$store.dispatch('setDatabaseRunProjectData', {
           'srpInfo': this.srpInfo, 
           'runInfo': this.runInfo
         })
@@ -170,7 +103,7 @@ export default {
     viewContigs(srp) {
       // TODO
       console.log(srp)
-      const facdeSRP = 'SRP080056'
+      const facdeSRP = 'SRP121432'
       this.$router.push({
         name: 'datavisual',
         params: { 
@@ -179,7 +112,7 @@ export default {
       })
     },
 
-    handleDetail(value) {
+    viewDetail(value) {
       this.runDetailData = value
       this.runDetailVisible = true
     }
@@ -188,10 +121,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  height: 56px;
-  line-height: 56px;
-  font-size: 16px;
-  font-weight: 700;
+.srp-detail-container {
+  padding-top: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  .title {
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
+    font-weight: 700;
+  }
 }
+
 </style>

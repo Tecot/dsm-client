@@ -1,9 +1,16 @@
 const uriConfigs = {
     baseUrl: 'http://127.0.0.1:8000/',
     uri: {
-        bioProjectViewURI: 'api/database/bioproject/bioprojectview',
+        srpProjectViewURI: 'api/database/bioproject/srpprojectview',
         runProjectViewURI: 'api/database/bioproject/runprojectview',
-        contigListViewURI: 'api/database/datavisual/contiglistview',
+        contigProjectViewURI: 'api/database/contigproject/contigprojectview',
+
+        geneomeSeqViewURI: 'api/database/datavisual/geneomeseqview',
+        proteinSeqViewURI: 'api/database/datavisual/proteinseqview',
+        proteinPdbViewURI: 'api/database/datavisual/proteinpdbview',
+
+        downloadListViewURI: 'api/downloadlist',
+        downloadURI: 'api/download'
     }
 }
 

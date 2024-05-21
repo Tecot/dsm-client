@@ -22,7 +22,7 @@
             :label="item"
           >
           </el-table-column>
-
+          
           <el-table-column label="Option" width="100">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="handleDetail(scope.row)">
@@ -54,7 +54,7 @@ import { showLoading, hideLoading } from '@/utils/loading'
 
 
 export default {
-  name: 'BioProject',
+  name: 'SrpProject',
 
   data() {
     return {
@@ -73,7 +73,7 @@ export default {
   methods: {
     requestBioProjectInfo(currentPage, pageSize) {
       showLoading()
-      const url = config.baseUrl + config.uri.bioProjectViewURI + '/' + currentPage + '/' + pageSize
+      const url = config.baseUrl + config.uri.srpProjectViewURI + '/' + currentPage + '/' + pageSize
       return axios.get(url, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8' 
@@ -112,6 +112,10 @@ export default {
 
 <style lang="scss"scoped>
 .bio-project-container {
+  padding-top: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  
   .title-container {
     font-size: 24px;
     font-weight: 700;

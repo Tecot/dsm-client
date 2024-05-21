@@ -6,20 +6,43 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    databaseRunProjectData: ''
+    databaseRunProjectData: '',
+    contigDetailData: '',
   },
+
   getters: {
   },
+
   mutations: {
-    setDatabaseRunProjectData(state, data) {
-      state.databaseRunProjectData = data
+    SET_DATABASE_RUN_PROJECT_DATA(state, payload) {
+      state.databaseRunProjectData = payload
+    },
+    SET_CONTIG_DETAIL_DATA(state, payload) {
+      state.contigDetailData = payload
+      console.log(state.contigDetailData)
     }
   },
+
   actions: {
+    setDatabaseRunProjectData(context, payload) {
+      context.commit('SET_DATABASE_RUN_PROJECT_DATA', payload)
+    },
+    setContigDetailData(context, payload) {
+      context.commit('SET_CONTIG_DETAIL_DATA', payload)
+    }
   },
+
   modules: {
   },
-  plugins: [createPersistedState({
-    paths:['databaseRunProjectData']
-  })]
+
+  plugins: [
+    createPersistedState(
+      {
+        paths:[
+          'databaseRunProjectData', 
+          'contigDetailData'
+        ]
+      }
+    )
+]
 })

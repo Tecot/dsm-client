@@ -21,10 +21,10 @@
       <el-menu-item index="/database/overview">
         Overview
       </el-menu-item>
-      <el-menu-item index="/database/bioproject">
-        Bio Projects
+      <el-menu-item index="/database/srpproject">
+        SRP Projects
       </el-menu-item>
-      <el-menu-item index="/database/contiglist">
+      <el-menu-item index="/database/contigproject">
         Contig List
       </el-menu-item>
     </el-submenu>

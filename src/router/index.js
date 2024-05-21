@@ -10,11 +10,18 @@ const routes = [
     path: '/mainbox',
     name: 'mainbox',
     component: MainBox
+  },
+  {
+    path: '/',
+    redirect: {
+      name: 'index'
+    }
   }
 ]
 
 const router = new VueRouter({
-  routes
+  mode: 'history',
+  routes: routes
 })
 
 routesConfig.forEach(route => {
