@@ -7,7 +7,6 @@
 <script>
 import ContigsInformation from '@/components/contigproject/ContigsInformation.vue'
 
-
 export default {
   name: 'ContigProject',
 
