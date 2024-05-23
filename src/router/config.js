@@ -7,7 +7,7 @@ import RunProject from '@/views/database/bioproject/RunProject.vue'
 import ContigProject from '@/views/database/contigproject/ContigProject.vue'
 
 import DataVisual from '@/views/database/datavisual/DataVisual.vue'
-import ContigDetail from '@/views/database/ContigDetail.vue'
+import GeneomeContigDetail from '@/views/database/datavisual/GeneomeContigDetail.vue'
 
 import Download from '@/views/download/Download.vue'
 import Tutorial from '@/views/tutorial/Tutorial.vue'
@@ -55,9 +55,9 @@ const routesConfig = [
         component: DataVisual
     },
     {
-        path: '/database/contigdetail',
-        name: 'contigdetail',
-        component: ContigDetail
+        path: '/database/geneomecontigdetail',
+        name: 'geneomecontigdetail',
+        component: GeneomeContigDetail
     },
     {
         path: '/download',

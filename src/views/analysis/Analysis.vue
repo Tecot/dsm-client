@@ -1,17 +1,16 @@
 <template>
   <div>
-    <ArrowVis></ArrowVis>
+    Analysis
   </div>
 </template>
 
 <script>
-import ArrowVis from '@/components/visiualization/ArrowVis.vue';
 
 export default {
   name: 'Analysis',
 
   components: {
-    ArrowVis
+    
   },
 
   data() {

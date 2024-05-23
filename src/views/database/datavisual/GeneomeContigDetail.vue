@@ -52,11 +52,10 @@
         </el-descriptions-item>
       </el-descriptions>
     </div>
-
-    <!-- <div class="protein-visual-container">
-      <div id="mol-container" class="visual-container"></div>
-    </div> -->
-
+    
+    <div class="arrow-vis-container">
+      <ArrowVis :inputData="contigGBKdata"></ArrowVis>
+    </div>
     
   </div>
 </template>
@@ -64,36 +63,55 @@
 <script>
 import config from '@/config'
 import axios from 'axios'
-import * as $3Dmol from '3dmol'
 import { tcgaColor } from '@/utils/tools'
 import { showLoading, hideLoading } from '@/utils/loading'
+import ArrowVis from '@/components/visiualization/ArrowVis.vue'
 
 export default {
-  name: 'ContigDetail',
+  name: 'GeneomeContigDetail',
+
+  components: {
+    ArrowVis
+  },
 
   data() {
     return {
       contigName: '',
       contigDetail: {},
+      contigGBKdata: null
     };
   },
 
   mounted() {
     this.init()
-    // this.requestContigsInfo(this.srp, this.currentPage, this.pageSize)
   },
 
   methods: {
     init() {
       const param = this.$route.params['param']
+      
       if(param) {
         this.contigDetail = param
         this.$store.dispatch('setContigDetailData', { ...param })
       } else {
         this.contigDetail = this.$store.state.contigDetailData
       }
-      
+      this.requestContigGbkInfo(this.contigDetail.srp, this.contigDetail.ID)
+    },
 
+    requestContigGbkInfo(srp, contigID) {
+      showLoading()
+      const url = config.baseUrl + config.uri.geneomeContigGbkViewURI + '/' + srp + '/' + 'k141_79351'
+      axios.get(url, {
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8' 
+        }
+      }).then((response) => {
+        console.log(response.data)
+        this.contigGBKdata = response.data
+      }).finally(() => {
+        hideLoading()
+      })
     },
 
     requestContigsInfo(srp, currentPage, pageSize) {
@@ -112,46 +130,10 @@ export default {
       })
     },
 
-    // 蛋白质结构可视化
-    proteinStructvisual(value) {
-      dialog3DmolVisible.value = true
-      const url = configs.uriConfigs.baseUrl + configs.uriConfigs.uri.datasetsPdbContentViewURI + 'SRP080056' + '/' + '16956'
-      axios({
-          method: 'get',
-          url: url,
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8' 
-          }
-      }).then((response) => {
-          dialog3DmolVisible.value = true
-          const viewer = $3Dmol.createViewer(document.getElementById('mol-container'))
-          viewer.addModel(response.data.pdbContent, "pdb");
-          viewer.addUnitCell();
-          viewer.setStyle({}, {sphere : {}});
-          viewer.zoomTo();
-          viewer.center()
-          viewer.render();
-      })
-    },
+    
 
     setTCGAcolor(value) {
       return tcgaColor(value)
-    },
-
-    handleDetail(value) {
-      this.contigDetailInfo = value
-      this.contigDetailVisible = true
-    },
-
-    handleSizeChange(value) {
-      this.pageSize = value
-      this.currentPage = 1
-      this.requestContigsInfo(this.srp, this.currentPage, this.pageSize)
-    },
-
-    handleCurrentChange(value) {
-      this.currentPage = value
-      this.requestContigsInfo(this.srp, this.currentPage, this.pageSize)
     },
 
     handleFirstCopySuccess() {
@@ -202,19 +184,10 @@ export default {
     }
   }
 
-  .protein-visual-container {
+  .arrow-vis-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-
-    .visual-container {
-      width: 600px;
-      height: 400px;
-      background-color: #2E54A1;
-    }
   }
-
-  
 }
 
 </style>

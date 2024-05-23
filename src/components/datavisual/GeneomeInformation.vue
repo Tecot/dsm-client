@@ -95,7 +95,7 @@ export default {
 
     handleView(value) {
       this.$router.push({
-        name: 'contigdetail',
+        name: 'geneomecontigdetail',
         params: { 
           param: {
             ...value,

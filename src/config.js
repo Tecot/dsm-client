@@ -8,6 +8,7 @@ const uriConfigs = {
         geneomeSeqViewURI: 'api/database/datavisual/geneomeseqview',
         proteinSeqViewURI: 'api/database/datavisual/proteinseqview',
         proteinPdbViewURI: 'api/database/datavisual/proteinpdbview',
+        geneomeContigGbkViewURI: 'api/database/datavisual/geneomecontiggbkview',
 
         downloadListViewURI: 'api/downloadlist',
         downloadURI: 'api/download'

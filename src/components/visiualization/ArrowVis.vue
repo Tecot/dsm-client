@@ -1,7 +1,5 @@
 <template>
-  <div class="arrow-vis-container">
-    <svg id="arrow-vis"></svg>
-  </div>
+  <svg id="arrow-vis"></svg>
 </template>
 
 <script>
@@ -11,61 +9,35 @@ export default {
   name: 'ArrowVis',
 
   props: {
-    
+    inputData: {
+      type: Object,
+      require: true
+    }
   },
 
   data() {
     return {
       colors: [
-        '#8ED2C7',
-        '#D9D7D7',
-        '#BFBCDB',
-        '#FEB361',
         '#7FB1DB',
-        '#BF7FBB',
-        '#AEE06B',
         '#CDEAC7',
         '#81B1D2',
-        '#E50616',
         '#8D706A',
+        '#E50616',
+        '#D9D7D7',
+        '#BF7FBB',
+        '#8ED2C7',
+        
+        '#BFBCDB',
+        '#FEB361',
+        
+        
+        '#AEE06B',
+        
+        
+        
         '#FEFEB5'
       ],
-      inputData: {
-        length: 2418,
-        meta: [
-          {
-            start: 19,
-            end: 1173,
-            forward: -1,
-            gene: 'ispG_12'
-          },
-          {
-            start: 1200,
-            end: 1401,
-            forward: 1,
-            gene: 'ispG_13'
-          },
-          {
-            start: 1470,
-            end: 1500,
-            forward: -1,
-            gene: 'ispG_14'
-          },
-          {
-            start: 1600,
-            end: 1700,
-            forward: 1,
-            gene: 'ispG_15'
-          },
-          {
-            start: 2000,
-            end: 2300,
-            forward: 1,
-            gene: 'ispG_16'
-          }
-        ]
-      },
-
+      
       // svg
       svgAttr: {
         width: 1300,
@@ -95,17 +67,44 @@ export default {
       },
 
       legendTextAttr: {
-        width: 100,
+        width: 120,
       }
       
     };
   },
 
   mounted() {
-    this.initPlot(this.inputData)
+    
+  },
+
+  destroyed() {
+    d3.selectAll('#arrow-vis > *').remove()
+  },
+
+  watch: {
+    inputData(newValue, oldValue) {
+      console.log(this.inputData)
+      this.initPlot(this.inputData)
+    }
   },
 
   methods: {
+    /**
+     * 
+     * @param data: {
+     *  length: 10000,
+     *  meta: [
+     *          {
+     *            start: 2000,
+                  end: 2300,
+                  forward: 1,
+                  gene: 'ispG_16',
+                  ...
+                },
+              ...
+        ] 
+     * }
+     */
     initPlot(data) {
       // 蛋白质箭头颜色设置,setGenes中的gene的index与colors中的颜色index对齐
       const genes =[...new Set(data.meta.map((item => item.gene)))]
@@ -125,7 +124,6 @@ export default {
       const svg = d3.select('#arrow-vis')
         .attr('width', this.svgAttr.width)
         .attr('height', this.svgAttr.height)
-        .style('border', '1px solid red')
 
       // 比例尺
       const xAxisLength = this.svgAttr.width - this.svgPadding.left - this.svgPadding.right
@@ -150,7 +148,7 @@ export default {
       const classNames = []
 
       // 绘制箭头路径 -1:箭头向左，1：箭头向右
-      newData.meta.forEach((item) => {
+      newData.meta.forEach((item, index) => {
         const start = xScale(item.start)
         const end = xScale(item.end)
         const arrowHWscale = xScale(this.arrowAttr.headerWidth)
@@ -200,7 +198,7 @@ export default {
         // 绘制箭头
         svg.append('g')
           .attr('transform', `translate(${this.svgPadding.left}, ${0})`)  
-          .attr('class', 'arrow' + '_' + item.gene)
+          .attr('class', 'arrow_' + item.gene)
           .append('path')
           .attr('d', path)
           .attr('stroke-width', '0')
@@ -209,26 +207,23 @@ export default {
           .style('cursor', 'pointer')
         
         // 添加鼠标虚浮框
-        // start: 19,
-        //     end: 1173,
-        //     forward: -1,
-        //     gene: 'ispG_12'
         svg.append('g')
           .append("foreignObject")
-          .attr("class", "tip" + '_' + item.gene)
+          .attr("class", "tip_" + item.gene)
           .style("width", 200)
-          .style("height", 80)
+          .style("height", 60)
           .style('border-radius', '4px 4px')
           .style('background-color', '#666666')
           .attr('x', this.svgPadding.left + xScale(item.start))
-          .attr('y', this.svgAttr.height - this.svgPadding.bottom - this.arrowAttr.yForX - this.arrowAttr.tailHeight - 80)
+          .attr('y', this.svgAttr.height - this.svgPadding.bottom - this.arrowAttr.yForX - this.arrowAttr.tailHeight - 60)
           .html(
             `
               <div style="padding: 2px 2px; color: #FFFFFF; font-size: 10px;">
-                <p>Gene: ${item.gene}</p>
-                <p>Start: ${item.start}</p>
-                <p>End: ${item.end}</p>
-                <p>Forward: ${item.forward}</p>
+                <p>Gene: <i>${item.gene}</i></p>
+                <p>Start: <i>${item.start}</i></p>
+                <p>End: <i>${item.end}</i></p>
+                <p>Forward: <i>${item.forward}</i></p>
+                <p>......</p>
               </div>
             `
           )
@@ -240,7 +235,7 @@ export default {
         classNames.push({
           gene: item.gene,
           arrowClassName: 'arrow_' + item.gene,
-          tipClassName: "tip" + '_' + item.gene
+          tipClassName: "tip_" + item.gene
         })
       });
       
@@ -261,8 +256,6 @@ export default {
           .attr('y', 12)
           .attr('fill', '#000')
           .style('font-size', '12px')
-
-        
       })
 
       // 添加事件
@@ -273,7 +266,7 @@ export default {
             classNames.forEach((item2) => {
               if(item1.arrowClassName === item2.arrowClassName) {
                 d3.select('.' + item2.tipClassName).attr("visibility", "visible")
-                d3.select(`.${item2.arrowClassName}>path`).attr('stroke', 'red').attr('stroke-width', '2')
+                d3.select(`.${item2.arrowClassName}>path`).attr('stroke', 'red').attr('stroke-width', '1')
               } else {
                 d3.select('.' + item2.tipClassName).attr("visibility", "hidden")
                 d3.select(`.${item2.arrowClassName}>path`).attr('stroke', '').attr('stroke-width', '0')
