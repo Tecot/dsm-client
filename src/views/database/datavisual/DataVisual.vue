@@ -14,7 +14,7 @@
         width="50%"
       >
         <ProteinSeqDescription :proteinSeqInfo="proteinSeqInfo"></ProteinSeqDescription>
-        <ProteinStructVis :proteinSeqID="proteinSeqInfo['ID']"></ProteinStructVis>
+        <ProteinStructVis :proteinSeqID.sync="proteinSeqInfo['ID']"></ProteinStructVis>
       </el-dialog>
     </div>
   </template>
@@ -52,20 +52,6 @@ export default {
     handleProteinSeqDetail(proteinSeqInfo) {
       this.proteinSeqInfo = proteinSeqInfo
       this.dialog3DmolVisible = true
-    },
-
-    handleFirstCopySuccess() {
-      this.$message({
-        message: 'Copy successful',
-        type: 'success'
-      });
-    },
-
-    handleFirstCopyError() {
-      this.$message({
-        message: 'Copy successful',
-        type: 'error'
-      });
     }
   },
 };
@@ -78,5 +64,4 @@ export default {
   padding-right: 40px;
   
 }
-
 </style>

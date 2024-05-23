@@ -13,7 +13,7 @@
       <el-descriptions-item label="Name">
         {{ proteinSeqInfo['Name'] }}
       </el-descriptions-item>
-      <el-descriptions-item label="Length">
+      <el-descriptions-item label="Length (bp)">
         {{ proteinSeqInfo['Length'] }}
       </el-descriptions-item>
       <el-descriptions-item label="Description">
@@ -22,9 +22,9 @@
       <el-descriptions-item label="Sequence" :span="2">
         <el-input
           type="textarea"
-          placeholder="请输入内容"
-          :value="proteinSeqInfo['Sequence']"
+          :value="getCompleteSeq(proteinSeqInfo)"
           :autosize="true"
+          :spellcheck="false"
           resize="none"
         >
         </el-input>
@@ -55,10 +55,15 @@ export default {
   },
 
   methods: {
-    
+    getCompleteSeq(proteinSeqInfo) {
+      return '>' + proteinSeqInfo['Description'] + '\n' + proteinSeqInfo['Sequence']
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+::v-deep textarea {
+  font-size: 12px;
+}
 </style>

@@ -25,30 +25,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-table
-      :data="runData.data"
-      :header-cell-style="headerCellStyle"
-      :cell-style="cellStyle"
-      size="small"
-      height="400"
-      style="width: 100%"
-    >
-      <el-table-column
-        v-for="(item, index) in runData.header"
-        :key="index"
-        :prop="item"
-        :label="item"
-      >
-      </el-table-column>
-
-      <el-table-column label="Option" width="100">
-        <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleRowData(scope.row)">
-            Detail
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table> -->
   </div>
 </template>
 

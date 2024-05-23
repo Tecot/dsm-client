@@ -27,11 +27,15 @@ export default {
   },
 
   mounted() {
-    
+    if (!this.viewer) {
+      this.viewer = $3Dmol.createViewer(document.getElementById('mol-container'))
+      this.viewer.onLoad = () => { }
+      this.handleProteinStructView(this.proteinSeqID)
+    }
   },
 
   methods: {
-    handleProteinStructView(value) {
+    async handleProteinStructView(value) {
       const srp = value.split('_')[0]
       const code = value.split('_')[1]
       const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + srp + '/' + code
@@ -40,25 +44,18 @@ export default {
             'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        if (!this.viewer) {
-          this.viewer = $3Dmol.createViewer(document.getElementById('mol-container'))
-        }
-        this.viewer.addModel(response.data.data, "pdb");
-        this.viewer.addUnitCell()
-        this.viewer.setStyle({}, {sphere : {}})
-        this.viewer.zoomTo()
-        this.viewer.center()
-        this.viewer.render()
-        document.querySelector('#mol-container canvas').removeAttribute('style')
+        this.proteinStructVis(response.data.data)
       })
-    }
-  },
+    },
 
-  watch: {
-    proteinSeqID(newValue, oldValue) {
-      if(newValue !== oldValue) {
-        this.handleProteinStructView(this.proteinSeqID)
-      }
+    async proteinStructVis(data) {
+      this.viewer.addModel(data, "pdb");
+      this.viewer.addUnitCell()
+      this.viewer.setStyle({}, {sphere : {}})
+      this.viewer.zoomTo()
+      this.viewer.center()
+      this.viewer.render()
+      document.querySelector('#mol-container canvas').removeAttribute('style')
     }
   }
 };

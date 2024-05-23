@@ -30,25 +30,14 @@
           {{ contigDetail['Description'] }}
         </el-descriptions-item>
         <el-descriptions-item label="Sequence" :span="5">
-          <div>
-            <span 
-              class="tcga-base-style" 
-              v-for="(item, index) in contigDetail['Sequence']" 
-              :key="index" 
-              :style="{ color: setTCGAcolor(item) }"
-            >
-              {{ item }}
-            </span>
-          </div>
-          <div class="copy-container">
-            <i 
-              class="el-icon-document-copy"
-              v-clipboard:copy="contigDetail['Sequence']"
-              v-clipboard:success="handleFirstCopySuccess"
-              v-clipboard:error="handleFirstCopyError"
-            >
-            </i>
-          </div>
+          <el-input
+            type="textarea"
+            :value="getCompleteSeq(contigDetail)"
+            :autosize="true"
+            :spellcheck="false"
+            resize="none"
+          >
+          </el-input>
         </el-descriptions-item>
       </el-descriptions>
     </div>
@@ -63,7 +52,6 @@
 <script>
 import config from '@/config'
 import axios from 'axios'
-import { tcgaColor } from '@/utils/tools'
 import { showLoading, hideLoading } from '@/utils/loading'
 import ArrowVis from '@/components/visiualization/ArrowVis.vue'
 
@@ -89,7 +77,6 @@ export default {
   methods: {
     init() {
       const param = this.$route.params['param']
-      
       if(param) {
         this.contigDetail = param
         this.$store.dispatch('setContigDetailData', { ...param })
@@ -101,7 +88,7 @@ export default {
 
     requestContigGbkInfo(srp, contigID) {
       showLoading()
-      const url = config.baseUrl + config.uri.geneomeContigGbkViewURI + '/' + srp + '/' + 'k141_79351'
+      const url = config.baseUrl + config.uri.geneomeContigGbkViewURI + '/' + srp + '/' + contigID
       axios.get(url, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8' 
@@ -130,24 +117,8 @@ export default {
       })
     },
 
-    
-
-    setTCGAcolor(value) {
-      return tcgaColor(value)
-    },
-
-    handleFirstCopySuccess() {
-      this.$message({
-        message: 'Copy successful',
-        type: 'success'
-      });
-    },
-
-    handleFirstCopyError() {
-      this.$message({
-        message: 'Copy successful',
-        type: 'error'
-      });
+    getCompleteSeq(contigDetail) {
+      return '>' + contigDetail['Description'] + '\n' + contigDetail['Sequence']
     }
   },
 };
@@ -160,28 +131,12 @@ export default {
   padding-right: 40px;
   
   .title-container {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
   }
 
-  .contig-description-container {
-    .tcga-base-style {
-      display: inline-block;
-      width: 10px;
-    } 
-
-    .copy-container {
-      display: flex;
-      justify-content: end;
-
-      i {
-        cursor: pointer;
-      }
-
-      i:hover {
-        color: #2E54A1;
-      }
-    }
+  ::v-deep textarea {
+    font-size: 12px;
   }
 
   .arrow-vis-container {
