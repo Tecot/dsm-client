@@ -6,12 +6,7 @@
           :key="index"
           :label="item"
         >
-        {{ srpData[item] }}
-        </el-descriptions-item>
-        <el-descriptions-item label="Contigs">
-        <el-button type="danger" size="mini" @click="viewContigs(srpData['SRAStudy'])">
-            View
-        </el-button>
+          {{ srpData[item] }}
         </el-descriptions-item>
     </el-descriptions>
   </div>
@@ -40,10 +35,6 @@ export default {
     };
   },
 
-  methods: {
-    viewContigs($event) {
-      this.$emit('output-value', $event)
-    }
-  },
+  methods: { },
 };
 </script>

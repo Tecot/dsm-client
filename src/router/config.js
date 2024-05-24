@@ -4,10 +4,11 @@ import Analysis from '@/views/analysis/Analysis.vue'
 import Overview from '@/views/database/overview/Overview.vue'
 import SrpProject from '@/views/database/bioproject/SrpProject.vue'
 import RunProject from '@/views/database/bioproject/RunProject.vue'
+
+
 import ContigProject from '@/views/database/contigproject/ContigProject.vue'
 
-import DataVisual from '@/views/database/datavisual/DataVisual.vue'
-import GeneomeContigDetail from '@/views/database/datavisual/GeneomeContigDetail.vue'
+import ContigsDataExpress from '@/views/database/dataexpress/ContigsDataExpress.vue'
 
 import Download from '@/views/download/Download.vue'
 import Tutorial from '@/views/tutorial/Tutorial.vue'
@@ -50,14 +51,9 @@ const routesConfig = [
         component: ContigProject
     },
     {
-        path: '/database/datavisual',
-        name: 'datavisual',
-        component: DataVisual
-    },
-    {
-        path: '/database/geneomecontigdetail',
-        name: 'geneomecontigdetail',
-        component: GeneomeContigDetail
+        path: '/database/contigsdataexpress',
+        name: 'contigsdataexpress',
+        component: ContigsDataExpress
     },
     {
         path: '/download',

@@ -1,5 +1,5 @@
 <template>
-  <div class="protein-seq-detail">
+  <div class="protein-seq-detail" v-if="proteinSeqInfo">
     <el-descriptions 
       :title="proteinSeqInfo['ID'] + ' detail'" 
       direction="vertical" 
@@ -40,7 +40,10 @@ export default {
   props: {
     proteinSeqInfo: {
       type: Object,
-      required: true
+      required: true,
+      default() {
+        return null
+      }
     }
   },
 
@@ -51,7 +54,11 @@ export default {
   },
 
   mounted() {
-    
+
+  },
+
+  watch: {
+
   },
 
   methods: {
@@ -65,5 +72,6 @@ export default {
 <style lang="scss" scoped>
 ::v-deep textarea {
   font-size: 12px;
+  border: none;
 }
 </style>

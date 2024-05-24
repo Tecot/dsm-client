@@ -6,8 +6,6 @@
 </template>
 
 <script>
-import config from '@/config'
-import axios from 'axios';
 import * as $3Dmol from '3dmol';
 
 export default {
@@ -20,35 +18,28 @@ export default {
   },
 
   props: {
-    proteinSeqID: {
+    structData: {
       type: String,
       required: true
     }
   },
 
   mounted() {
-    if (!this.viewer) {
+    if(!this.viewer) {
       this.viewer = $3Dmol.createViewer(document.getElementById('mol-container'))
-      this.viewer.onLoad = () => { }
-      this.handleProteinStructView(this.proteinSeqID)
+      this.viewer.onLoad = () => {}
+    }
+    
+  },
+
+  watch: {
+    structData(newValue, oldValue) {
+      this.proteinStructVis(this.structData)
     }
   },
 
   methods: {
-    async handleProteinStructView(value) {
-      const srp = value.split('_')[0]
-      const code = value.split('_')[1]
-      const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + srp + '/' + code
-      axios.get(url, {
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
-        }
-      }).then((response) => {
-        this.proteinStructVis(response.data.data)
-      })
-    },
-
-    async proteinStructVis(data) {
+    proteinStructVis(data) {
       this.viewer.addModel(data, "pdb");
       this.viewer.addUnitCell()
       this.viewer.setStyle({}, {sphere : {}})

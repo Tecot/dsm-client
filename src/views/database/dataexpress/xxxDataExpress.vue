@@ -1,8 +1,8 @@
 <template>
     <div class="data-visual-container">
-      <div class="geneome-contigs-container">
+      <!-- <div class="geneome-contigs-container">
         <GeneomeInformation :srp="srp"></GeneomeInformation>
-      </div>
+      </div> -->
       
       <div class="protein-contigs-container">
         <ProteinInformation :srp="srp" @output-value="handleProteinSeqDetail($event)"></ProteinInformation>
@@ -20,16 +20,16 @@
   </template>
   
 <script>
-import GeneomeInformation from '@/components/datavisual/GeneomeInformation.vue'
-import ProteinInformation from '@/components/datavisual/ProteinInformation.vue';
-import ProteinSeqDescription from '@/components/datavisual/ProteinSeqDescription.vue';
+// import GeneomeInformation from '@/components/dataexpress/GeneomeInformation.vue'
+import ProteinInformation from '@/components/dataexpress/ProteinInformation.vue';
+import ProteinSeqDescription from '@/components/dataexpress/ProteinSeqDescription.vue';
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue';
 
 export default {
-  name: 'DataVisual',
+  name: 'DataExpress',
 
   components: {
-    GeneomeInformation,
+    // GeneomeInformation,
     ProteinInformation,
     ProteinSeqDescription,
     ProteinStructVis

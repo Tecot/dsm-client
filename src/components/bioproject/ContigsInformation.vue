@@ -1,9 +1,8 @@
 <template>
     <div class="table-container">
       <div class="title-container">
-        <span>{{ srp + ' geneome sequences' }}</span>
+        <span>{{ srp + ' contigs' }}</span>
       </div>
-      <el-divider></el-divider>
       <el-table
         :data="geneomeSeqTableData"
         :header-cell-style="{textAlign: 'center', backgroundColor: 'gray', color: 'white'}"
@@ -52,12 +51,15 @@ import axios from 'axios';
 import { showLoading, hideLoading } from '@/utils/loading'
 
 export default {
-  name: 'GeneomeInformation',
+  name: 'ContigsInformation',
 
   props: {
     srp: {
       type: String,
-      required: true
+      required: true,
+      default() {
+        return ''
+      }
     }
   },
 
@@ -72,14 +74,22 @@ export default {
     };
   },
 
-  mounted() {
-    this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
+  watch: {
+    srp(newValue, oldValue) {
+      if(newValue) {
+        // TODO
+        // this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
+        this.requestGeneomeSeqInfo('SRP121432', this.currentPage, this.pageSize)
+      }
+    }
   },
+
+  mounted() { },
 
   methods: {
     requestGeneomeSeqInfo(srp, currentPage, pageSize) {
       showLoading()
-      const url = config.baseUrl + config.uri.geneomeSeqViewURI + '/' + srp + '/' + currentPage + '/' + pageSize
+      const url = config.baseUrl + config.uri.contigsInformationViewURI + '/' + srp + '/' + currentPage + '/' + pageSize
       axios.get(url, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8' 
@@ -94,12 +104,14 @@ export default {
     },
 
     handleView(value) {
+      // TODO
       this.$router.push({
-        name: 'geneomecontigdetail',
+        name: 'contigsdataexpress',
         params: { 
           param: {
             ...value,
-            srp: this.srp
+            // srp: this.srp
+            srp: 'SRP121432'
           }
         }
       })
@@ -108,12 +120,14 @@ export default {
     handleSizeChange(value) {
       this.pageSize = value
       this.currentPage = 1
-      this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
+      // this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
+      this.requestGeneomeSeqInfo('SRP121432', this.currentPage, this.pageSize)
     },
 
     handleCurrentChange(value) {
       this.currentPage = value
-      this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
+      // this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
+      this.requestGeneomeSeqInfo('SRP121432', this.currentPage, this.pageSize)
     },
   },
 };
@@ -123,7 +137,9 @@ export default {
 .table-container {
 
   .title-container {
-    font-size: 18px;
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
     font-weight: 700;
   }
 

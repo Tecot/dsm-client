@@ -1,5 +1,7 @@
 <template>
-  <svg id="arrow-vis"></svg>
+  <div class="svg-container">
+    <svg id="arrow-vis"></svg>
+  </div>
 </template>
 
 <script>
@@ -12,37 +14,37 @@ export default {
     inputData: {
       type: Object,
       require: true
+    },
+    svgAttr: {
+      type: Object,
+      default() {
+        return {
+          width: 1300,
+          height: 160
+        }
+      }
     }
   },
 
   data() {
     return {
       colors: [
-        '#7FB1DB',
-        '#CDEAC7',
+        '#E54C5E',
+        '#F45B21',
+        '#F7AAB0',
+        '#BFBCDB',
+        '#E50616',
         '#81B1D2',
         '#8D706A',
-        '#E50616',
+        '#7FB1DB',
+        '#CDEAC7',
         '#D9D7D7',
         '#BF7FBB',
         '#8ED2C7',
-        
-        '#BFBCDB',
         '#FEB361',
-        
-        
         '#AEE06B',
-        
-        
-        
         '#FEFEB5'
       ],
-      
-      // svg
-      svgAttr: {
-        width: 1300,
-        height: 160
-      },
 
       // padding
       svgPadding: {
@@ -83,12 +85,32 @@ export default {
 
   watch: {
     inputData(newValue, oldValue) {
-      console.log(this.inputData)
-      this.initPlot(this.inputData)
+      if(newValue && newValue.meta.length > 0) {
+        this.initPlot(this.inputData)
+      }
     }
   },
 
   methods: {
+    downloadSvg() {
+      //获取svg
+      let dom = document.querySelector('#arrow-vis')
+      // 将 SVG 节点转换为 XML 字符串
+      const svgString = new XMLSerializer().serializeToString(dom)
+
+      // 下载 SVG 文件
+      const file = new Blob([svgString], { type: 'image/png' })
+      const url = URL.createObjectURL(file)
+      console.log('file', file)
+      console.log('url', url)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'my-svg-file.png'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    },
     /**
      * 
      * @param data: {
@@ -259,7 +281,7 @@ export default {
       })
 
       // 添加事件
-      classNames.forEach(item1 => {
+      classNames.forEach((item1, index) => {
         const currentArrowClassName = '.' + item1.arrowClassName
         d3.select(currentArrowClassName)
           .on('mouseover', () => {                     // 鼠标移入事件
@@ -280,7 +302,7 @@ export default {
             })
           })
           .on('click', () => {
-            console.log('asd')
+            this.$emit('signal', true)
           })
       })
     }

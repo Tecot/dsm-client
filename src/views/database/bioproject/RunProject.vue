@@ -1,17 +1,20 @@
 <template>
   <div class="srp-detail-container">
     <div class="srp-description-container">
-      <SrpDescription :srpData="srpInfo" @output-value="viewContigs($event)"></SrpDescription>
+      <SrpDescription :srpData="srpInfo"></SrpDescription>
     </div>
 
     <div class="run-info-container">
       <RunInformation :runData="runInfo" @output-value="viewDetail($event)"></RunInformation>
     </div>
-
     <!-- dialog -->
     <el-dialog :visible.sync="runDetailVisible">
       <RunInfoDescription :runDetailData="runDetailData"></RunInfoDescription>
     </el-dialog>
+
+    <div class="geneome-information-container">
+      <ContigsInformation :srp="srpInfo['SRAStudy']"></ContigsInformation>
+    </div>
   </div>
 </template>
 
@@ -22,12 +25,14 @@ import { showLoading, hideLoading } from '@/utils/loading'
 import SrpDescription from '@/components/bioproject/SrpDescription.vue'
 import RunInformation from '@/components/bioproject/RunInformation.vue'
 import RunInfoDescription from '@/components/bioproject/RunInfoDescription.vue'
+import ContigsInformation from '@/components/bioproject/ContigsInformation.vue';
 
 export default {
   name: 'RunProject',
 
   data() {
     return {
+      srp: '',
       srpInfo: {},
       runInfo: {},
       runDetailData: {},
@@ -51,7 +56,8 @@ export default {
   components: {
     SrpDescription,
     RunInformation,
-    RunInfoDescription
+    RunInfoDescription,
+    ContigsInformation
   },
 
   mounted() {
@@ -97,18 +103,6 @@ export default {
         })
       }).finally(() => {
         hideLoading()
-      })
-    },
-
-    viewContigs(srp) {
-      // TODO
-      console.log(srp)
-      const facdeSRP = 'SRP121432'
-      this.$router.push({
-        name: 'datavisual',
-        params: { 
-          param: facdeSRP
-        }
       })
     },
 
