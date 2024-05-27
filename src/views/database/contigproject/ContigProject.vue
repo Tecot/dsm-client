@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ContigsInformation from '@/components/contigproject/ContigsInformation.vue'
+import ContigsInformation from '@/components/database/contigproject/ContigsInformation.vue'
 
 export default {
   name: 'ContigProject',

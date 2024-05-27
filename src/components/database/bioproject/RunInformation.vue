@@ -18,10 +18,10 @@
         :label="item"
       >
       </el-table-column>
-      <el-table-column label="Option" width="100">
+      <el-table-column label="Option" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleRowData(scope['row'])">
-            View
+            Detail
           </el-button>
         </template>
       </el-table-column>
@@ -59,7 +59,8 @@ export default {
         'Platform', 
         'BioSample', 
         'geographic location',
-        'latitude and longitude', 
+        'longitude', 
+        'latitude', 
         'depth',
         'collection date'
       ]

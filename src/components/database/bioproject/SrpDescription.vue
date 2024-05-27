@@ -1,6 +1,6 @@
 <template>
   <div class="srp-description-container">
-    <el-descriptions title="SRP Description" direction="vertical" :column="6" size="small" border>
+    <el-descriptions title="SRP Description" direction="vertical" :column="7" size="small" border>
         <el-descriptions-item 
           v-for="(item, index) in srpDescriptionLabel" 
           :key="index"
@@ -30,6 +30,8 @@ export default {
         'BioProject', 
         'ProjectID', 
         'Submission', 
+        'Longitude and latitude range', 
+        'Depth range',
         'CenterName'
       ]
     };

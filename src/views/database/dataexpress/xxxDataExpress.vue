@@ -21,8 +21,8 @@
   
 <script>
 // import GeneomeInformation from '@/components/dataexpress/GeneomeInformation.vue'
-import ProteinInformation from '@/components/dataexpress/ProteinInformation.vue';
-import ProteinSeqDescription from '@/components/dataexpress/ProteinSeqDescription.vue';
+import ProteinInformation from '@/components/database/dataexpress/ProteinInformation.vue';
+import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue';
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue';
 
 export default {

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SrpInformation from '@/components/bioproject/SrpInformation.vue'
+import SrpInformation from '@/components/database/bioproject/SrpInformation.vue'
 
 
 export default {

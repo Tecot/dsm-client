@@ -29,8 +29,8 @@ import config from '@/config'
 import axios from 'axios'
 import { showLoading, hideLoading } from '@/utils/loading'
 import ArrowVis from '@/components/visiualization/ArrowVis.vue'
-import ContigDescriptionView from '@/components/dataexpress/ContigDescriptionView.vue'
-import ProteinSeqDescription from '@/components/dataexpress/ProteinSeqDescription.vue'
+import ContigDescriptionView from '@/components/database/dataexpress/ContigDescriptionView.vue'
+import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue'
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
 
 export default {

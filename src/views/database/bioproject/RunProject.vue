@@ -22,10 +22,10 @@
 import config from '@/config'
 import axios from 'axios';
 import { showLoading, hideLoading } from '@/utils/loading'
-import SrpDescription from '@/components/bioproject/SrpDescription.vue'
-import RunInformation from '@/components/bioproject/RunInformation.vue'
-import RunInfoDescription from '@/components/bioproject/RunInfoDescription.vue'
-import ContigsInformation from '@/components/bioproject/ContigsInformation.vue';
+import SrpDescription from '@/components/database/bioproject/SrpDescription.vue'
+import RunInformation from '@/components/database/bioproject/RunInformation.vue'
+import RunInfoDescription from '@/components/database/bioproject/RunInfoDescription.vue'
+import ContigsInformation from '@/components/database/bioproject/ContigsInformation.vue';
 
 export default {
   name: 'RunProject',

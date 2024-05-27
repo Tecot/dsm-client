@@ -40,7 +40,8 @@ export default {
         'Platform', 
         'BioSample', 
         'geographic location',
-        'latitude and longitude', 
+        'latitude', 
+        'longitude',
         'depth',
         'collection date'
       ]
