@@ -12,6 +12,7 @@
     
     <div class="arrow-vis-container">
       <ArrowVis :inputData="contigGBKdata" :svgAttr="{width: 800, height: 160}" @signal="handleSignal($event)"></ArrowVis>
+      <!-- <MultiRowsArrowVis :inputData="" @signal="handleSignal($event)"></MultiRowsArrowVis> -->
     </div>
 
     <el-dialog :visible.sync="dialog3DmolVisible" width="50%">
@@ -29,6 +30,7 @@ import config from '@/config'
 import axios from 'axios'
 import { showLoading, hideLoading } from '@/utils/loading'
 import ArrowVis from '@/components/visiualization/ArrowVis.vue'
+import MultiRowsArrowVis from '@/components/visiualization/MultiRowsArrowVis.vue';
 import ContigDescriptionView from '@/components/database/dataexpress/ContigDescriptionView.vue'
 import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue'
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
@@ -39,6 +41,7 @@ export default {
   components: {
     ContigDescriptionView,
     ArrowVis,
+    MultiRowsArrowVis,
     ProteinSeqDescription,
     ProteinStructVis
   },
