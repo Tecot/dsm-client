@@ -64,7 +64,7 @@
     </div>
 
     <!-- Search dialog -->
-    <el-dialog :visible.sync="searchConditionsVisible" width="50%">
+    <el-dialog :visible.sync="searchConditionsVisible" width="30%">
       <SrpSearchConditions></SrpSearchConditions>
     </el-dialog>
   </div>
