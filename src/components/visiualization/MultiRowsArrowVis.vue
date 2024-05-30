@@ -1,11 +1,19 @@
 <template>
-  <div class="multi-rows-arrow-svg">
-    <svg id="arrow-vis"></svg>
+  <div class="vis-container">
+    <div class="arrow-vis-container">
+      <svg id="arrow-vis"></svg>
+    </div>
+    <div class="vis-funcs-container" v-if="downloadvisible">
+      <el-button size="mini" type="primary" @click="downloadPNG">Download PNG</el-button>
+      <el-button size="mini" type="primary" @click="downloadSvg">Download SVG</el-button>
+      <el-button size="mini" type="primary" @click="downloadPDF">Download PDF</el-button>
+    </div>
   </div>
 </template>
 
 <script>
 import * as d3 from 'd3'
+import { downloadImage2PNG, downloadImage2SVG, downloadImage2PDF } from '@/utils/downloadImage'
 
 export default {
   name: 'MultiRowsArrowVis',
@@ -14,75 +22,13 @@ export default {
     inputData: {
       type: Object,
       require: true,
-      // default() {
-      //   return {
-      //     length: 2000,
-      //     meta: {
-      //       cdsGenes: [
-      //         {
-      //           gene: 'csdGene1',
-      //           start: 12,
-      //           end: 24,
-      //           forward: 1
-      //         },
-      //         {
-      //           gene: 'csdGene2',
-      //           start: 123,
-      //           end: 400,
-      //           forward: 1
-      //         },
-      //         {
-      //           gene: 'csdGene3',
-      //           start: 620,
-      //           end: 634,
-      //           forward: -1
-      //         },
-      //         {
-      //           gene: 'csdGene4',
-      //           start: 720,
-      //           end: 1300,
-      //           forward: -1
-      //         }
-
-      //       ],
-      //       vfGenes: [
-      //         {
-      //           gene: 'vfGene1',
-      //           start: 45,
-      //           end: 160,
-      //           forward: 1
-      //         },
-      //         {
-      //           gene: 'vfGene2',
-      //           start: 185,
-      //           end: 188,
-      //           forward: -1
-      //         }
-      //       ],
-      //       resfinderGenes: [
-      //         {
-      //           gene: 'resfinderGene1',
-      //           start: 1567,
-      //           end: 1872,
-      //           forward: 1
-      //         },
-      //         {
-      //           gene: 'resfinderGene2',
-      //           start: 1890,
-      //           end: 1990,
-      //           forward: -1
-      //         }
-      //       ]
-      //     }
-      //   }
-      // }
     },
 
     svgAttr: {
       type: Object,
       default() {
         return {
-          width: 1300
+          width: 1000
         }
       }
     }
@@ -90,8 +36,11 @@ export default {
 
   watch: {
     inputData(newValue, oldValue) {
-      if(newValue && newValue.meta.length > 0) {
+      if(newValue && (newValue.meta.cdsGenes.length || newValue.meta.vfGenes.length || newValue.meta.resfinderGenes.length)) {
         this.initPlot(this.inputData)
+        this.downloadvisible = true
+      } else {
+        this.downloadvisible = false
       }
     }
   },
@@ -148,8 +97,10 @@ export default {
       },
 
       legendTextAttr: {
-        width: 140,
-      }
+        width: 150,
+      },
+
+      downloadvisible: false
     };
   },
 
@@ -160,9 +111,22 @@ export default {
   },
 
   methods: {
+
+    downloadPNG() {
+      downloadImage2PNG(document.querySelector('#arrow-vis'), 'arrows.png')
+    },
+
+    downloadSvg() {
+      downloadImage2SVG(document.querySelector('#arrow-vis'))
+    },
+
+    downloadPDF() {
+      downloadImage2PDF(document.querySelector('.arrow-vis-container'))
+    },
+
     initPlot(data) {
       // 初始化svg
-      const svg = d3.select('#arrow-vis').attr('width', this.svgAttr.width).style('border', '1px solid red')
+      const svg = d3.select('#arrow-vis').attr('width', this.svgAttr.width)
       const cdsGenesLength = data.meta.cdsGenes.length
       const vfGenesLength = data.meta.vfGenes.length
       const resfinderGenesLength = data.meta.resfinderGenes.length
@@ -230,8 +194,8 @@ export default {
         if(upOrDown === 'up') { 
           data.meta.cdsGenes.forEach((item, index) => {
             const cdsGenePath = this.drawPath(item.start, item.end, this.svgPadding.top + this.arrowAttr.headerHeight * 0.5, item.forward)
-            this.addArrow(svg, this.cdsGeneColors[index], cdsGenePath, `arrow_cds_${item.gene}_${index}`)
-            this.addTip(tipsGroup, item, `tip_cds_${item.gene}_${index}`)
+            this.addArrow(svg, this.cdsGeneColors[index], cdsGenePath, `arrow_cds_${index}`)
+            this.addTip(tipsGroup, item, `tip_cds_${index}`)
           });
         }
 
@@ -240,15 +204,15 @@ export default {
           if(data.meta.vfGenes.length) {
             data.meta.vfGenes.forEach((item, index) => {
               const vfGenePath = this.drawPath(item.start, item.end, this.svgPadding.top + this.arrowAttr.headerHeight * 0.5, item.forward)
-              this.addArrow(svg, this.vfGeneColors[index], vfGenePath, `arrow_vf_${item.gene}_${index}`)
-              this.addTip(tipsGroup, item, `tip_vf_${item.gene}_${index}`)
+              this.addArrow(svg, this.vfGeneColors[index], vfGenePath, `arrow_vf_${index}`)
+              this.addTip(tipsGroup, item, `tip_vf_${index}`)
             })
           }
           if(data.meta.resfinderGenes.length) {
             data.meta.resfinderGenes.forEach((item, index) => {
               const resfinderGenePath = this.drawPath(item.start, item.end, this.svgPadding.top + this.arrowAttr.headerHeight * 0.5, item.forward)
-              this.addArrow(svg, this.resfinderGeneColors[index], resfinderGenePath, `arrow_resfinder_${item.gene}_${index}`)
-              this.addTip(tipsGroup, item, `tip_resfinder_${item.gene}_${index}`)
+              this.addArrow(svg, this.resfinderGeneColors[index], resfinderGenePath, `arrow_resfinder_${index}`)
+              this.addTip(tipsGroup, item, `tip_resfinder_${index}`)
             })
           }
         }
@@ -258,21 +222,21 @@ export default {
       if(heightFlag === 2) {
         data.meta.cdsGenes.forEach((item, index) => {
           const cdsGenePath = this.drawPath(item.start, item.end, this.svgPadding.top + this.arrowAttr.headerHeight * 0.5, item.forward)
-          this.addArrow(svg, this.cdsGeneColors[index], cdsGenePath, `arrow_cds_${item.gene}_${index}`)
-          this.addTip(tipsGroup, item, `tip_cds_${item.gene}_${index}`)
+          this.addArrow(svg, this.cdsGeneColors[index], cdsGenePath, `arrow_cds_${index}`)
+          this.addTip(tipsGroup, item, `tip_cds_${index}`)
         });
         if(data.meta.vfGenes.length) {
           data.meta.vfGenes.forEach((item, index) => {
             const vfGenePath = this.drawPath(item.start, item.end, this.svgPadding.top + this.arrowAttr.headerHeight * 1.5 + this.layoutAttr.rowInstance + item.forward)
-            this.addArrow(svg, this.vfGeneColors[index], vfGenePath, `arrow_vf_${item.gene}_${index}`)
-            this.addTip(tipsGroup, item, `tip_vf_${item.gene}_${index}`)
+            this.addArrow(svg, this.vfGeneColors[index], vfGenePath, `arrow_vf_${index}`)
+            this.addTip(tipsGroup, item, `tip_vf_${index}`)
           })
         }
         if(data.meta.resfinderGenes.length) {
           data.meta.resfinderGenes.forEach((item, index) => {
             const resfinderGenePath = this.drawPath(item.start, item.end, this.svgPadding.top + this.arrowAttr.headerHeight * 1.5 + this.layoutAttr.rowInstance + item.forward)
-            this.addArrow(svg, this.resfinderGeneColors[index], resfinderGenePath, `arrow_resfinder_${item.gene}_${index}`)
-            this.addTip(tipsGroup, item, `tip_resfinder_${item.gene}_${index}`)
+            this.addArrow(svg, this.resfinderGeneColors[index], resfinderGenePath, `arrow_resfinder_${index}`)
+            this.addTip(tipsGroup, item, `tip_resfinder_${index}`)
           })
         }
       }
@@ -310,7 +274,8 @@ export default {
           .text('CDS')
           .attr('x', 0)
           .attr('y', 12)
-          .style('font-size', 14)
+          .style('font-size', 13)
+          .style('font-family', 'Times New Roman')
         data.meta.cdsGenes.forEach((item, index) => {
           cdsLegendGroup
             .append('rect')
@@ -323,7 +288,8 @@ export default {
             .text(item.gene)
             .attr('x', 70 + (index + 1) * (this.legendRectArr.width) + index * (this.legendTextAttr.width + 10) + 2)
             .attr('y', 12)
-            .style('font-size', 14)
+            .style('font-size', 12)
+            .style('font-family', 'Times New Roman')
         })
       }
       if(data.meta.vfGenes.length) {
@@ -336,7 +302,8 @@ export default {
           .text('VF')
           .attr('x', 0)
           .attr('y', 12)
-          .style('font-size', 14)
+          .style('font-size', 13)
+          .style('font-family', 'Times New Roman')
         data.meta.vfGenes.forEach((item, index) => {
           vfLegendGroup
             .append('rect')
@@ -349,7 +316,8 @@ export default {
             .text(item.gene)
             .attr('x', 70 + (index + 1) * (this.legendRectArr.width) + index * (this.legendTextAttr.width + 10) + 2)
             .attr('y', 12)
-            .style('font-size', 14)
+            .style('font-size', 12)
+            .style('font-family', 'Times New Roman')
         })
       }
       if(data.meta.resfinderGenes.length) {
@@ -362,7 +330,8 @@ export default {
           .text('Resfinder')
           .attr('x', 0)
           .attr('y', 12)
-          .style('font-size', 14)
+          .style('font-size', 13)
+          .style('font-family', 'Times New Roman')
         data.meta.resfinderGenes.forEach((item, index) => {
           resfinderLegendGroup
             .append('rect')
@@ -375,7 +344,8 @@ export default {
             .text(item.gene)
             .attr('x', 70 + (index + 1) * (this.legendRectArr.width) + index * (this.legendTextAttr.width + 10) + 2)
             .attr('y', 12)
-            .style('font-size', 14)
+            .style('font-size', 12)
+            .style('font-family', 'Times New Roman')
         })
       }
       
@@ -383,95 +353,100 @@ export default {
       // 事件处理
       if(data.meta.cdsGenes.length) {
         data.meta.cdsGenes.forEach((item1, index1) => {
-          d3.select(`.arrow_cds_${item1.gene}_${index1}`)
+          d3.select(`.arrow_cds_${index1}`)
             .on('mouseover', () => {
               data.meta.cdsGenes.forEach((item2, index2) => {
-                if(`tip_cds_${item1.gene}_${index1}` === `tip_cds_${item2.gene}_${index2}`) {
-                  d3.select(`.tip_cds_${item2.gene}_${index2}`).attr("visibility", "visible")
-                  d3.select(`.arrow_cds_${item2.gene}_${index2}>path`).attr('stroke', 'red').attr('stroke-width', 1)
+                if(`tip_cds_${index1}` === `tip_cds_${index2}`) {
+                  d3.select(`.tip_cds_${index2}`).attr("visibility", "visible")
+                  d3.select(`.arrow_cds_${index2}>path`).attr('stroke', 'red').attr('stroke-width', 1)
                 } else {
-                  d3.select(`.tip_cds_${item2.gene}_${index2}`).attr("visibility", "hidden")
-                  d3.select(`.arrow_cds_${item2.gene}_${index2}>path`).attr('stroke', '').attr('stroke-width', 0).attr('opacity', 0.4)
+                  d3.select(`.tip_cds_${index2}`).attr("visibility", "hidden")
+                  d3.select(`.arrow_cds_${index2}>path`).attr('stroke', '').attr('stroke-width', 0).attr('opacity', 0.4)
                 }
               })
             })
             .on('mouseout', () => {
               data.meta.cdsGenes.forEach((item, index) => {
-                d3.select(`.tip_cds_${item.gene}_${index}`).attr("visibility", "hidden")
-                d3.select(`.arrow_cds_${item.gene}_${index}>path`).attr('stroke', '').attr('stroke-width', 0).attr('opacity', 1)
+                d3.select(`.tip_cds_${index}`).attr("visibility", "hidden")
+                d3.select(`.arrow_cds_${index}>path`).attr('stroke', '').attr('stroke-width', 0).attr('opacity', 1)
               })
+            })
+            .on('click', () => {
+              this.$emit('viewProteinStructSignal', true)
             })
         })
       }
       if(data.meta.vfGenes.length) {
         data.meta.vfGenes.forEach((item1, index1) => {
-          d3.select(`.arrow_vf_${item1.gene}_${index1}`)
+          d3.select(`.arrow_vf_${index1}`)
             .on('mouseover', () => {
               data.meta.vfGenes.forEach((item2, index2) => {
-                if(`tip_vf_${item1.gene}_${index1}` === `tip_vf_${item2.gene}_${index2}`) {
-                  d3.select(`.tip_vf_${item2.gene}_${index2}`).attr("visibility", "visible")
-                  d3.select(`.arrow_vf_${item2.gene}_${index2}>path`).attr('stroke', 'red').attr('stroke-width', 1)
+                if(`tip_vf_${index1}` === `tip_vf_${index2}`) {
+                  d3.select(`.tip_vf_${index2}`).attr("visibility", "visible")
+                  d3.select(`.arrow_vf_${index2}>path`).attr('stroke', 'red').attr('stroke-width', 1)
                 } else {
-                  d3.select(`.tip_vf_${item2.gene}_${index2}`).attr("visibility", "hidden")
-                  d3.select(`.arrow_vf_${item2.gene}_${index2}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 0.4)
+                  d3.select(`.tip_vf_${index2}`).attr("visibility", "hidden")
+                  d3.select(`.arrow_vf_${index2}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 0.4)
                 }
               })
             })
             .on('mouseout', () => {
               data.meta.vfGenes.forEach((item, index) => {
-                d3.select(`.tip_vf_${item.gene}_${index}`).attr("visibility", "hidden")
-                d3.select(`.arrow_vf_${item.gene}_${index}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 1)
+                d3.select(`.tip_vf_${index}`).attr("visibility", "hidden")
+                d3.select(`.arrow_vf_${index}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 1)
               })
             })
             .on('click', () => {
-              this.$emit('signal', true)
+              this.$emit('viewVfAndResfinderSignal', item1.infos)
             })
         })
       }
       if(data.meta.resfinderGenes.length) {
         data.meta.resfinderGenes.forEach((item1, index1) => {
-          d3.select(`.arrow_resfinder_${item1.gene}_${index1}`)
+          d3.select(`.arrow_resfinder_${index1}`)
             .on('mouseover', () => {
               data.meta.resfinderGenes.forEach((item2, index2) => {
-                if(`tip_resfinder_${item1.gene}_${index1}` === `tip_resfinder_${item2.gene}_${index2}`) {
-                  d3.select(`.tip_resfinder_${item2.gene}_${index2}`).attr("visibility", "visible")
-                  d3.select(`.arrow_resfinder_${item2.gene}_${index2}>path`).attr('stroke', 'red').attr('stroke-width', 1)
+                if(`tip_resfinder_${index1}` === `tip_resfinder_${index2}`) {
+                  d3.select(`.tip_resfinder_${index2}`).attr("visibility", "visible")
+                  d3.select(`.arrow_resfinder_${index2}>path`).attr('stroke', 'red').attr('stroke-width', 1)
                 } else {
-                  d3.select(`.tip_resfinder_${item2.gene}_${index2}`).attr("visibility", "hidden")
-                  d3.select(`.arrow_resfinder_${item2.gene}_${index2}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 0.4)
+                  d3.select(`.tip_resfinder_${index2}`).attr("visibility", "hidden")
+                  d3.select(`.arrow_resfinder_${index2}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 0.4)
                 }
               })
             })
             .on('mouseout', () => {
               data.meta.resfinderGenes.forEach((item, index) => {
-                d3.select(`.tip_resfinder_${item.gene}_${index}`).attr("visibility", "hidden")
-                d3.select(`.arrow_resfinder_${item.gene}_${index}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 1)
+                d3.select(`.tip_resfinder_${index}`).attr("visibility", "hidden")
+                d3.select(`.arrow_resfinder_${index}>path`).attr('stroke', '').attr('stroke-width', 0).attr('stroke-width', 0).attr('opacity', 1)
               })
+            })
+            .on('click', () => {
+              this.$emit('viewVfAndResfinderSignal', item1.infos)
             })
         })
       }
     },
 
     // 添加鼠标悬浮框
-    addTip(tipsGroup, item, className) {
+    addTip(tipsGroup, item, className, y=0) {
       tipsGroup
         .append('g')
         .append("foreignObject")
         .attr("class", className)
         .style("width", 120)
-        .style("height", 60)
+        .style("height", 50)
         .style('border-radius', '4px 4px')
         .style('background-color', '#666666')
         .attr('x', this.svgPadding.left + this.xScale(item.start))
-        .attr('y', 0)
+        .attr('y', y)
         .html(
           `
             <div style="padding: 2px 2px; color: #FFFFFF; font-size: 10px;">
               <p>Gene: <i>${item.gene}</i></p>
               <p>Start: <i>${item.start}</i></p>
               <p>End: <i>${item.end}</i></p>
-              <p>Forward: <i>${item.forward}</i></p>
-              <p>......</p>
+              <p>Forward: <i>${item.forward === 1? '+' : '-'}</i></p>
             </div>
           `
         )
@@ -538,3 +513,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.vis-container {
+  .arrow-vis-container {
+    display: flex;
+    justify-content: center;
+  }
+  .vis-funcs-container {
+    display: flex;
+    justify-content: center;
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div class="data-visual-container">
     <div class="title-container">
-      <span>{{ contigDetail.srp +  ` contigs(${contigDetail.Name}) informations` }}</span>
+      <span>{{ contigDetail.srp +  ` contigs (${contigDetail.Name}) informations` }}</span>
     </div>
     
     <el-divider></el-divider>
@@ -11,8 +11,17 @@
     </div>
     
     <div class="arrow-vis-container">
-      <ArrowVis :inputData="contigGBKdata" :svgAttr="{width: 800, height: 160}" @signal="handleSignal($event)"></ArrowVis>
-      <!-- <MultiRowsArrowVis :inputData="" @signal="handleSignal($event)"></MultiRowsArrowVis> -->
+      <MultiRowsArrowVis 
+        ref="multi_rows_arrow_vis"
+        :inputData="multiArrowData" 
+        @viewProteinStructSignal="handleViewProteinStructSignal($event)"
+        @viewVfAndResfinderSignal="handleViewVfAndResfinderSignal($event)"
+      >
+      </MultiRowsArrowVis>
+    </div>
+
+    <div class="gtdb-bac120-container">
+      <GtdbtkBac120Information :srp="contigDetail.srp"></GtdbtkBac120Information>
     </div>
 
     <el-dialog :visible.sync="dialog3DmolVisible" width="50%">
@@ -20,6 +29,10 @@
         <ProteinSeqDescription :proteinSeqInfo="proteinSeqInfo"></ProteinSeqDescription>
         <ProteinStructVis :structData="proteinStruckData"></ProteinStructVis>
       </div>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogVfAndResfinderDataVisible" width="50%">
+      <VfAndResfinderDescription :inputData="vfAndResfinderData"></VfAndResfinderDescription>
     </el-dialog>
     
   </div>
@@ -29,32 +42,37 @@
 import config from '@/config'
 import axios from 'axios'
 import { showLoading, hideLoading } from '@/utils/loading'
-import ArrowVis from '@/components/visiualization/ArrowVis.vue'
 import MultiRowsArrowVis from '@/components/visiualization/MultiRowsArrowVis.vue';
+import GtdbtkBac120Information from '@/components/database/dataexpress/GtdbtkBac120Information.vue';
 import ContigDescriptionView from '@/components/database/dataexpress/ContigDescriptionView.vue'
 import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue'
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
+import VfAndResfinderDescription from '@/components/database/dataexpress/VfAndResfinderDescription.vue';
 
 export default {
   name: 'ContigsDataExpress',
 
   components: {
     ContigDescriptionView,
-    ArrowVis,
     MultiRowsArrowVis,
+    GtdbtkBac120Information,
     ProteinSeqDescription,
-    ProteinStructVis
+    ProteinStructVis,
+    VfAndResfinderDescription,
   },
 
   data() {
     return {
       contigName: '',
       contigDetail: {},
-      contigGBKdata: null,
+      multiArrowData: null,
 
       dialog3DmolVisible: false,
       proteinSeqInfo: {},
       proteinStruckData: '',
+
+      dialogVfAndResfinderDataVisible: false,
+      vfAndResfinderData: null,
     };
   },
 
@@ -71,31 +89,37 @@ export default {
       } else {
         this.contigDetail = this.$store.state.contigDetailData
       }
-      this.requestContigGbkInfo(this.contigDetail.srp, this.contigDetail.ID)
+      this.requestCdsVfResfinderData(this.contigDetail.srp, this.contigDetail.ID)
     },
 
-    // 请求GBK文件数据
-    async requestContigGbkInfo(srp, contigID) {
+    // 请求cds vf resfinder数据
+    async requestCdsVfResfinderData(srp, contigID) {
       showLoading()
-      const url = config.baseUrl + config.uri.geneomeContigGbkViewURI + '/' + srp + '/' + contigID
+      const url = config.baseUrl + config.uri.cdsVfResfinderViewURI + '/' + srp + '/' + contigID
       axios.get(url, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        this.contigGBKdata = response.data
+        this.multiArrowData = response.data
       }).finally(() => {
         hideLoading()
       })
     },
 
     // 查看蛋白质信息
-    async handleSignal(signal) {
+    async handleViewProteinStructSignal(signal) {
       const code = this.contigDetail.Name.split('_')[1]
       this.requestProteinSeqData(this.contigDetail.srp, code)
       // console.log(this.contigDetail)
       this.requestProteinStructData(this.contigDetail.srp, code)
       this.dialog3DmolVisible = signal
+    },
+
+    // 
+    async handleViewVfAndResfinderSignal(value) {
+      this.vfAndResfinderData = value
+      this.dialogVfAndResfinderDataVisible = true
     },
 
     async requestProteinStructData(srp, code) {
@@ -144,9 +168,7 @@ export default {
   }
 
   .arrow-vis-container {
-    display: flex;
-    justify-content: center;
+    margin-top: 10px;
   }
 }
-
 </style>

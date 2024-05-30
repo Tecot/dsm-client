@@ -67,6 +67,7 @@ export default {
   methods: {
     init() {
       const param = this.$route.params['param']
+      console.log(param)
       const databaseRunProjectData = this.$store.state.databaseRunProjectData
       if(param['SRAStudy']) {
         if(databaseRunProjectData) {

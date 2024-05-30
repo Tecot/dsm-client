@@ -11,8 +11,9 @@ const uriConfigs = {
         
         proteinSeqViewURI: 'api/database/dataexpress/proteinseqview',
         proteinPdbViewURI: 'api/database/dataexpress/proteinpdbview',
-        geneomeContigGbkViewURI: 'api/database/dataexpress/geneomecontiggbkview',
-        proteinOneSeqViewURI: 'api/database/dataexpress/proteinonseqview',
+        cdsVfResfinderViewURI: 'api/database/dataexpress/cdsvfresfinderView',
+        proteinOneSeqViewURI: 'api/database/dataexpress/proteinoneseqview',
+        gtdbtkbac120viewURI: 'api/database/dataexpress/gtdbtkbac120View',
 
         downloadListViewURI: 'api/downloadlist',
         downloadURI: 'api/download'
