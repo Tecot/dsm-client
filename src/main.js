@@ -7,6 +7,7 @@ import ElementLocale from 'element-ui/lib/locale'
 import elementEnLocale from 'element-ui/lib/locale/lang/en';
 import 'element-ui/lib/theme-chalk/index.css'
 import VueClipBoard from 'vue-clipboard2';
+// import 'default-passive-events'
 
 Vue.config.productionTip = false
 

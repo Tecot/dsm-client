@@ -1,235 +1,227 @@
 <template>
-    <div ref="chart" style="width: 100%; height: 800px;"></div>
+  <div ref="echart" class="geo-vis" :style="{ width: width,height: height }"></div>
 </template>
 
 <script>
 import * as echarts from 'echarts'
+
 import 'echarts/map/js/world'
-import {testData} from './testData'
+import testData from './data'
+import testData1 from './data1'
+import elementResizeDetectorMaker from "element-resize-detector";
 
 export default {
     name: 'GeoVis',
+
     data() {
       return {
-        
+        echart: null,
+        option: null
+      }
+    },
+
+    props: {
+      width: {
+        type: String,
+        default() {
+          return '100%'
+        }
+      },
+      height: {
+        type: String,
+        default() {
+          return '600px'
+        }
       }
     },
 
     mounted() {
       this.initChart()
+      this.chartResize()
+      // this.addLinesWhenMouseEvent()
     },
 
     methods: { 
       initChart() {
-        this.chart = echarts.init(this.$refs.chart)
-        
-        const option = {
-
-          // title: {
-          //   show: true,
-          //   text: 'Deep sea micro',
-          //   left: 'center',
-          //   top: 10,
-          //   textStyle: {
-          //     color: '#FFF',
-          //     fontSize: 24
-          //   }
-          // },
-          
-          backgroundColor: '#0291B1',
-
-          // toolbox: {
-          //   show: true,
-          //   orient: 'vertical',
-          //   x: 'right',
-          //   y: 'center',
-          //   feature: {
-          //     mark: {
-          //       show: true
-          //     },
-          //     dataView: {
-          //       show: true,
-          //       readOnly: false
-          //     },
-          //     restore: {
-          //       show: true
-          //     },
-          //     saveAsImage: {
-          //       show: true
-          //     }
-          //   }
-          // },
-
+        this.echart = echarts.init(this.$refs.echart)
+        this.option = {
+          backgroundColor: '#2C406A',
+          tooltip: {
+              trigger: 'item', // 触发类型
+              formatter: (params) => {
+                return 'SRAStudy: ' + params.data['name'] + 
+                '<br>Run: ' + params.data['run'] + 
+                '<br>Geographic location: ' + params.data['geographic location'] + 
+                '<br>Depth: ' + (params.data['depth'] === '-'? 'Unkown' : params.data['depth'] + 'm') + 
+                '<br>Longitude: ' + params.data.value[1] + 
+                '<br>Latitude: ' + params.data.value[0]
+              }
+          },
+          visualMap: {
+            min: 0,
+            max: 8000,
+            text: ['High', 'Low'],
+            realtime: false,
+            calculable: true,
+            inRange: {
+              color: ['lightskyblue', 'yellow', 'orangered']
+            },
+            textStyle: {
+              color: '#FFF'
+            }
+          },
           series: [
             {
-              name: 'xx', // series名称
-              type: 'scatter', // series图表类型
-              coordinateSystem: 'geo', // series坐标系类型
-              symbolSize: 10, // 散点大小
-              color: 'black',
-              emphasis: {
-                label: {
-                  show: true,
-                },
-                itemStyle: {
-                  color: '#FF5733' // 鼠标悬停时的标点颜色
-                }
-
+              name: 'SRP',
+              type: 'effectScatter',
+              progressive: true,
+              roam: true,
+              coordinateSystem: 'geo',
+              showEffectOn: 'emphasis',
+              data: testData.data,
+              rippleEffect: {
+                color: '#40B299',
+                number: 5,
+                scale: 10,
+                brushType: 'fill'
               },
-              data: testData
+              symbol: 'pin',
+              symbolSize: 15,
+              symbolKeepAspect: true,
+              
             },
-            // {
-            //   name: 'top',
-            //   type: 'map',
-            //   mapType: 'world',
-            //   data: [],
-            //   markPoint: {
-            //     symbol: 'emptyCircle',
-            //     symbolSize: function(v) {
-            //       return 10 + v/100
-            //     },
-            //     effect: {
-            //       show: true,
-            //       shadowBlur: 0
-            //     },
-            //     itemStyle: {
-            //       normal: {
-            //         label: {
-            //           show: false
-            //         }
-            //       }
-            //     },
-            //     data: [{
-            //         "name": "point2",
-            //         "value": 21
-            //     },
-            //     {
-            //         "name": "point3",
-            //         "value": 212
-            //     },
-            //     {
-            //         "name": "point4",
-            //         "value": 432
-            //     },
-            //     {
-            //         "name": "point5",
-            //         "value": 123
-            //     }]
-            //   }
-            // }
           ],
 
-
           geo: {
-            map: 'world', // 注明使用世界地图
-            show: true, // 显示地理坐标组件
-            roam: true, // 缩放、平移启动
-            zoom: 1.2, // 当前视角的缩放比例
+            map: 'world',
+            show: true,
+            roam: true,
+            left: 40, 
+            top: 40, 
+            right: 40, 
+            bottom: 40,
+            zoom: 1,
+            boundingCoords: [
+              [-180, 90],
+              [180, -90]
+            ],
             label: {
               position: 'left',
               emphasis: {
-                show: true, // 高亮时是否显示标签
+                show: true, 
                 color: '#FFF',
                 fontStyle: 'italic',
                 fontSize: 16
               },
             },
             itemStyle: {
-                areaColor: '#323c48', // 地图区域颜色
-                borderColor: '#8ACFF2', // 地图区域边框颜色
-                borderWidth: 0.5, // 地图区域边的粗细
-                borderType: 'solid', // 地图区域边的类型
-                borderCap: 'round', // 地图区域边衔接的形状
-                borderJoin: 'round', // 用于设置2个长度不为0的相连部分（线段，圆弧，曲线）如何连接在一起的属性（长度为0的变形部分，其指定的末端和控制点在同一位置，会被忽略）。
-                // shadowColor: 'rgba(0, 0, 0, 0.5)',
-                // shadowBlur: 10,
-                opacity: 0.8,
-              
+              areaColor: '#323c48', 
+              borderColor: '#8ACFF2',
+              borderWidth: 0.5,
+              borderType: 'solid',
+              borderCap: 'round',
+              borderJoin: 'round', 
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowBlur: 20,
+              opacity: 0.8,
               emphasis: {
-                areaColor: '#2a333d', // 高亮时地图区域颜色
+                areaColor: '#40B299', // 高亮时地图区域颜色
                 borderWidth: 1, // 地图区域边的粗细
                 opacity: 1,
               }
             }
-          }
+          },
         }
-
-        this.chart.setOption(option)
+        this.echart.setOption(this.option)
       },
-      // initChart() {
-      //   this.chart = echarts.init(this.$refs.chart)
-      //   echarts.registerMap('world', {geoJSON: worldJson})
 
-      //   const option = { 
-      //     tooltip: {
-      //       trigger: 'item',
-      //     },
-          
-      //     visualMap: {
-      //       // 视觉映射组件，用于视觉编码，比如用不同的颜色表示不同范围的值
-      //       // 在这个例子中，我们没有使用它，因为只是简单的描点
-      //     },
+      // 鼠标画线事件
+      addLinesWhenMouseEvent() {
+        const that = this
+        let lineSeriesIndex = null;
+        this.echart.on('mouseover', function (params) {
+          if (params.seriesType === 'effectScatter') {
+            const currentName = params.data.name
+            const data = that.option.series[0].data
+            const sameNameData = data.filter(function (item) {
+                return item.name === currentName;
+            })
+            if (sameNameData.length > 1) {
+              const lineData = sameNameData.map(function (item) {
+                return {
+                  points: [params.data.name, item.name],
+                  coords: [
+                    params.data.value.slice(0, 2),
+                    item.value.slice(0, 2)
+                  ]
+                }
+              })
+              if (lineSeriesIndex === null) {
+                lineSeriesIndex = that.option.series.length;
+                that.option.series.push({
+                  name: "lines",
+                  type: "lines",
+                  coordinateSystem: "geo",
+                  zlevel: 0,
+                  large: true,
+                  // effect: {
+                  //   show: true, // 开启动态线条效果
+                  //   constantSpeed: 30, // 线条速度
+                  //   symbol: "pin", // 标记的图形，支持图片和文字
+                  //   symbolSize: 10, // 标记的大小
+                  //   trailLength: 0, // 动态线条的长度
+                  //   loop: true, // 是否循环动画效果
+                  // },
+                  lineStyle: {
+                    normal: {
+                      color: '#CCFF01',
+                      width: 2,
+                      opacity: 0.4,
+                      curveness: 0.2, // 曲线程度
+                    },
+                    emphasis: {
+                      opacity: 0.8,
+                      width: 5,
+                    },
+                    data: this.mapLineDataArr,
+                  },
+                  data: lineData,
+                });
+                that.echart.setOption(that.option)
+              } 
+              // else {
+              //   that.option.series[lineSeriesIndex].data = lineData;
+              // }
+            }
+          }
+        });
+        this.echart.on('mouseout', function (params) {
+          if (params.seriesType === 'effectScatter') {
+            if (lineSeriesIndex !== null) {
+              that.option.series.splice(lineSeriesIndex, 1)
+              // that.echart.clear()
+              lineSeriesIndex = null;
+              that.echart.setOption(that.option)
+            }
+          }
+        })
+      },
 
-      //     // series: [
-      //     //   {
-      //     //     name: 'xxxxx',
-      //     //     type: 'scatter', // 散点图类型
-      //     //     coordinateSystem: 'bmap', // 地理坐标系,
-      //     //     data: this.mapData.map((coord, index) => {
-      //     //       return {
-      //     //         name: `地点${index + 1}`, // 数据项名称，可以根据需要自定义
-      //     //         value: coord,
-      //     //       }
-      //     //     }),
-      //     //     symbolSize: function (val) {
-      //     //       // 根据需要自定义点的大小
-      //     //       return 10; // 这里统一设置为10，可以根据实际数据调整
-      //     //     },
-      //     //     encode: {
-      //     //       value: 2, // 指定value为经纬度数组
-      //     //     },
-      //     //     label: {
-      //     //       formatter: '{b}', // 显示数据项名称
-      //     //       position: 'right',
-      //     //       show: true, // 是否显示标签
-      //     //     },
-      //     //     itemStyle: {
-      //     //       color: '#ddb926', // 点的颜色
-      //     //     },
-      //     //   }
-      //     // ],
+      // 当屏幕尺寸改变时，地图同时响应尺寸
+      chartResize() {
+        const erd = elementResizeDetectorMaker();
+        const that = this
+        erd.listenTo(this.$refs.echart, function(element) {
+          that.$nextTick(() => {
+            that.echart.resize();
+          })
+        })
+      },
 
-
-
-
-
-          
-      //     geo: {
-      //       map: 'world', // 使用世界地图，如果需要特定国家地图，请更换为相应名称并引入对应地图数据
-      //       roam: true, // 开启鼠标缩放和平移漫游
-      //       label: {
-      //         emphasis: {
-      //           show: false, // 高亮时是否显示标签
-      //         },
-      //       },
-      //       itemStyle: {
-      //         normal: {
-      //           areaColor: '#323c48', // 地图区域颜色
-      //           borderColor: '#404a59', // 地图区域边框颜色
-      //         },
-      //         emphasis: {
-      //           areaColor: '#2a333d', // 高亮时地图区域颜色
-      //         },
-      //       },
-      //     },
-      //   }
-      //   this.chart.setOption(option)
-      // },
-
+      // 当组件销毁时，清除echart对象
       beforeDestroy() {
-        // 组件销毁前，清除ECharts实例
-        if (this.chart) {
-          this.chart.dispose()
+        if (this.echart) {
+          this.echart.dispose()
         }
       },
     } 

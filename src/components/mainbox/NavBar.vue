@@ -2,9 +2,9 @@
   <el-menu 
     class="el-menu-demo" 
     mode="horizontal" 
-    background-color="#2E54A1"
+    background-color="#FFFFFF"
     active-text-color="#ffd04b"
-    text-color="#fff"
+    text-color="#000000"
     :default-active="$route.path" 
     router
   >

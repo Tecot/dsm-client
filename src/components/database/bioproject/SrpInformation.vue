@@ -142,8 +142,6 @@ export default {
     },
 
     handleDetail(value) {
-      console.log('-----')
-      console.log(value)
       this.$router.push({ 
         name: 'runproject', 
         params: { 
