@@ -9,6 +9,12 @@ export default {
   name: 'PositionBarVis',
 
   props: {
+    barData: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
     width: {
       type: String,
       default() {
@@ -32,7 +38,15 @@ export default {
   },
 
   mounted() {
-    this.initChart()
+    
+  },
+
+  watch: {
+    barData(newValue, oldValue) {
+      if(newValue) {
+        this.initChart()
+      }
+    }
   },
 
   methods: {
@@ -40,7 +54,7 @@ export default {
       this.echart = echarts.init(this.$refs.echart);
       this.option = {
         itemStyle: {
-          color: '#1E8BC7',
+          color: '#6CB3CF',
           borderRadius: [10, 10, 0, 0]
         },
         label: {
@@ -52,7 +66,8 @@ export default {
           trigger: 'axis',
           axisPointer: {
             type: 'shadow'
-          }
+          },
+          formatter: '{b} <br/>Numbers : {c}'
         },
         grid: {
           left: '3%',
@@ -64,14 +79,15 @@ export default {
         xAxis: {
           type: 'category',
           name: 'Geographic location',
-          data: ['Mon', 'Tue', 'Wedxxxxxxxxxxxxxxxxxxxxxxxxx', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: this.barData.x,
           nameLocation: 'center',
-          nameGap: 25,
+          nameGap: 30,
           nameTextStyle: {
             fontSize: 14,
             color: '#FFF',
           },
           axisTick: {
+            show: false,
             alignWithLabel: true,
             lineStyle: {
               color: '#FFF',
@@ -87,8 +103,8 @@ export default {
             rotate: 30,
             fontSize: 10,
             formatter: (value, index) => {
-              if (value.length > 3) {
-                  return value.slice(0, 3) + '...';
+              if (value.length > 8) {
+                  return value.slice(0, 8) + '...';
               } else {
                   return value;
               }
@@ -105,6 +121,7 @@ export default {
             color: '#FFF',
           },
           axisTick: {
+            show: false,
             alignWithLabel: true,
             lineStyle: {
               color: '#FFF'
@@ -125,7 +142,7 @@ export default {
             name: 'Direct',
             type: 'bar',
             barWidth: '60%',
-            data: [10, 52, 200, 334, 390, 330, 220]
+            data: this.barData.y
           }
         ]
       };

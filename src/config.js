@@ -1,6 +1,7 @@
 const uriConfigs = {
     baseUrl: 'http://127.0.0.1:8000/',
     uri: {
+        geoDataViewURI: 'api/database/bioproject/geodataview',
         srpProjectViewURI: 'api/database/bioproject/srpprojectview',
         runProjectViewURI: 'api/database/bioproject/runprojectview',
         contigsInformationViewURI: 'api/database/bioproject/contigsinformationview',

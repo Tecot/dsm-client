@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    geoInfoData: '',
     databaseRunProjectData: '',
     contigDetailData: '',
   },
@@ -14,16 +15,21 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    SET_GEO_INFO_DATA(state, payload) {
+      state.geoInfoData = payload
+    },
     SET_DATABASE_RUN_PROJECT_DATA(state, payload) {
       state.databaseRunProjectData = payload
     },
     SET_CONTIG_DETAIL_DATA(state, payload) {
       state.contigDetailData = payload
-      console.log(state.contigDetailData)
     }
   },
 
   actions: {
+    setGeoInfoData(context, payload) {
+      context.commit('SET_GEO_INFO_DATA', payload)
+    },
     setDatabaseRunProjectData(context, payload) {
       context.commit('SET_DATABASE_RUN_PROJECT_DATA', payload)
     },
@@ -39,6 +45,7 @@ export default new Vuex.Store({
     createPersistedState(
       {
         paths:[
+          // 'geoData',
           'databaseRunProjectData', 
           'contigDetailData'
         ]

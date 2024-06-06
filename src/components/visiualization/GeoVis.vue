@@ -4,11 +4,9 @@
 
 <script>
 import * as echarts from 'echarts'
-
 import 'echarts/map/js/world'
-import testData from './data'
-import testData1 from './data1'
 import elementResizeDetectorMaker from "element-resize-detector";
+import {base64} from './base64'
 
 export default {
     name: 'GeoVis',
@@ -21,6 +19,10 @@ export default {
     },
 
     props: {
+      geoData: {
+        type: Array,
+        required: true
+      },
       width: {
         type: String,
         default() {
@@ -36,9 +38,18 @@ export default {
     },
 
     mounted() {
-      this.initChart()
-      this.chartResize()
-      // this.addLinesWhenMouseEvent()
+      
+    },
+
+    watch: {
+      geoData(newValue, oldValue) {
+        if(newValue && newValue.length > 0) {
+          this.initChart()
+          this.chartResize()
+          // this.addLinesWhenMouseEvent()
+        }
+        
+      }
     },
 
     methods: { 
@@ -46,8 +57,15 @@ export default {
         this.echart = echarts.init(this.$refs.echart)
         this.option = {
           backgroundColor: '#2C406A',
+          // backgroundColor: {
+          //   type: 'image',
+          //   image: base64, // 背景图片的URL
+          //   repeat: 'no-repeat', // 是否平铺，可以是 'repeat-x', 'repeat-y', 'no-repeat'
+          //   size: '100% 100%', // 图片大小，可以是百分比或者像素值，必须两个值
+          //   position: 'center center' // 图片位置，可以是 'left top', 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom'
+          // },
           tooltip: {
-              trigger: 'item', // 触发类型
+              trigger: 'item',
               formatter: (params) => {
                 return 'SRAStudy: ' + params.data['name'] + 
                 '<br>Run: ' + params.data['run'] + 
@@ -60,9 +78,13 @@ export default {
           visualMap: {
             min: 0,
             max: 8000,
-            text: ['High', 'Low'],
-            realtime: false,
+            text: ['Depth'],
+            realtime: true,
             calculable: true,
+            hoverLink: true,
+            itemHeight: 300,
+            seriesIndex: 0,
+            inverse: true,
             inRange: {
               color: ['lightskyblue', 'yellow', 'orangered']
             },
@@ -73,33 +95,36 @@ export default {
           series: [
             {
               name: 'SRP',
+              id: 'SRP',
               type: 'effectScatter',
-              progressive: true,
               roam: true,
               coordinateSystem: 'geo',
               showEffectOn: 'emphasis',
-              data: testData.data,
+              data: this.geoData,
               rippleEffect: {
-                color: '#40B299',
+                color: '#00A751',
                 number: 5,
-                scale: 10,
+                period: 4,
+                scale: 5,
                 brushType: 'fill'
               },
               symbol: 'pin',
               symbolSize: 15,
               symbolKeepAspect: true,
-              
+              emphasisOnMouseOver: false,
             },
           ],
 
           geo: {
+            id: 'worldGeo',
             map: 'world',
             show: true,
-            roam: true,
             left: 40, 
             top: 40, 
             right: 40, 
             bottom: 40,
+            roam: true,
+            animationDurationUpdate:0,
             zoom: 1,
             boundingCoords: [
               [-180, 90],
@@ -125,15 +150,28 @@ export default {
               shadowBlur: 20,
               opacity: 0.8,
               emphasis: {
-                areaColor: '#40B299', // 高亮时地图区域颜色
-                borderWidth: 1, // 地图区域边的粗细
+                areaColor: '#40B299',
+                borderWidth: 1,
                 opacity: 1,
               }
             }
           },
         }
         this.echart.setOption(this.option)
+
+
+
+        // let timer = setInterval(() => {
+          this.echart.dispatchAction({
+            type: 'hightlight',
+            seriesId: 'worldGeo',
+            dataIndex: [0, 1,3,4,5,6,7,8],
+        });
+        // }, 50000000000)
+        
       },
+
+      
 
       // 鼠标画线事件
       addLinesWhenMouseEvent() {
