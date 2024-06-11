@@ -6,7 +6,6 @@
 import * as echarts from 'echarts'
 import 'echarts/map/js/world'
 import elementResizeDetectorMaker from "element-resize-detector";
-import {base64} from './base64'
 
 export default {
     name: 'GeoVis',
@@ -85,6 +84,9 @@ export default {
             itemHeight: 300,
             seriesIndex: 0,
             inverse: true,
+            // orient: 'horizontal',
+            bottom: 0,
+            right: 0,
             inRange: {
               color: ['lightskyblue', 'yellow', 'orangered']
             },

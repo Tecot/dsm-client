@@ -54,7 +54,7 @@ export default {
       this.echart = echarts.init(this.$refs.echart);
       this.option = {
         itemStyle: {
-          color: '#6CB3CF',
+          color: '#FFE000',
           borderRadius: [10, 10, 0, 0]
         },
         label: {

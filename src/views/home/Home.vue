@@ -5,7 +5,7 @@
         Directly start
       </div>
       <div 
-        class="left-directly-link" 
+        class="left-directly-link"
         v-for="(item, index) in linkItems" 
         :key="index" 
         @click="goToLink(item.link)"
@@ -13,36 +13,33 @@
         {{ item.name }}
       </div>
     </div>
+
     <div class="right-container">
       <div class="right-project-descripion">
         <div class="right-title-container">
           DeepSeaMicro
         </div>
         <div class="right-description">
-          Deep-sea microbes are a diverse and fascinating group of organisms that inhabit the extreme environments of the world's oceans. These tiny life forms play crucial roles in the functioning of marine ecosystems, from nutrient cycling to energy flow.
-
-The deep sea is characterized by its vastness, darkness, high pressure, and cold temperatures. Despite these harsh conditions, it is home to a staggering array of microbial communities, including bacteria, archaea, viruses, and single-celled eukaryotes. These organisms have adapted to survive in one of the most inhospitable environments on Earth.
-
-One of the key adaptations of deep-sea microbes is their ability to metabolize chemosynthetically, meaning they can obtain energy by oxidizing inorganic compounds such as hydrogen sulfide or methane. This allows them to thrive in areas devoid of sunlight, where photosynthesis is not possible.
-        </div>
-        <div class="right-img">
-          <el-image
-            :src="require('@/assets/images/f1.png')"
-            fit="fit">
-          </el-image>
-        </div>
+          {{ description }}
+          </div>
       </div>
       
-      <div class="right-analysis-container">
-
+      <div class="right-geo-container">
+        <GeoStatisticsVue></GeoStatisticsVue>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import GeoStatisticsVue from '@/components/home/GeoStatistics.vue'
+
 export default {
   name: 'Home',
+
+  components: {
+    GeoStatisticsVue
+  },
 
   data() {
     return {
@@ -63,7 +60,8 @@ export default {
           name:'Download',
           link: 'download'
         }
-      ]
+      ],
+      description: "Deep-sea microbes are a diverse and fascinating group of organisms that inhabit the extreme environments of the world's oceans. These tiny life forms play crucial roles in the functioning of marine ecosystems, from nutrient cycling to energy flow. The deep sea is characterized by its vastness, darkness, high pressure, and cold temperatures. Despite these harsh conditions, it is home to a staggering array of microbial communities, including bacteria, archaea, viruses, and single-celled eukaryotes. These organisms have adapted to survive in one of the most inhospitable environments on Earth.' One of the key adaptations of deep-sea microbes is their ability to metabolize chemosynthetically, meaning they can obtain energy by oxidizing inorganic compounds such as hydrogen sulfide or methane. This allows them to thrive in areas devoid of sunlight, where photosynthesis is not possible."
     };
   },
 
@@ -77,23 +75,27 @@ export default {
         name: value
       })
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss">
+::v-deep .el-input {
+  border: none;
+}
+
 .home-container {
   display: flex;
   padding: 0;
 
   .left-container {
     width: 300px;
-    height: 100vh;
+    height: 1000px;
 
     .left-title-container {
       text-align: center;
       margin-top: 20px;
-      font-size: 18px;
+      font-size: 24px;
       font-weight: 700;
     }
 
@@ -113,31 +115,38 @@ export default {
     }
 
     .left-directly-link:hover {
-      background-color: #ccc;
+      background-color: #FFD04B;
     }
   }
   
   .right-container {
-    height: 100vh;
+    height: 1000px;
     width: 100%;
     background-color: #F7F8F9;
     padding-left: 20px;
     padding-right: 10px;
 
-    .right-title-container {
-      height: 40px;
-      margin-top: 20px;
-      font-size: 24px;
-      font-weight: 700;
+    .right-project-descripion {
+      .right-title-container {
+        height: 40px;
+        margin-top: 20px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .right-description {
+        color: #FFF;
+        font-size: 16px;
+        border-radius: 10px 10px 10px 10px;
+        background-color: #37415D;
+        padding: 10px 10px 10px 10px;
+      }
     }
 
-    .right-description {
-      font-size: 16px;
-    }
-
-    .right-img {
+    .right-geo-container {
       margin-top: 20px;
     }
+    
   }
 }
 </style>

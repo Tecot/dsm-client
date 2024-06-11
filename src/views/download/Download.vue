@@ -89,6 +89,7 @@ export default {
 
     requestDownload(srp) {
       const url = config.baseUrl + config.uri.downloadURI + '/' + srp
+      showLoading()
       return axios({
         url: url,
         method: 'GET',
@@ -101,6 +102,8 @@ export default {
           message: 'Download error',
           type: 'error'
         });
+      }).finally(() => {
+        hideLoading()
       })
     },
 
