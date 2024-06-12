@@ -2,7 +2,7 @@
 <div class="bio-project-container">
   <div class="geo-container" :style="{ height: geoContainerHeight }" v-show="geoData.length">
     <div class="geo-vis">
-      <GeoVis :geoData="geoData" :height="'800px'"></GeoVis>
+      <GeoVis :geoData="geoData" :height="'800px'" :search="geoSearchData"></GeoVis>
     </div>
 
     <div class="tools-container">
@@ -19,7 +19,6 @@
         Statistics of collected samples
       </div>
       <div class="gradient-vis">
-        <!-- <GradientVis :funnelData="gradientData" :width="'90%'" :height="'200px'" ></GradientVis> -->
         <GradientPieVis :pieData="gradientData" :width="'90%'" :height="'350px'"></GradientPieVis>
       </div>
       <div class="position-bar-vis">
@@ -31,7 +30,7 @@
       <div class="title">
         Search tools
       </div>
-      <GeoSearchConditions @ouputSearchConditions="handleSearchConditions($event)"></GeoSearchConditions>
+      <GeoSearchConditions @outputSearchData="handleSearchData($event)"></GeoSearchConditions>
     </div>
   </div>
 </div>
@@ -62,31 +61,32 @@ export default {
     return {
       geoContainerHeight: '800px',
       statisticsVisable: true,
-      searchVisable: true,
+      searchVisable: false,
 
 
 
       geoData: [],
       gradientData: [],
-      positionBarData: {}
+      positionBarData: {},
+      geoSearchData: null
     }
   },
 
   mounted() {
     const geoDataInfoStore = this.$store.state.geoInfoData
     if(geoDataInfoStore) {
-    this.geoData = geoDataInfoStore.geoData
-    this.gradientData = geoDataInfoStore.gradientData
-    this.positionBarData = geoDataInfoStore.positionBarData
+      this.geoData = geoDataInfoStore.geoData
+      this.gradientData = geoDataInfoStore.gradientData
+      this.positionBarData = geoDataInfoStore.positionBarData
     } else {
-    this.requestGeoData()
+      this.requestGeoData()
     }
 },
 
   methods: {
     // 获取查询数据
-    handleSearchConditions(value) {
-      console.log(value)
+    handleSearchData(value) {
+      this.geoSearchData = value
     },
 
     // 是否显示地图统计
@@ -100,24 +100,24 @@ export default {
     },
 
     async requestGeoData() {
-    showLoading()
-    const url = config.baseUrl + config.uri.geoDataViewURI
-    axios.get(url, {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8' 
-      }
-    }).then((response) => {
-      this.geoData = response.data.data
-      this.gradientData = this.processGradientData(this.geoData)
-      this.positionBarData = this.processPositionBarData(this.geoData)
-      this.$store.dispatch('setGeoInfoData', {
-        geoData: this.geoData,
-        gradientData: this.gradientData,
-        positionBarData: this.positionBarData
+      showLoading()
+      const url = config.baseUrl + config.uri.geoDataViewURI
+      await axios.get(url, {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8' 
+        }
+      }).then((response) => {
+        this.geoData = response.data.data
+        this.gradientData = this.processGradientData(this.geoData)
+        this.positionBarData = this.processPositionBarData(this.geoData)
+        this.$store.dispatch('setGeoInfoData', {
+          geoData: this.geoData,
+          gradientData: this.gradientData,
+          positionBarData: this.positionBarData
+        })
+      }).finally(() => {
+          hideLoading()
       })
-    }).finally(() => {
-        hideLoading()
-    })
     },
 
     processPositionBarData(objData = []) {

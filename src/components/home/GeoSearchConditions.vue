@@ -21,53 +21,26 @@
       </div>
       <div class="up">
         <div class="left">
-          <div class="sub-title">W: {{ '[' + wRange[0] + '°,' + wRange[1] + '°]' }}</div>
+          <div class="sub-title">W~E: {{ '[' + weRange[0] + '° , ' + weRange[1] + '°]' }}</div>
           <el-slider
             range
             show-stops
-            v-model="wRange"
-            :max="0"
+            v-model="weRange"
+            :max="180"
             :min="-180"
             :format-tooltip="(value) => value + '°' ">
           </el-slider>
         </div>
         <div class="right">
           <div class="sub-title">
-            W: {{ '[' + eRange[0] + '°,' + eRange[1] + '°]' }}
+            S~N: {{ '[' + snRange[0] + '° , ' + snRange[1] + '°]' }}
           </div>
           <el-slider
             range
             show-stops
-            v-model="eRange"
-            :max="180"
-            :min="0"
-            :format-tooltip="(value) => value + '°' ">
-          </el-slider>
-        </div>
-      </div>
-      
-      <div class="down">
-        <div class="left">
-          <div class="sub-title">S: {{ '[' + sRange[0] + '°,' + sRange[1] + '°]' }}</div>
-          <el-slider
-            range
-            show-stops
-            v-model="sRange"
-            :max="0"
-            :min="-90"
-            :format-tooltip="(value) => value + '°' ">
-          </el-slider>
-        </div>
-        <div class="right">
-          <div class="sub-title">
-            N: {{ '[' + nRange[0] + '°,' + nRange[1] + '°]' }}
-          </div>
-          <el-slider
-            range
-            show-stops
-            v-model="nRange"
+            v-model="snRange"
             :max="90"
-            :min="0"
+            :min="-90"
             :format-tooltip="(value) => value + '°' ">
           </el-slider>
         </div>
@@ -92,51 +65,40 @@ export default {
   data() { 
     return {
       depthRange: [0, 6000],
-      wRange: [-180, 0],
-      eRange: [0, 180],
-      sRange: [-90, 0],
-      nRange: [0, 90],
-
+      weRange: [-180, 180],
+      snRange: [-90, 90],
       searchMemory: {
         depthRange: [0, 6000],
-        wRange: [-180, 0],
-        eRange: [0, 180],
-        sRange: [-90, 0],
-        nRange: [0, 90]
+        weRange: [-180, 180],
+        snRange: [-90, 90]
       },
     };
   },
 
   mounted() {
-    this.$emit('outputSearchConditions', this.searchMemory)
+    
   },
 
   methods: {
     searchConfirm() {
       const depthFalg = this.searchMemory.depthRange[0] === this.depthRange[0] && this.searchMemory.depthRange[1] === this.depthRange[1]
-      const wRangeFlag = this.searchMemory.wRange[0] === this.wRange[0] && this.searchMemory.wRange[1] === this.wRange[1]
-      const eRangeFlag = this.searchMemory.eRange[0] === this.eRange[0] && this.searchMemory.eRange[1] === this.eRange[1]
-      const sRangeFlag = this.searchMemory.sRange[0] === this.sRange[0] && this.searchMemory.sRange[1] === this.sRange[1]
-      const nRangeFlag = this.searchMemory.nRange[0] === this.nRange[0] && this.searchMemory.nRange[1] === this.nRange[1]
-      if(!(depthFalg && wRangeFlag && eRangeFlag && sRangeFlag && nRangeFlag)) {
+      const weRangeFlag = this.searchMemory.weRange[0] === this.weRange[0] && this.searchMemory.weRange[1] === this.weRange[1]
+      const snRangeFlag = this.searchMemory.snRange[0] === this.snRange[0] && this.searchMemory.snRange[1] === this.snRange[1]
+      if(!(depthFalg && weRangeFlag && snRangeFlag)) {
         const searchData = {
           depthRange: this.depthRange,
-          wRange: this.wRange,
-          eRange: this.eRange,
-          sRange: this.sRange,
-          nRange: this.nRange
+          weRange: this.weRange,
+          snRange: this.snRange
         }
         this.searchMemory = searchData
-        this.$emit('outputSearchConditions', searchData)
+        this.$emit('outputSearchData', searchData)
       }
     },
 
     searchConditionsReset() {
-        this.depthRange = [0, 6000]
-        this.wRange = [-180, 0]
-        this.eRange = [0, 180]
-        this.sRange = [-90, 0]
-        this.nRange = [0, 90]
+      this.depthRange = [0, 6000]
+      this.weRange = [-180, 180]
+      this.snRange = [-90, 90]
     }
   },
 };
@@ -175,18 +137,6 @@ export default {
       margin-top: 10px;
     }
     .up {
-      display: flex;
-      padding-left: 10px;
-      padding-right: 10px;
-      justify-content: space-between;
-      .left {
-        width: 45%;
-      }
-      .right {
-        width: 45%;
-      }
-    }
-    .down {
       display: flex;
       padding-left: 10px;
       padding-right: 10px;

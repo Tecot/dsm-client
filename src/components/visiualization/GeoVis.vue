@@ -1,5 +1,26 @@
 <template>
-  <div ref="echart" class="geo-vis" :style="{ width: width,height: height }"></div>
+  <div>
+    <div ref="echart" class="geo-vis" :style="{ width: width,height: height }"></div>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="30%"
+    >
+      <div class="dialog-div">SRAStudy: {{ srp }}</div>
+      <div class="dialog-div">Run numbers: {{ runs.length }}</div>
+      <div>
+        <el-alert
+          :title="`Are you sure you want to enter the ${srp} details page?`"
+          type="success"
+          :closable="false"
+        >
+        </el-alert>
+      </div>
+      <div class="confirm">
+        <el-button type="danger" size="mini" @click="handleRoutePush">Confirm</el-button>
+      </div>
+    </el-dialog>
+  </div>
+  
 </template>
 
 <script>
@@ -13,7 +34,10 @@ export default {
     data() {
       return {
         echart: null,
-        option: null
+        option: null,
+        dialogVisible: false,
+        srp: '',
+        runs: []
       }
     },
 
@@ -21,6 +45,12 @@ export default {
       geoData: {
         type: Array,
         required: true
+      },
+      search: {
+        type: Object,
+        default() {
+          return null
+        }
       },
       width: {
         type: String,
@@ -46,8 +76,27 @@ export default {
           this.initChart()
           this.chartResize()
           // this.addLinesWhenMouseEvent()
+          this.addClickEvent()
         }
-        
+      },
+      search(newValue, oldValue) {
+        if(newValue) {
+          const result = []
+          this.geoData.forEach((item, index) => {
+            if(
+              item.value[0] >= newValue.weRange[0] &&
+              item.value[0] <= newValue.weRange[1] &&
+              item.value[1] >= newValue.snRange[0] &&
+              item.value[1] <= newValue.snRange[1] &&
+              item.value[2] >= newValue.depthRange[0] && 
+              item.value[2] <= newValue.depthRange[1]
+            ) {
+              result.push(item) 
+            }
+          })
+          this.option.series[0].data = result
+          this.echart.setOption(this.option)
+        }
       }
     },
 
@@ -56,23 +105,21 @@ export default {
         this.echart = echarts.init(this.$refs.echart)
         this.option = {
           backgroundColor: '#2C406A',
-          // backgroundColor: {
-          //   type: 'image',
-          //   image: base64, // 背景图片的URL
-          //   repeat: 'no-repeat', // 是否平铺，可以是 'repeat-x', 'repeat-y', 'no-repeat'
-          //   size: '100% 100%', // 图片大小，可以是百分比或者像素值，必须两个值
-          //   position: 'center center' // 图片位置，可以是 'left top', 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom'
-          // },
+          lazyUpdate: true,
+          animation: true,
+          animationDuration:5000,
+          animationEasing:'bounceOut',
+          animationThreshold: 5,
           tooltip: {
-              trigger: 'item',
-              formatter: (params) => {
-                return 'SRAStudy: ' + params.data['name'] + 
-                '<br>Run: ' + params.data['run'] + 
-                '<br>Geographic location: ' + params.data['geographic location'] + 
-                '<br>Depth: ' + (params.data['depth'] === '-'? 'Unkown' : params.data['depth'] + 'm') + 
-                '<br>Longitude: ' + params.data.value[1] + 
-                '<br>Latitude: ' + params.data.value[0]
-              }
+            trigger: 'item',
+            formatter: (params) => {
+              return 'SRAStudy: ' + params.data['name'] + 
+              '<br>Run: ' + params.data['run'] + 
+              '<br>Geographic location: ' + params.data['geographic location'] + 
+              '<br>Depth: ' + (params.data['depth'] === '-'? 'Unkown' : params.data['depth'] + 'm') + 
+              '<br>Longitude: ' + params.data.value[1] + 
+              '<br>Latitude: ' + params.data.value[0]
+            }
           },
           visualMap: {
             min: 0,
@@ -81,7 +128,8 @@ export default {
             realtime: true,
             calculable: true,
             hoverLink: true,
-            itemHeight: 300,
+            itemWidth: 15,
+            itemHeight: 400,
             seriesIndex: 0,
             inverse: true,
             // orient: 'horizontal',
@@ -104,7 +152,7 @@ export default {
               showEffectOn: 'emphasis',
               data: this.geoData,
               rippleEffect: {
-                color: '#00A751',
+                // color: '#00A751',
                 number: 5,
                 period: 4,
                 scale: 5,
@@ -160,19 +208,35 @@ export default {
           },
         }
         this.echart.setOption(this.option)
-
-
-
-        // let timer = setInterval(() => {
-          this.echart.dispatchAction({
-            type: 'hightlight',
-            seriesId: 'worldGeo',
-            dataIndex: [0, 1,3,4,5,6,7,8],
-        });
-        // }, 50000000000)
-        
       },
 
+      // 路由跳转
+      handleRoutePush() {
+        this.$router.push({ 
+          name: 'runproject', 
+          params: { 
+            param: this.srp
+          }
+        })
+      },
+
+      // 点击事件
+      addClickEvent() {
+        const that = this
+        this.echart.on('click', function (params) {
+          if (params.seriesType === 'effectScatter') {
+            that.srp = params.data.name
+            const runs = [params.data.run]
+            that.geoData.forEach(item => {
+              if(item.name === that.srp) {
+                runs.push(item.run)
+              }
+            })
+            that.runs = runs
+            that.dialogVisible = true
+          }
+        })
+      },
       
 
       // 鼠标画线事件
@@ -229,9 +293,9 @@ export default {
                 });
                 that.echart.setOption(that.option)
               } 
-              // else {
-              //   that.option.series[lineSeriesIndex].data = lineData;
-              // }
+              else {
+                that.option.series[lineSeriesIndex].data = lineData;
+              }
             }
           }
         });
@@ -239,7 +303,7 @@ export default {
           if (params.seriesType === 'effectScatter') {
             if (lineSeriesIndex !== null) {
               that.option.series.splice(lineSeriesIndex, 1)
-              // that.echart.clear()
+              that.echart.clear()
               lineSeriesIndex = null;
               that.echart.setOption(that.option)
             }
@@ -267,3 +331,14 @@ export default {
     } 
 }
 </script>
+<style lang="scss" scoped>
+.dialog-div {
+  height: 40px;
+  line-height: 40px;
+}
+.confirm {
+  display: flex;
+  justify-content: end;
+  margin-top: 20px;
+}
+</style>

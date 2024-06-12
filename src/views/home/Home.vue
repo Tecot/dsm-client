@@ -15,16 +15,19 @@
     </div>
 
     <div class="right-container">
-      <div class="right-project-descripion">
+      <!-- <div class="right-project-descripion">
         <div class="right-title-container">
           DeepSeaMicro
         </div>
         <div class="right-description">
           {{ description }}
           </div>
-      </div>
+      </div> -->
       
       <div class="right-geo-container">
+        <div class="geo-title">
+          Regional distribution of deep-sea microorganisms
+        </div>
         <GeoStatisticsVue></GeoStatisticsVue>
       </div>
     </div>
@@ -135,16 +138,24 @@ export default {
       }
 
       .right-description {
-        color: #FFF;
-        font-size: 16px;
+        color: #000;
+        font-size: 18px;
         border-radius: 10px 10px 10px 10px;
-        background-color: #37415D;
+        background-color: #FFF;
         padding: 10px 10px 10px 10px;
       }
     }
 
     .right-geo-container {
       margin-top: 20px;
+      .geo-title {
+        font-size: 24px;
+        background-color: #15223d;
+        color: #FFF;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+      }
     }
     
   }
