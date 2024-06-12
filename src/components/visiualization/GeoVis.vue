@@ -6,7 +6,8 @@
       width="30%"
     >
       <div class="dialog-div">SRAStudy: {{ srp }}</div>
-      <div class="dialog-div">Run numbers: {{ runs.length }}</div>
+      <div class="dialog-div">Current run: {{ runs[0] }}</div>
+      <div class="dialog-div">Other run numbers: {{ runs.length - 1 }}</div>
       <div>
         <el-alert
           :title="`Are you sure you want to enter the ${srp} details page?`"
@@ -212,6 +213,7 @@ export default {
 
       // 路由跳转
       handleRoutePush() {
+        this.dialogVisible = false
         this.$router.push({ 
           name: 'runproject', 
           params: { 

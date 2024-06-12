@@ -15,14 +15,14 @@
     </div>
 
     <div class="right-container">
-      <!-- <div class="right-project-descripion">
+      <div class="right-project-descripion">
         <div class="right-title-container">
           DeepSeaMicro
         </div>
         <div class="right-description">
           {{ description }}
           </div>
-      </div> -->
+      </div>
       
       <div class="right-geo-container">
         <div class="geo-title">
