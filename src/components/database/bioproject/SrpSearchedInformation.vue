@@ -25,30 +25,22 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination-container">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[20, 50, 100]"
-          :page-size="pageSize"
-          layout="total, prev, pager, next, sizes, jumper"
-          :total="total"
-        >
-        </el-pagination>
-      </div>
     </div>
   </div>
 </template>
-
+  
 <script>
-import axios from 'axios'
-import config from '@/config'
-import { showLoading, hideLoading } from '@/utils/loading'
-
-
 export default {
-  name: 'SrpInformation',
+  name: 'SrpSearchedInformation',
+
+  props: {
+    tableData: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
 
   components: {
     
@@ -57,46 +49,14 @@ export default {
   data() {
     return {
       displayOriginalTable: true,
-      tableData: [],
-      header: [],
-      currentPage: 1,
-      pageSize: 20,
-      total: 0
     };
   },
 
   mounted() {
-    this.requestBioProjectInfo(this.currentPage, this.pageSize)
+    
   },
 
   methods: {
-    requestBioProjectInfo(currentPage, pageSize) {
-      showLoading()
-      const url = config.baseUrl + config.uri.srpProjectViewURI + '/' + currentPage + '/' + pageSize
-      return axios.get(url, {
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
-        }
-      }).then((response) => {
-        this.header = response.data.header
-        this.tableData = response.data.data
-        this.total = response.data.total
-      }).finally(() => {
-        hideLoading()
-      })
-    },
-
-    handleSizeChange(value) {
-      this.pageSize = value
-      this.currentPage = 1
-      this.requestBioProjectInfo(this.currentPage, this.pageSize)
-    },
-
-    handleCurrentChange(value) {
-      this.currentPage = value
-      this.requestBioProjectInfo(this.currentPage, this.pageSize)
-    },
-
     handleDetail(value) {
       this.$router.push({ 
         name: 'runproject', 
@@ -108,7 +68,7 @@ export default {
   },
 };
 </script>
-
+  
 <style lang="scss"scoped>
 .srp-information-container {
   .table-container {

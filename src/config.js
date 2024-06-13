@@ -3,6 +3,7 @@ const uriConfigs = {
     uri: {
         geoDataViewURI: 'api/database/bioproject/geodataview',
         srpProjectViewURI: 'api/database/bioproject/srpprojectview',
+        srpSearchedProjectViewUIR: 'api/database/bioproject/srpsearchedprojectview',
         runProjectViewURI: 'api/database/bioproject/runprojectview',
         contigsInformationViewURI: 'api/database/bioproject/contigsinformationview',
 
