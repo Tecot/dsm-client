@@ -1,24 +1,22 @@
 <template>
   <div class="contig-project-container">
-      <ContigsInformation></ContigsInformation>
+      <ContigsProjectInformation></ContigsProjectInformation>
   </div>
 </template>
 
 <script>
-import ContigsInformation from '@/components/database/contigproject/ContigsInformation.vue'
+import ContigsProjectInformation from '@/components/database/contigproject/ContigsProjectInformation.vue';
 
 export default {
   name: 'ContigProject',
 
   components: {
-    ContigsInformation 
+    ContigsProjectInformation
   },
 
   data() {
     return {
-      tableData: [],
-      header: [],
-      total: 0
+      
     };
   },
 

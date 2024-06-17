@@ -104,6 +104,7 @@ export default {
     },
 
     handleView(value) {
+      console.log(value)
       // TODO
       this.$router.push({
         name: 'contigsdataexpress',

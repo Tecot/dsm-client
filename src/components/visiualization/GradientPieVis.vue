@@ -60,7 +60,7 @@
           },
           series: [
             {
-              name: 'Nightingale Chart',
+              name: 'Depth range',
               type: 'pie',
               radius: [10, 100],
               center: ['50%', '50%'],

@@ -93,7 +93,7 @@ export default {
 
   .left-container {
     width: 300px;
-    height: 1000px;
+    // height: 1000px;
 
     .left-title-container {
       text-align: center;
@@ -123,7 +123,7 @@ export default {
   }
   
   .right-container {
-    height: 1000px;
+    // height: 1000px;
     width: 100%;
     background-color: #F7F8F9;
     padding-left: 20px;

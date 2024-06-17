@@ -3,8 +3,8 @@
     <div class="table-container">
       <el-table
         :data="tableData"
-        :header-cell-style="{textAlign: 'center', backgroundColor: 'gray', color: 'white'}"
-        :cell-style="{textAlign: 'center'}"
+        :header-cell-style="headerCellStyle"
+        :cell-style="cellStyle"
         size="small"
         height="600"
         style="width: 100%"
@@ -56,6 +56,14 @@ export default {
 
   data() {
     return {
+      headerCellStyle: {
+        textAlign: 'center', 
+        backgroundColor: 'gray', 
+        color: 'white'
+      },
+      cellStyle: {
+        textAlign: 'center'
+      },
       displayOriginalTable: true,
       tableData: [],
       header: [],
