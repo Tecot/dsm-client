@@ -9,6 +9,10 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+  background-color: #F1F5F7;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

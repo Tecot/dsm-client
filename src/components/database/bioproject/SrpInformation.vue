@@ -6,7 +6,7 @@
         :header-cell-style="headerCellStyle"
         :cell-style="cellStyle"
         size="small"
-        height="600"
+        max-height="600"
         style="width: 100%"
       >
         <el-table-column prop="SRAStudy" label="SRAStudy"></el-table-column>
@@ -58,8 +58,8 @@ export default {
     return {
       headerCellStyle: {
         textAlign: 'center', 
-        backgroundColor: 'gray', 
-        color: 'white'
+        backgroundColor: '#E9ECEF', 
+        color: '#44546A'
       },
       cellStyle: {
         textAlign: 'center'
@@ -123,7 +123,7 @@ export default {
     margin-top: 20px;
     .pagination-container {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       margin-top: 20px;
     }
   }

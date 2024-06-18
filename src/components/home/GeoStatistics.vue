@@ -61,7 +61,7 @@ export default {
     return {
       geoContainerHeight: '800px',
       statisticsVisable: true,
-      searchVisable: false,
+      searchVisable: true,
 
 
 
@@ -207,7 +207,7 @@ export default {
 
     .statistics-container {
       position: absolute;
-      width: 450px;
+      width: 500px;
       top: 0;
       left: 0;
       background-color: #3b4157;

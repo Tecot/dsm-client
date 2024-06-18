@@ -1,13 +1,21 @@
 <template>
   <div>
-    <div ref="echart" class="geo-vis" :style="{ width: width,height: height }"></div>
+    <div ref="echart" class="geo-vis" :style="{ width: width, height: height }"></div>
     <el-dialog
       :visible.sync="dialogVisible"
       width="30%"
     >
-      <div class="dialog-div">SRAStudy: {{ srp }}</div>
-      <div class="dialog-div">Current run: {{ runs[0] }}</div>
-      <div class="dialog-div">Other run numbers: {{ runs.length - 1 }}</div>
+      <el-descriptions>
+          <el-descriptions-item label="SRAStudy">
+            <el-tag type="danger" size="small">{{ srp }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="Run">
+            <el-tag type="warning" size="small">{{ runs[0] }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="Other run numbers">
+            {{ runs.length - 1 }}
+          </el-descriptions-item>
+      </el-descriptions>
       <div>
         <el-alert
           :title="`Are you sure you want to enter the ${srp} details page?`"
@@ -153,7 +161,6 @@ export default {
               showEffectOn: 'emphasis',
               data: this.geoData,
               rippleEffect: {
-                // color: '#00A751',
                 number: 5,
                 period: 4,
                 scale: 5,
@@ -334,6 +341,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+// .geo-vis {
+//   background: url('../../assets/images/geo_background.jpeg');
+//   background-size: 100% 100%;
+//   background-repeat: no-repeat;
+// }
 .dialog-div {
   height: 40px;
   line-height: 40px;

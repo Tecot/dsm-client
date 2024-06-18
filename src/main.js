@@ -7,9 +7,15 @@ import ElementLocale from 'element-ui/lib/locale'
 import elementEnLocale from 'element-ui/lib/locale/lang/en';
 import 'element-ui/lib/theme-chalk/index.css'
 import VueClipBoard from 'vue-clipboard2';
-// import 'default-passive-events'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+ 
+library.add(fas)
 
 Vue.config.productionTip = false
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(ElementUI).use(VueClipBoard)
 

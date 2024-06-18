@@ -41,6 +41,7 @@ export default {
 <style lang="scss" scoped>
 .el-main {
     padding: 0;
+    background-color: #F1F5F7;
 }
 </style>
   
