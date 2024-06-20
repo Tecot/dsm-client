@@ -9,8 +9,8 @@
     <el-menu 
       class="el-menu" 
       mode="horizontal" 
-      background-color="#9FB8C8"
-      active-text-color="#289AEA"
+      background-color="#545C64"
+      active-text-color="#FFD04B"
       text-color="#FFF"
       :default-active="$route.path" 
       router
@@ -68,15 +68,23 @@ export default {
 
 <style lang="scss" scoped>
 .menu-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1024;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #9FB8C8;
+  background-color: #545C64;
 
   .el-menu {
     display: flex;
     justify-content: flex-end;
     border: none;
+    ::v-deep .el-submenu__title, .el-menu-item {
+      font-size: 18px;
+      color: #FFF;
+    }
   }
 }
 

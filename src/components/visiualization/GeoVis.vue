@@ -113,7 +113,8 @@ export default {
       initChart() {
         this.echart = echarts.init(this.$refs.echart)
         this.option = {
-          backgroundColor: '#2C406A',
+          // backgroundColor: '#2C406A',
+          backgroundColor: '#2C3964',
           lazyUpdate: true,
           animation: true,
           animationDuration:5000,
@@ -141,7 +142,6 @@ export default {
             itemHeight: 400,
             seriesIndex: 0,
             inverse: true,
-            // orient: 'horizontal',
             bottom: 0,
             right: 0,
             inRange: {
@@ -198,7 +198,7 @@ export default {
               },
             },
             itemStyle: {
-              areaColor: '#323c48', 
+              areaColor: '#323c48',
               borderColor: '#8ACFF2',
               borderWidth: 0.5,
               borderType: 'solid',

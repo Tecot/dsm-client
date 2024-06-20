@@ -112,6 +112,7 @@ export default {
   padding-right: 100px;
   .decription-container {
     margin-top: 10px;
+    box-shadow: 5px 5px 5px #888888;
     .decription-title-container {
       height: 50px;
       line-height: 50px;
@@ -138,6 +139,7 @@ export default {
     padding-top: 20px;
     padding-bottom: 20px;
     border-radius: 5px 5px 5px 5px;
+    box-shadow: 5px 5px 5px #ccc;
     .title-and-search-container {
       display: flex;
       justify-content: space-between;

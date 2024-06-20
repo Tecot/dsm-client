@@ -10,9 +10,9 @@
         style="width: 100%"
       >
         <el-table-column prop="SRAStudy" label="SRAStudy"></el-table-column>
-        <el-table-column prop="BioProject" label="BioProject"></el-table-column>
-        <el-table-column prop="ProjectID" label="ProjectID"></el-table-column>
-        <el-table-column prop="CenterName" label="CenterName"></el-table-column>
+        <el-table-column prop="BioProject" label="Bio project"></el-table-column>
+        <el-table-column prop="ProjectID" label="Project ID"></el-table-column>
+        <el-table-column prop="CenterName" label="Center name"></el-table-column>
         <el-table-column prop="Submission" label="Submission"></el-table-column>
         <el-table-column prop="Depth range" label="Depth range"></el-table-column>
         <el-table-column prop="Longitude and latitude range" label="Longitude and latitude range"></el-table-column>
@@ -106,7 +106,7 @@ export default {
     },
 
     handleDetail(value) {
-      this.$router.push({ 
+      this.$router.push({
         name: 'runproject', 
         params: { 
           param: value

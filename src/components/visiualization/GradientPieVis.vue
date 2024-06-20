@@ -1,5 +1,5 @@
 <template>
-    <div ref="echart" class="pie-vis" :style="{ width: width,height: height }"></div>
+    <div ref="echart" class="pie-vis" :style="{ width: width, height: height }"></div>
   </template>
   
   <script>
@@ -19,13 +19,13 @@
       width: {
         type: String,
         default() {
-          return '400px'
+          return '100%'
         }
       },
       height: {
         type: String,
         default() {
-          return '300px'
+          return '100%'
         }
       }
     },
@@ -53,28 +53,30 @@
       initChart() {
         this.echart = echarts.init(this.$refs.echart);
         this.option = {
-          backgroundColor: 'transparent',
+          backgroundColor: '#FFF',
+          center: ['50%', '50%'],
           tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          legend: {
+            orient: 'vertical',
+            x: 'right',
+            y: 'bottom'
           },
           series: [
             {
               name: 'Depth range',
               type: 'pie',
-              radius: [10, 100],
+              radius: '75%',
               center: ['50%', '50%'],
               roseType: 'radius',
               label: {
-                color: '#FFF',
+                color: '#000',
               },
               labelLine: {
-                lineStyle: {
-                  color: '#FFF'
-                },
                 smooth: 0.2,
-                length: 10,
-                length2: 20
+                length: 5,
               },
               color: [
                 '#ccc', 
@@ -85,10 +87,6 @@
                 '#FC8452', 
                 '#9A60B4'
               ],
-              itemStyle: {
-                shadowBlur: 200,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              },
               animationType: 'scale',
               animationEasing: 'elasticOut',
               animationDelay: function (idx) {

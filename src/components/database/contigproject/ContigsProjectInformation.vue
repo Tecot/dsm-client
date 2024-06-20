@@ -1,11 +1,5 @@
 <template>
   <div class="table-container">
-    <div class="title-container">
-      <span>Contig List</span>
-    </div>
-
-    <el-divider></el-divider>
-
     <el-table
       :data="tableData"
       :header-cell-style="headerCellStyle"
@@ -15,8 +9,9 @@
       style="width: 100%"
     >
 
-      <el-table-column prop="name" label="Name"></el-table-column>
+      <el-table-column prop="name" label="Name" width="200"></el-table-column>
       <el-table-column prop="id" label="ID"></el-table-column>
+      <el-table-column prop="description" label="Description" width="300"></el-table-column>
       <el-table-column prop="length" label="Length"></el-table-column>
       <el-table-column prop="gc" label="GC"></el-table-column>
       <el-table-column prop="stitle" label="Stitle"></el-table-column>
@@ -60,8 +55,8 @@ export default {
     return {
       headerCellStyle: {
         textAlign: 'center', 
-        backgroundColor: 'gray', 
-        color: 'white'
+        backgroundColor: '#E9ECEF', 
+        color: '#44546A'
       },
       cellStyle: {
         textAlign: 'center'
@@ -113,14 +108,17 @@ export default {
 
     handleView(value) {
       // TODO
-      // console.log(value)
-      console.log(value)
-      const facdeSRP = value.name.split('_')[0]
+      // const facdeSRP = value.name.split('_')[0]
       this.$router.push({
         name: 'contigsdataexpress',
         params: { 
           param: {
-            ...value,
+            Name: value.name,
+            ID: value.id,
+            Description: value.description,
+            GC: value.gc,
+            Length: value.length,
+            Sequence: value.sequence,
             // srp: this.srp
             srp: 'SRP121432'
           }
@@ -133,13 +131,10 @@ export default {
 
 <style lang="scss" scoped>
 .table-container {
-  .title-container {
-    font-size: 18px;
-    font-weight: 700;
-  }
+  margin-top: 20px;
   .pagination-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-top: 20px;
   }
 }

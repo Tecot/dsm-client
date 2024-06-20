@@ -1,27 +1,26 @@
 <template>
-  <el-descriptions 
-    :title="contigDetail['ID'] + ' detail'" 
+  <el-descriptions
     :column="5" 
     direction="vertical" 
-    size="small" 
+    size="small"
     border
   >
-    <el-descriptions-item label="ID">
+    <el-descriptions-item label="ID" :labelStyle="descriptionsItemStyle">
       {{ contigDetail['ID'] }}
     </el-descriptions-item>
-    <el-descriptions-item label="Name">
+    <el-descriptions-item label="Name" :labelStyle="descriptionsItemStyle">
       {{ contigDetail['Name'] }}
     </el-descriptions-item>
-    <el-descriptions-item label="Length (bp)">
+    <el-descriptions-item label="Length (bp)" :labelStyle="descriptionsItemStyle">
       {{ contigDetail['Length'] }}
     </el-descriptions-item>
-    <el-descriptions-item label="GC (%)">
+    <el-descriptions-item label="GC (%)" :labelStyle="descriptionsItemStyle">
       {{ contigDetail['GC'] }}
     </el-descriptions-item>
-    <el-descriptions-item label="Description">
+    <el-descriptions-item label="Description" :labelStyle="descriptionsItemStyle">
       {{ contigDetail['Description'] }}
     </el-descriptions-item>
-    <el-descriptions-item label="Sequence" :span="5">
+    <el-descriptions-item label="Sequence" :span="5" :labelStyle="descriptionsItemStyle">
       <el-input
         type="textarea"
         resize="none"
@@ -47,7 +46,10 @@ export default {
 
   data() {
     return {
-      
+      descriptionsItemStyle: {
+        backgroundColor: '#E9ECEF',
+        color: '#44546A'
+      }
     };
   },
 

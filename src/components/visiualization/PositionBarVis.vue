@@ -18,13 +18,13 @@ export default {
     width: {
       type: String,
       default() {
-        return '400px'
+        return '100%'
       }
     },
     height: {
       type: String,
       default() {
-        return '300px'
+        return '100%'
       }
     }
   },
@@ -53,13 +53,14 @@ export default {
     initChart() {
       this.echart = echarts.init(this.$refs.echart);
       this.option = {
+        center: ['50%', '50%'],
         itemStyle: {
-          color: '#FFE000',
-          borderRadius: [10, 10, 0, 0]
+          color: '#FCD05B',
+          borderRadius: [5, 5, 0, 0]
         },
         label: {
           show: true,
-          color: '#FFF',
+          color: '#000',
           position: 'top'
         },
         tooltip: {
@@ -74,7 +75,7 @@ export default {
           right: '4%',
           bottom: '3%',
           containLabel: true,
-          borderColor: '#FFF'
+          borderColor: '#000'
         },
         xAxis: {
           type: 'category',
@@ -82,29 +83,32 @@ export default {
           data: this.barData.x,
           nameLocation: 'center',
           nameGap: 30,
+          splitLine: {
+            show: false
+          },
           nameTextStyle: {
             fontSize: 14,
-            color: '#FFF',
+            color: '#000',
           },
           axisTick: {
             show: false,
             alignWithLabel: true,
             lineStyle: {
-              color: '#FFF',
+              color: '#000',
             }
           },
           axisLine: {
             lineStyle: {
-              color: '#FFF'
+              color: '#ccc'
             },
           },
           axisLabel: {
-            color: '#FFF',
-            rotate: 30,
-            fontSize: 10,
+            color: '#000000',
+            rotate: 20,
+            fontSize: 12,
             formatter: (value, index) => {
-              if (value.length > 8) {
-                  return value.slice(0, 8) + '...';
+              if (value.length > 6) {
+                  return value.slice(0, 6) + '...';
               } else {
                   return value;
               }
@@ -116,25 +120,30 @@ export default {
           name: 'Number of SRP',
           nameLocation: 'center',
           nameGap: 24,
+          distance: [0, '80%'],
+          nameGap: 30,
+          splitLine: {
+            show: false
+          },
           nameTextStyle: {
             fontSize: 14,
-            color: '#FFF',
+            color: '#000',
           },
           axisTick: {
             show: false,
             alignWithLabel: true,
             lineStyle: {
-              color: '#FFF'
+              color: '#000'
             }
           },
           axisLine: {
             lineStyle: {
-              color: '#FFF'
+              color: '#ccc'
             },
           },
           axisLabel: {
-            color: '#FFF',
-            fontSize: 10,
+            color: '#000',
+            fontSize: 12,
           },
         },
         series: [

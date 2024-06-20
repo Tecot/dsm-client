@@ -1,7 +1,7 @@
 <template>
   <div class="protein-seq-detail" v-if="proteinSeqInfo">
     <el-descriptions 
-      :title="proteinSeqInfo['ID'] + ' detail'" 
+      :title="proteinSeqInfo['ID'] + ' protein detail'" 
       direction="vertical" 
       :column="2" 
       size="small" 

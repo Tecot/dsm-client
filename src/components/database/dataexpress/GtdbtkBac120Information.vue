@@ -1,8 +1,5 @@
 <template>
   <div class="table-container">
-    <div class="title-container">
-      <span>{{ srp + ' gtdbtk bac120 summary' }}</span>
-    </div>
     <el-table
       :data="gtdbtkBac120TableData"
       :header-cell-style="headerCellStyle"
@@ -66,15 +63,15 @@ export default {
 
   data() {
     return {
-        headerCellStyle: {
-            textAlign: 'center', 
-            backgroundColor: 'gray', 
-            color: 'white'
-        },
-        cellStyle: {
-            textAlign: 'center'
-        },
-        gtdbtkBac120TableData: []
+      headerCellStyle: {
+        textAlign: 'center', 
+        backgroundColor: '#E9ECEF', 
+        color: '#44546A'
+      },
+      cellStyle: {
+        textAlign: 'center'
+      },
+      gtdbtkBac120TableData: []
     };
   },
 

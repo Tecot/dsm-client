@@ -47,7 +47,7 @@ import PositionBarVis from '@/components/visiualization/PositionBarVis.vue'
 import GeoSearchConditions from '@/components/home/GeoSearchConditions.vue'
 
 export default {
-  name: 'GeoStatistics',
+  name: 'GeoStatisticsCopy',
 
   components: {
     GeoVis,
