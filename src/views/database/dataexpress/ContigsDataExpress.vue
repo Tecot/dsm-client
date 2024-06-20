@@ -31,11 +31,11 @@
       
     </div> -->
 
-    <div class="gtdb-bac120-container">
+    <div class="bin-container">
       <div class="title-container">
-        {{ contigDetail.srp + ' gtdbtk bac120 summary' }}
+        {{ contigDetail.srp + ' bin informations' }}
       </div>
-      <GtdbtkBac120Information :srp="contigDetail.srp"></GtdbtkBac120Information>
+      <BinInformation :srp="contigDetail.srp"></BinInformation>
     </div>
 
     <el-dialog :visible.sync="dialog3DmolVisible" width="50%">
@@ -57,7 +57,7 @@ import config from '@/config'
 import axios from 'axios'
 import { showLoading, hideLoading } from '@/utils/loading'
 import MultiRowsArrowVis from '@/components/visiualization/MultiRowsArrowVis.vue';
-import GtdbtkBac120Information from '@/components/database/dataexpress/GtdbtkBac120Information.vue';
+import BinInformation from '@/components/database/dataexpress/BinInformation.vue';
 import ContigDescriptionView from '@/components/database/dataexpress/ContigDescriptionView.vue'
 import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue'
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
@@ -69,7 +69,7 @@ export default {
   components: {
     ContigDescriptionView,
     MultiRowsArrowVis,
-    GtdbtkBac120Information,
+    BinInformation,
     ProteinSeqDescription,
     ProteinStructVis,
     VfAndResfinderDescription,
@@ -127,12 +127,10 @@ export default {
     async handleViewProteinStructSignal(signal) {
       const code = this.contigDetail.Name.split('_')[1]
       this.requestProteinSeqData(this.contigDetail.srp, code)
-      // console.log(this.contigDetail)
       this.requestProteinStructData(this.contigDetail.srp, code)
       this.dialog3DmolVisible = signal
     },
 
-    // 
     async handleViewVfAndResfinderSignal(value) {
       this.vfAndResfinderData = value
       this.dialogVfAndResfinderDataVisible = true
@@ -200,13 +198,12 @@ export default {
     box-shadow: 5px 5px 5px #ccc;
     background-color: #FFF;
     border-radius: 5px 5px 5px 5px;
-    padding-bottom: 20px;
+    padding: 0 10px 20px 10px;
     .title-container {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       height: 50px;
       line-height: 50px;
-      padding-left: 10px;
       color: #36A3F7;
     }
     ::v-deep textarea {
@@ -215,34 +212,17 @@ export default {
     }
   }
 
-  .arrow-vis-container {
+  .bin-container {
     margin-top: 10px;
     box-shadow: 5px 5px 5px #ccc;
     background-color: #FFF;
     border-radius: 5px 5px 5px 5px;
-    padding-bottom: 20px;
+    padding: 0 10px 20px 10px;
     .title-container {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      height: 50px;
-      line-height: 50px;
-      padding-left: 10px;
-      color: #36A3F7;
-    }
-  }
-
-  .gtdb-bac120-container {
-    margin-top: 10px;
-    box-shadow: 5px 5px 5px #ccc;
-    background-color: #FFF;
-    border-radius: 5px 5px 5px 5px;
-    padding-bottom: 20px;
-    .title-container {
-      font-size: 16px;
-      font-weight: 700;
-      height: 50px;
-      line-height: 50px;
-      padding-left: 10px;
+      height: 40px;
+      line-height: 40px;
       color: #36A3F7;
     }
   }

@@ -179,8 +179,8 @@ export default {
         depthRange: [0, 6000],
         weRange: [-180, 180],
         snRange: [-90, 90],
-        includeUnknownDepth: false,
-        includeUnknownll: false
+        includeUnknownDepth: true,
+        includeUnknownll: true
       }
     };
   },
@@ -209,8 +209,8 @@ export default {
         depthRange: [0, 6000],
         weRange: [-180, 180],
         snRange: [-90, 90],
-        includeUnknownDepth: false,
-        includeUnknownll: false
+        includeUnknownDepth: true,
+        includeUnknownll: true
       }
     }
   },

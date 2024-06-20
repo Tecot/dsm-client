@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <el-table
-      :data="gtdbtkBac120TableData"
+      :data="tableData"
       :header-cell-style="headerCellStyle"
       :cell-style="cellStyle"
       size="small"
@@ -49,7 +49,7 @@ import config from '@/config'
 import axios from 'axios';
 
 export default {
-  name: 'GtdbtkBac120Information',
+  name: 'BinInformation',
 
   props: {
     srp: {
@@ -71,7 +71,7 @@ export default {
       cellStyle: {
         textAlign: 'center'
       },
-      gtdbtkBac120TableData: []
+      tableData: []
     };
   },
 
@@ -80,21 +80,20 @@ export default {
   watch: {
     srp(newValue, oldValue) {
       if(newValue) {
-        this.requestGtdbtkBac120Info(newValue)
+        this.requestBinInfo(newValue)
       }
     }
   },
 
   methods: {
-    async requestGtdbtkBac120Info(srp) {
-      const url = config.baseUrl + config.uri.gtdbtkbac120viewURI + '/' + srp
+    async requestBinInfo(srp) {
+      const url = config.baseUrl + config.uri.binViewURI + '/' + srp
       axios.get(url, {
         headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
+          'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        console.log(response.data.data)
-        this.gtdbtkBac120TableData = response.data.data
+        this.tableData = response.data.data
       })
     },
     handleView(value) {

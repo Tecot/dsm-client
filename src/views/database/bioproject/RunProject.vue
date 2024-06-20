@@ -1,20 +1,31 @@
 <template>
   <div class="srp-detail-container">
     <div class="srp-description-container">
+      <div class="title">
+        SRP description
+      </div>
       <SrpDescription :srpData="srpInfo"></SrpDescription>
     </div>
 
     <div class="run-info-container">
+      <div class="title">
+        Run informations
+      </div>
       <RunInformation :runData="runInfo" @output-value="viewDetail($event)"></RunInformation>
     </div>
+    
+    <div class="geneome-information-container">
+      <div class="title">
+        {{ srpInfo['SRAStudy'] + ' contigs' }}
+      </div>
+      <ContigsInformation :srp="srpInfo['SRAStudy']"></ContigsInformation>
+    </div>
+
+
     <!-- dialog -->
     <el-dialog :visible.sync="runDetailVisible">
       <RunInfoDescription :runDetailData="runDetailData"></RunInfoDescription>
     </el-dialog>
-
-    <div class="geneome-information-container">
-      <ContigsInformation :srp="srpInfo['SRAStudy']"></ContigsInformation>
-    </div>
   </div>
 </template>
 
@@ -36,20 +47,7 @@ export default {
       srpInfo: {},
       runInfo: {},
       runDetailData: {},
-      runDetailVisible: false,
-      runHeader: [
-        'Run', 
-        'LibraryStrategy', 
-        'LibrarySelection', 
-        'LibrarySource', 
-        'LibraryLayout', 
-        'Platform', 
-        'BioSample', 
-        'geographic location',
-        'latitude and longitude', 
-        'depth',
-        'collection date'
-      ]
+      runDetailVisible: false
     };
   },
 
@@ -61,33 +59,29 @@ export default {
   },
 
   mounted() {
-    this.init()
-  },
-
-  methods: {
-    init() {
-      const param = this.$route.params['param']
-      console.log(param)
-      const databaseRunProjectData = this.$store.state.databaseRunProjectData
-      if(param['SRAStudy']) {
-        if(databaseRunProjectData) {
-          if(databaseRunProjectData.srpInfo['SRAStudy'] == param['SRAStudy']) {
-            this.srpInfo = databaseRunProjectData.srpInfo
-            this.runInfo = databaseRunProjectData.runInfo
-          } else {
-            this.srpInfo = param
-            this.requestRunProjectInfo(this.srpInfo['SRAStudy'])
-          }
+    const param = this.$route.params['param']
+    const databaseRunProjectData = this.$store.state.databaseRunProjectData
+    if(param['SRAStudy']) {
+      if(databaseRunProjectData) {
+        if(databaseRunProjectData.srpInfo['SRAStudy'] == param['SRAStudy']) {
+          this.srpInfo = databaseRunProjectData.srpInfo
+          this.runInfo = databaseRunProjectData.runInfo
         } else {
           this.srpInfo = param
           this.requestRunProjectInfo(this.srpInfo['SRAStudy'])
         }
-        
       } else {
-        this.srpInfo = databaseRunProjectData.srpInfo
-        this.runInfo = databaseRunProjectData.runInfo
+        this.srpInfo = param
+        this.requestRunProjectInfo(this.srpInfo['SRAStudy'])
       }
-    },
+      
+    } else {
+      this.srpInfo = databaseRunProjectData.srpInfo
+      this.runInfo = databaseRunProjectData.runInfo
+    }
+  },
+
+  methods: {
 
     requestRunProjectInfo(srp) {
       showLoading()
@@ -117,15 +111,23 @@ export default {
 
 <style lang="scss" scoped>
 .srp-detail-container {
-  padding-top: 20px;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 100px;
+  padding-right: 100px;
 
-  .title {
-    height: 56px;
-    line-height: 56px;
-    font-size: 16px;
-    font-weight: 700;
+  
+
+  .srp-description-container, .run-info-container, .geneome-information-container {
+    margin-top: 10px;
+    background-color: #FFF;
+    box-shadow: 5px 5px 5px #888888;
+    padding: 10px 10px 10px 10px;
+    .title {
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #36A3F7;
+    }
   }
 }
 

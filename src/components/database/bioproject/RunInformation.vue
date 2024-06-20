@@ -1,8 +1,5 @@
 <template>
   <div class="run-info-table">
-    <div class="title">
-      Run Informations
-    </div>
     <el-table
       size="small"
       style="width: 100%;"
@@ -11,13 +8,19 @@
       :header-cell-style="headerCellStyle"
       :cell-style="cellStyle"
     >
-      <el-table-column
-        v-for="(item, index) in runData.header"
-        :key="index"
-        :prop="item"
-        :label="item"
-      >
-      </el-table-column>
+      <el-table-column prop="Run" label="Run"></el-table-column>
+      <el-table-column prop="LibraryStrategy" label="Library strategy"></el-table-column>
+      <el-table-column prop="LibrarySelection" label="Library selection"></el-table-column>
+      <el-table-column prop="LibrarySource" label="Library source"></el-table-column>
+      <el-table-column prop="LibraryLayout" label="Library layout"></el-table-column>
+      <el-table-column prop="Platform" label="Platform"></el-table-column>
+      <el-table-column prop="BioSample" label="Bio sample"></el-table-column>
+      <el-table-column prop="geographic location" label="Geographic location"></el-table-column>
+      <el-table-column prop="longitude" label="Longitude"></el-table-column>
+      <el-table-column prop="latitude" label="Latitude"></el-table-column>
+      <el-table-column prop="depth" label="Depth"></el-table-column>
+      <el-table-column prop="collection date" label="Collection date"></el-table-column>
+
       <el-table-column label="Option" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleRowData(scope['row'])">
@@ -44,26 +47,12 @@ export default {
     return {
       headerCellStyle: {
         textAlign: 'center', 
-        backgroundColor: 'gray', 
-        color: 'white'
+        backgroundColor: '#E9ECEF', 
+        color: '#44546A'
       },
       cellStyle: {
         textAlign: 'center'
       },
-      runHeader: [
-        'Run', 
-        'LibraryStrategy', 
-        'LibrarySelection', 
-        'LibrarySource', 
-        'LibraryLayout', 
-        'Platform', 
-        'BioSample', 
-        'geographic location',
-        'longitude', 
-        'latitude', 
-        'depth',
-        'collection date'
-      ]
     }
   },
   methods: {
@@ -76,9 +65,9 @@ export default {
 
 <style lang="scss" scoped>
 .title {
-  height: 56px;
-  line-height: 56px;
-  font-size: 16px;
-  font-weight: 700;
+  height: 40px;
+  line-height: 40px;
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>

@@ -1,12 +1,9 @@
 <template>
     <div class="table-container">
-      <div class="title-container">
-        <span>{{ srp + ' contigs' }}</span>
-      </div>
       <el-table
         :data="geneomeSeqTableData"
-        :header-cell-style="{textAlign: 'center', backgroundColor: 'gray', color: 'white'}"
-        :cell-style="{textAlign: 'center'}"
+        :header-cell-style="headerCellStyle"
+        :cell-style="cellStyle"
         size="small"
         height="300"
         style="width: 100%"
@@ -65,6 +62,14 @@ export default {
 
   data() {
     return {
+      headerCellStyle: {
+        textAlign: 'center', 
+        backgroundColor: '#E9ECEF', 
+        color: '#44546A'
+      },
+      cellStyle: {
+        textAlign: 'center'
+      },
       geneomeSeqTableData: [],
       geneomeSeqTableHeader: [],
       geneomeSeqTotal: 0,
@@ -104,7 +109,6 @@ export default {
     },
 
     handleView(value) {
-      console.log(value)
       // TODO
       this.$router.push({
         name: 'contigsdataexpress',
@@ -136,17 +140,9 @@ export default {
 
 <style lang="scss" scoped>
 .table-container {
-
-  .title-container {
-    height: 56px;
-    line-height: 56px;
-    font-size: 16px;
-    font-weight: 700;
-  }
-
   .pagination-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-top: 20px;
   }
 }

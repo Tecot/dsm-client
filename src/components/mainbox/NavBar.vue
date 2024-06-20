@@ -4,12 +4,13 @@
       :src="require('../../assets/images/logo.png')"
       fit="fill">
     </el-image> -->
-    <div>
+    <div style="font-size: 32px;font-family: 'Lucida Sans';color: #FFF;padding-left: 20px;">
+      DeepSeaMicro
     </div>
     <el-menu 
       class="el-menu" 
       mode="horizontal" 
-      background-color="#545C64"
+      background-color="#555658"
       active-text-color="#FFD04B"
       text-color="#FFF"
       :default-active="$route.path" 
@@ -75,8 +76,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #545C64;
-
+  background-color: #555658;
+  opacity: 0.8;
+  height: 80px;
   .el-menu {
     display: flex;
     justify-content: flex-end;
@@ -84,6 +86,10 @@ export default {
     ::v-deep .el-submenu__title, .el-menu-item {
       font-size: 18px;
       color: #FFF;
+    }
+    .el-menu-item {
+      width: 160px;
+      text-align: center;
     }
   }
 }

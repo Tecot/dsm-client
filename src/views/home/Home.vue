@@ -93,7 +93,6 @@ export default {
           'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        console.log(response.data.data)
         this.geoData = response.data.data
         this.gradientData = this.processGradientData(this.geoData)
         this.positionBarData = this.processPositionBarData(this.geoData)

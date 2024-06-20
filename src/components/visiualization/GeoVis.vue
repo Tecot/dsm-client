@@ -46,7 +46,8 @@ export default {
         option: null,
         dialogVisible: false,
         srp: '',
-        runs: []
+        runs: [],
+        clickedPointObj: null
       }
     },
 
@@ -220,13 +221,13 @@ export default {
 
       // 路由跳转
       handleRoutePush() {
-        this.dialogVisible = false
-        this.$router.push({ 
+        this.$router.push({
           name: 'runproject', 
           params: { 
-            param: this.srp
+            param: this.clickedPointObj
           }
         })
+        // this.dialogVisible = false
       },
 
       // 点击事件
@@ -241,81 +242,9 @@ export default {
                 runs.push(item.run)
               }
             })
+            that.clickedPointObj = params.data.info
             that.runs = runs
             that.dialogVisible = true
-          }
-        })
-      },
-      
-
-      // 鼠标画线事件
-      addLinesWhenMouseEvent() {
-        const that = this
-        let lineSeriesIndex = null;
-        this.echart.on('mouseover', function (params) {
-          if (params.seriesType === 'effectScatter') {
-            const currentName = params.data.name
-            const data = that.option.series[0].data
-            const sameNameData = data.filter(function (item) {
-                return item.name === currentName;
-            })
-            if (sameNameData.length > 1) {
-              const lineData = sameNameData.map(function (item) {
-                return {
-                  points: [params.data.name, item.name],
-                  coords: [
-                    params.data.value.slice(0, 2),
-                    item.value.slice(0, 2)
-                  ]
-                }
-              })
-              if (lineSeriesIndex === null) {
-                lineSeriesIndex = that.option.series.length;
-                that.option.series.push({
-                  name: "lines",
-                  type: "lines",
-                  coordinateSystem: "geo",
-                  zlevel: 0,
-                  large: true,
-                  // effect: {
-                  //   show: true, // 开启动态线条效果
-                  //   constantSpeed: 30, // 线条速度
-                  //   symbol: "pin", // 标记的图形，支持图片和文字
-                  //   symbolSize: 10, // 标记的大小
-                  //   trailLength: 0, // 动态线条的长度
-                  //   loop: true, // 是否循环动画效果
-                  // },
-                  lineStyle: {
-                    normal: {
-                      color: '#CCFF01',
-                      width: 2,
-                      opacity: 0.4,
-                      curveness: 0.2, // 曲线程度
-                    },
-                    emphasis: {
-                      opacity: 0.8,
-                      width: 5,
-                    },
-                    data: this.mapLineDataArr,
-                  },
-                  data: lineData,
-                });
-                that.echart.setOption(that.option)
-              } 
-              else {
-                that.option.series[lineSeriesIndex].data = lineData;
-              }
-            }
-          }
-        });
-        this.echart.on('mouseout', function (params) {
-          if (params.seriesType === 'effectScatter') {
-            if (lineSeriesIndex !== null) {
-              that.option.series.splice(lineSeriesIndex, 1)
-              that.echart.clear()
-              lineSeriesIndex = null;
-              that.echart.setOption(that.option)
-            }
           }
         })
       },

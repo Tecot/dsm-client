@@ -101,8 +101,6 @@ export default {
       // 下载 SVG 文件
       const file = new Blob([svgString], { type: 'image/png' })
       const url = URL.createObjectURL(file)
-      console.log('file', file)
-      console.log('url', url)
       const link = document.createElement('a')
       link.href = url
       link.download = 'my-svg-file.png'
