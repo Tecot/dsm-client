@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: 'ContigDescriptionView',
+  name: 'ContigDescription',
 
   props: {
     contigDetail: {

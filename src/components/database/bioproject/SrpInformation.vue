@@ -9,13 +9,13 @@
         max-height="600"
         style="width: 100%"
       >
-        <el-table-column prop="SRAStudy" label="SRAStudy"></el-table-column>
-        <el-table-column prop="BioProject" label="Bio project"></el-table-column>
-        <el-table-column prop="ProjectID" label="Project ID"></el-table-column>
-        <el-table-column prop="CenterName" label="Center name" width="500"></el-table-column>
-        <el-table-column prop="Submission" label="Submission"></el-table-column>
-        <el-table-column prop="Depth range" label="Depth range"></el-table-column>
+        <el-table-column prop="SRAStudy" label="SRAStudy" width="200"></el-table-column>
+        <el-table-column prop="BioProject" label="Bio project" width="200"></el-table-column>
+        <el-table-column prop="ProjectID" label="Project ID" width="200"></el-table-column>
+        <el-table-column prop="Submission" label="Submission" width="200"></el-table-column>
+        <el-table-column prop="Depth range" label="Depth range" width="200"></el-table-column>
         <el-table-column prop="Longitude and latitude range" label="Longitude and latitude range"  width="350"></el-table-column>
+        <el-table-column prop="CenterName" label="Center name" width="400"></el-table-column>
         
         <el-table-column label="Option" width="100" class-name="header-end-cell" fixed="right">
           <template slot-scope="scope">

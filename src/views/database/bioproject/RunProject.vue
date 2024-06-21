@@ -21,8 +21,6 @@
       <ContigsInformation :srp="srpInfo['SRAStudy']"></ContigsInformation>
     </div>
 
-
-    <!-- dialog -->
     <el-dialog :visible.sync="runDetailVisible">
       <RunInfoDescription :runDetailData="runDetailData"></RunInfoDescription>
     </el-dialog>
@@ -114,13 +112,12 @@ export default {
   padding-left: 100px;
   padding-right: 100px;
 
-  
-
   .srp-description-container, .run-info-container, .geneome-information-container {
     margin-top: 10px;
     background-color: #FFF;
-    box-shadow: 5px 5px 5px #888888;
+    border-radius: 5px 5px 5px 5px;
     padding: 10px 10px 10px 10px;
+    box-shadow: 5px 5px 5px #ccc;
     .title {
       height: 40px;
       line-height: 40px;
@@ -128,6 +125,10 @@ export default {
       font-weight: bold;
       color: #36A3F7;
     }
+  }
+
+  .geneome-information-container {
+    margin-bottom: 20px;
   }
 }
 

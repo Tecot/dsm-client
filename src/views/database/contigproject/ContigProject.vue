@@ -18,7 +18,7 @@
       </div>
 
       <div class="contigs-project-infomation">
-        <ContigsProjectInformation></ContigsProjectInformation>
+        <!-- <ContigsProjectInformation></ContigsProjectInformation> -->
       </div>
     </div>
   </div>

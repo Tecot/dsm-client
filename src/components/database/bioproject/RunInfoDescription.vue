@@ -7,10 +7,11 @@
       size="small" 
       border
     >
-      <el-descriptions-item 
+      <el-descriptions-item
         v-for="(item, index) in runHeader"
         :key="index" 
         :label="item"
+        :labelStyle="descriptionsItemStyle"
       >
         {{ runDetailData[item] }}
       </el-descriptions-item>
@@ -31,6 +32,10 @@ export default {
 
   data() {
     return {
+      descriptionsItemStyle: {
+        backgroundColor: '#E9ECEF',
+        color: '#44546A'
+      },
       runHeader: [
         'Run', 
         'LibraryStrategy', 

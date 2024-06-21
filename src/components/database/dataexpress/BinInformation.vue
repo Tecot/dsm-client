@@ -5,30 +5,30 @@
       :header-cell-style="headerCellStyle"
       :cell-style="cellStyle"
       size="small"
-      height="300"
+      max-height="300"
       style="width: 100%"
     >								
-        <el-table-column prop="user_genome" label="User genome" :width="100"></el-table-column>
-        <el-table-column prop="classification" label="Classification" :width="200"></el-table-column>
-        <el-table-column prop="fastani_reference" label="Fastani reference" :width="200"></el-table-column>
-        <el-table-column prop="fastani_reference_radius" label="Fastani reference radius" :width="200"></el-table-column>
-        <el-table-column prop="fastani_taxonomy" label="Fastani taxonomy" :width="200"></el-table-column>
-        <el-table-column prop="fastani_ani" label="Fastani ani" :width="200"></el-table-column>
-        <el-table-column prop="fastani_af" label="Fastani af" :width="200"></el-table-column>
-        <el-table-column prop="closest_placement_reference" label="Closest placement reference" :width="200"></el-table-column>
-        <el-table-column prop="closest_placement_radius" label="Closest placement radius" :width="200"></el-table-column>
-        <el-table-column prop="closest_placement_taxonomy" label="Closest placement taxonomy" :width="200"></el-table-column>
-        <el-table-column prop="closest_placement_ani" label="Closest placement ani" :width="200"></el-table-column>
-        <el-table-column prop="closest_placement_af" label="Closest placement af" :width="200"></el-table-column>
-        <el-table-column prop="pplacer_taxonomy" label="Pplacer taxonomy" :width="200"></el-table-column>
-        <el-table-column prop="classification_method" label="Classification method" :width="200"></el-table-column>
-        <el-table-column prop="note" label="Note" :width="200"></el-table-column>
-        <el-table-column prop="other_related_references(genome_id,species_name,radius,ANI,AF)" label="Other related references(Genome id,Species name,radius,ANI,AF)" :width="200"></el-table-column>
-        <el-table-column prop="msa_percent" label="Msa percent" :width="200"></el-table-column>
-        <el-table-column prop="translation_table" label="Translation table" :width="200"></el-table-column>
-        <el-table-column prop="red_value" label="Red value" :width="200"></el-table-column>
-        <el-table-column prop="warnings" label="Warnings" :width="200"></el-table-column>
-
+        <el-table-column prop="bin" label="Bin"></el-table-column>
+        <el-table-column prop="species" label="Species" width="200"></el-table-column>
+        <el-table-column prop="genus" label="Genus" width="200"></el-table-column>
+        <el-table-column prop="family" label="Family" width="200"></el-table-column>
+        <el-table-column prop="order" label="Order" width="200"></el-table-column>
+        <el-table-column prop="class" label="Class" width="200"></el-table-column>
+        <el-table-column prop="phylum" label="Phylum" width="200"></el-table-column>
+        <el-table-column prop="domain" label="Domain" width="200"></el-table-column>
+        <el-table-column prop="fastaniReference" label="Fastani reference" width="200"></el-table-column>
+        <el-table-column prop="closestPlacementReference" label="Closest placement reference" width="200"></el-table-column>
+        <el-table-column prop="completeness" label="Completeness" width="200"></el-table-column>
+        <el-table-column prop="contamination" label="Contamination" width="200"></el-table-column>
+        <el-table-column prop="gc" label="GC" width="200"></el-table-column>
+        <el-table-column prop="n50" label="N50" width="200"></el-table-column>
+        <el-table-column prop="size" label="Size" width="200"></el-table-column>
+        <el-table-column prop="fastaniAni" label="Fastani ani" width="200"></el-table-column>
+        <el-table-column prop="fastaniAf" label="Fastani af" width="200"></el-table-column>
+        <el-table-column prop="closestPlacementAni" label="Closest placement ani" width="200"></el-table-column>
+        <el-table-column prop="closestPlacementAf" label="Closest placement af" width="200"></el-table-column>
+        <el-table-column prop="msaPercent" label="Msa percent" width="200"></el-table-column>
+        
       <el-table-column label="Option" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleView(scope.row)">
@@ -37,10 +37,6 @@
         </template>
       </el-table-column>
     </el-table>
-    
-    
-    <!-- dialog -->
-    
   </div>
 </template>
 
@@ -97,7 +93,7 @@ export default {
       })
     },
     handleView(value) {
-        this.$emit('gtdbtkBac120Description', value)
+      this.$emit('binDescriptionSignal', value)
     }
   },
 };

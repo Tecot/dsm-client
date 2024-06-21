@@ -140,6 +140,7 @@ export default {
     padding-bottom: 20px;
     border-radius: 5px 5px 5px 5px;
     box-shadow: 5px 5px 5px #ccc;
+    margin-bottom: 20px;
     .title-and-search-container {
       display: flex;
       justify-content: space-between;

@@ -19,7 +19,11 @@
       </el-button>
     </div>
     <!-- Search dialog -->
-    <el-dialog :visible.sync="searchConditionsVisible" width="30%">
+    <el-dialog 
+      :visible.sync="searchConditionsVisible" 
+      :close-on-click-modal="false"
+      width="30%"
+    >
       <div class="srp-search-conditions-container">
         <div class="search-condition-container">
           <div class="title">

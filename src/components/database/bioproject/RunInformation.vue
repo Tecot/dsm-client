@@ -3,7 +3,7 @@
     <el-table
       size="small"
       style="width: 100%;"
-      height="200"
+      max-height="200"
       :data="runData.data"
       :header-cell-style="headerCellStyle"
       :cell-style="cellStyle"

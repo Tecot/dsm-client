@@ -13,10 +13,10 @@
       <div class="title-container">
         {{ `${contigDetail.srp}: ${contigDetail.ID} contigs information` }}
       </div>
-      <ContigDescriptionView :contigDetail="contigDetail"></ContigDescriptionView>
+      <ContigDescription :contigDetail="contigDetail"></ContigDescription>
       <MultiRowsArrowVis 
         ref="multi_rows_arrow_vis"
-        :svgAttr="{width: 1200}"
+        :svgAttr="{ width: 1200 }"
         :inputData="multiArrowData"
         @viewProteinStructSignal="handleViewProteinStructSignal($event)"
         @viewVfAndResfinderSignal="handleViewVfAndResfinderSignal($event)"
@@ -35,7 +35,7 @@
       <div class="title-container">
         {{ contigDetail.srp + ' bin informations' }}
       </div>
-      <BinInformation :srp="contigDetail.srp"></BinInformation>
+      <BinInformation :srp="contigDetail.srp" :binData="binData" @binDescriptionSignal="handleBinDescriptionSignal($event)"></BinInformation>
     </div>
 
     <el-dialog :visible.sync="dialog3DmolVisible" width="50%">
@@ -48,6 +48,10 @@
     <el-dialog :visible.sync="dialogVfAndResfinderDataVisible" width="50%">
       <VfAndResfinderDescription :inputData="vfAndResfinderData"></VfAndResfinderDescription>
     </el-dialog>
+
+    <el-dialog :visible.sync="dialogBinDataVisible" width="50%">
+      <BinDescription :srp="contigDetail.srp" :binDescription="binDescription"></BinDescription>
+    </el-dialog>
     
   </div>
 </template>
@@ -58,21 +62,23 @@ import axios from 'axios'
 import { showLoading, hideLoading } from '@/utils/loading'
 import MultiRowsArrowVis from '@/components/visiualization/MultiRowsArrowVis.vue';
 import BinInformation from '@/components/database/dataexpress/BinInformation.vue';
-import ContigDescriptionView from '@/components/database/dataexpress/ContigDescriptionView.vue'
+import ContigDescription from '@/components/database/dataexpress/ContigDescription.vue'
 import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue'
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
 import VfAndResfinderDescription from '@/components/database/dataexpress/VfAndResfinderDescription.vue';
+import BinDescription from '@/components/database/dataexpress/BinDescription.vue';
 
 export default {
   name: 'ContigsDataExpress',
 
   components: {
-    ContigDescriptionView,
+    ContigDescription,
     MultiRowsArrowVis,
     BinInformation,
     ProteinSeqDescription,
     ProteinStructVis,
     VfAndResfinderDescription,
+    BinDescription
   },
 
   data() {
@@ -89,6 +95,10 @@ export default {
 
       dialogVfAndResfinderDataVisible: false,
       vfAndResfinderData: null,
+
+      dialogBinDataVisible: false,
+      binData: {},
+      binDescription: {}
     };
   },
 
@@ -134,6 +144,11 @@ export default {
     async handleViewVfAndResfinderSignal(value) {
       this.vfAndResfinderData = value
       this.dialogVfAndResfinderDataVisible = true
+    },
+
+    async handleBinDescriptionSignal(value) {
+      this.dialogBinDataVisible = true
+      this.binDescription = value
     },
 
     async requestProteinStructData(srp, code) {
@@ -214,6 +229,7 @@ export default {
 
   .bin-container {
     margin-top: 10px;
+    margin-bottom: 20px;
     box-shadow: 5px 5px 5px #ccc;
     background-color: #FFF;
     border-radius: 5px 5px 5px 5px;

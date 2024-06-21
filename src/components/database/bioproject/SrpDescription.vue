@@ -5,6 +5,7 @@
           v-for="(item, index) in srpDescriptionLabel" 
           :key="index"
           :label="item"
+          :labelStyle="descriptionsItemStyle"
         >
           {{ srpData[item] }}
         </el-descriptions-item>
@@ -25,6 +26,10 @@ export default {
 
   data() {
     return {
+      descriptionsItemStyle: {
+        backgroundColor: '#E9ECEF',
+        color: '#44546A'
+      },
       srpDescriptionLabel: [
         'SRAStudy', 
         'BioProject', 
