@@ -14,11 +14,11 @@
         <div class="title-container">
           Contig List
         </div>
-        <ContigsProjectSearch></ContigsProjectSearch>
+        <ContigsProjectSearch @outputSrp="handleSrp($event)"></ContigsProjectSearch>
       </div>
 
       <div class="contigs-project-infomation">
-        <!-- <ContigsProjectInformation></ContigsProjectInformation> -->
+        <ContigsProjectInformation :srp="srp"></ContigsProjectInformation>
       </div>
     </div>
   </div>
@@ -38,6 +38,7 @@ export default {
 
   data() {
     return {
+      srp: '',
       ifShowDescription: false,
     };
   },
@@ -47,7 +48,9 @@ export default {
   },
 
   methods: {
-    
+    handleSrp(value) {
+      this.srp = value
+    }
   },
 };
 </script>

@@ -5,7 +5,8 @@
         filterable
         v-model="srp" 
         size="mini"
-        placeholder="Please select bioproject" 
+        placeholder="Please select bioproject"
+        @change="handleChangedSrp" 
       >
         <el-option
           v-for="item, index in srps"
@@ -168,6 +169,10 @@ export default {
   },
 
   methods: {
+    handleChangedSrp() {
+      this.$emit('outputSrp', this.srp)
+    },
+
     async requestSrpDirNames() {
       const url = config.baseUrl + config.uri.srpDirNamesViewURI
       axios.get(url, {
@@ -176,6 +181,8 @@ export default {
         }
       }).then((response) => {
         this.srps = response.data.data
+        this.srp = this.srps[0]
+        this.$emit('outputSrp', this.srp)
       })
     },
 

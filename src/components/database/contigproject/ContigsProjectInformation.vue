@@ -5,7 +5,7 @@
       :header-cell-style="headerCellStyle"
       :cell-style="cellStyle"
       size="small"
-      height="600"
+      max-height="600"
       style="width: 100%"
     >
 
@@ -51,6 +51,16 @@ import { showLoading, hideLoading } from '@/utils/loading'
 export default {
   name: 'ContigsProjectInformation',
 
+  props: {
+    srp: {
+      type: String,
+      required: true,
+      default() {
+        return ''
+      }
+    }
+  },
+
   data() {
     return {
       headerCellStyle: {
@@ -71,7 +81,17 @@ export default {
   },
 
   mounted() {
-    this.requestContigProjectInfo(this.currentPage, this.pageSize)
+    
+  },
+
+  watch: {
+    srp(newValue, oldValue) {
+      if(newValue) {
+        this.pageSize = 20
+        this.currentPage = 1
+        this.requestContigProjectInfo(newValue, this.currentPage, this.pageSize)
+      }
+    }
   },
 
   methods: {
@@ -79,12 +99,12 @@ export default {
       return str? str : '-'
     },
 
-    requestContigProjectInfo(currentPage, pageSize) {
+    async requestContigProjectInfo(srp, currentPage, pageSize) {
       showLoading()
-      const url = config.baseUrl + config.uri.contigProjectViewURI + '/' + currentPage + '/' + pageSize
+      const url = config.baseUrl + config.uri.contigProjectViewURI + '/' + srp + '/' + currentPage + '/' + pageSize
       return axios.get(url, {
         headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
+          'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
         this.header = response.data.header
@@ -98,12 +118,12 @@ export default {
     handleSizeChange(value) {
       this.pageSize = value
       this.currentPage = 1
-      this.requestContigProjectInfo(this.currentPage, this.pageSize)
+      this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
     },
 
     handleCurrentChange(value) {
       this.currentPage = value
-      this.requestContigProjectInfo(this.currentPage, this.pageSize)
+      this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
     },
 
     handleView(value) {
