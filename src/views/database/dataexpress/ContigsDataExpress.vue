@@ -103,21 +103,17 @@ export default {
   },
 
   mounted() {
-    this.init()
+    const param = this.$route.params['param']
+    if(param) {
+      this.contigDetail = param
+      this.$store.dispatch('setContigDetailData', { ...param })
+    } else {
+      this.contigDetail = this.$store.state.contigDetailData
+    }
+    this.requestCdsVfResfinderData(this.contigDetail.srp, this.contigDetail.ID)
   },
 
   methods: {
-    async init() {
-      const param = this.$route.params['param']
-      if(param) {
-        this.contigDetail = param
-        this.$store.dispatch('setContigDetailData', { ...param })
-      } else {
-        this.contigDetail = this.$store.state.contigDetailData
-      }
-      this.requestCdsVfResfinderData(this.contigDetail.srp, this.contigDetail.ID)
-    },
-
     // 请求cds vf resfinder数据
     async requestCdsVfResfinderData(srp, contigID) {
       showLoading()

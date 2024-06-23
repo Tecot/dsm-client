@@ -11,7 +11,7 @@
         <el-option
           v-for="item, index in srps"
           :key="index"
-          :label="item" 
+          :label="'SRAStudy: ' + item" 
           :value="item"
         >
         </el-option>
@@ -46,7 +46,7 @@
           </div>
           <div class="search-container">
             <el-input 
-              v-model="searchContent.name" 
+              v-model="searchContent.name"
               size="mini"
               placeholder="Please input name"
             >
@@ -65,6 +65,146 @@
               placeholder="Please input ID"
             >
             </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Description
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.description" 
+              size="mini"
+              placeholder="Please input description"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Stitle
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.stitle" 
+              :disabled="searchContent.ifSearchStitleUnknown"
+              size="mini"
+              placeholder="Please input stitle"
+            >
+            </el-input>
+          </div>
+          <div class="known-checked">
+            <el-checkbox 
+              v-model="searchContent.ifSearchStitleUnknown">
+              Contain unknown?
+            </el-checkbox>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Sseqid
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.sseqid" 
+              :disabled="searchContent.ifSearchSseqidUnknown"
+              size="mini"
+              placeholder="Please input sseqid"
+            >
+            </el-input>
+          </div>
+          <div class="known-checked">
+            <el-checkbox 
+              v-model="searchContent.ifSearchSseqidUnknown">
+              Contain unknown?
+            </el-checkbox>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Genes
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.genes" 
+              :disabled="searchContent.ifSearchGenesUnknown"
+              size="mini"
+              placeholder="Please input genes"
+            >
+            </el-input>
+          </div>
+          <div class="known-checked">
+            <el-checkbox 
+              v-model="searchContent.ifSearchGenesUnknown">
+              Contain unknown?
+            </el-checkbox>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Bin
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.bin"
+              :disabled="searchContent.ifSearchBinUnknown" 
+              size="mini"
+              placeholder="Please input bin"
+            >
+            </el-input>
+          </div>
+          <div class="known-checked">
+            <el-checkbox 
+              v-model="searchContent.ifSearchBinUnknown">
+              Contain unknown?
+            </el-checkbox>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Classification
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.classification"
+              :disabled="searchContent.ifSearchClassificationUnknown" 
+              size="mini"
+              placeholder="Please input classification"
+            >
+            </el-input>
+          </div>
+          <div class="known-checked">
+            <el-checkbox 
+              v-model="searchContent.ifSearchClassificationUnknown">
+              Contain unknown?
+            </el-checkbox>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Product
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.product"
+              :disabled="searchContent.ifSearchProductUnknown" 
+              size="mini"
+              placeholder="Please input product"
+            >
+            </el-input>
+          </div>
+          <div class="known-checked">
+            <el-checkbox 
+              v-model="searchContent.ifSearchProductUnknown">
+              Contain unknown?
+            </el-checkbox>
           </div>
         </div>
 
@@ -102,34 +242,13 @@
           </div>
         </div>
         
-        <div class="search-condition-container">
-          <div class="search-container">
-            <el-checkbox v-model="searchContent.includeStitle">Does it contain Stitle?</el-checkbox>
-          </div>
-        </div>
-
-        <div class="search-condition-container">
-          <div class="search-container">
-            <el-checkbox v-model="searchContent.includeSseqid">Does it contain Sseqid?</el-checkbox>
-          </div>
-        </div>
-
-        <div class="search-condition-container">
-          <div class="search-container">
-            <el-checkbox v-model="searchContent.includeGenes">Does it contain Genes?</el-checkbox>
-          </div>
-        </div>
-
-        <div class="search-condition-container">
-          <div class="search-container">
-            <el-checkbox v-model="searchContent.includeBin">Does it contain bin?</el-checkbox>
-          </div>
-        </div>
-
-        <div class="search-condition-container">
-          <div class="search-container">
-            <el-checkbox v-model="searchContent.includeClassification">Does it contain classification?</el-checkbox>
-          </div>
+        <div class="button-container">
+          <el-button size="mini" type="danger" @click="searchConfirm">
+            Confirm
+          </el-button>
+          <el-button size="mini" type="primary" @click="searchConditionsReset">
+            Reset
+          </el-button>
         </div>
       </div>
     </el-dialog>
@@ -139,7 +258,6 @@
 <script>
 import config from '@/config'
 import axios from 'axios';
-import { showLoading, hideLoading } from '@/utils/loading'
 
 export default {
   name: 'ContigsProjectSearch',
@@ -148,18 +266,26 @@ export default {
     return {
       srp: '',
       srps: [],
-
       searchConditionsVisible: false,
+
       searchContent: {
         name: '',
         id: '',
+        description: '',
+        stitle: '',
+        sseqid: '',
+        genes: '',
+        bin: '',
+        classification: '',
+        product: '',
         lengthRange: [0, 6000],
         gcRange: [0, 100],
-        includeStitle: false,
-        includeSseqid: false,
-        includeGenes: false,
-        includeBin: false,
-        includeClassification: false
+        ifSearchStitleUnknown: false,
+        ifSearchSseqidUnknown: false,
+        ifSearchGenesUnknown: false,
+        ifSearchBinUnknown: false,
+        ifSearchClassificationUnknown: false,
+        ifSearchProductUnknown: false
       }
     };
   },
@@ -169,15 +295,11 @@ export default {
   },
 
   methods: {
-    handleChangedSrp() {
-      this.$emit('outputSrp', this.srp)
-    },
-
     async requestSrpDirNames() {
       const url = config.baseUrl + config.uri.srpDirNamesViewURI
       axios.get(url, {
         headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
+          'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
         this.srps = response.data.data
@@ -186,26 +308,56 @@ export default {
       })
     },
 
+    handleChangedSrp() {
+      this.$emit('outputSrp', this.srp)
+    },
+
     reset() {
       this.$emit('outputResetSignal', true)
     },
 
     searchConfirm() {
       this.searchConditionsVisible = false
-      this.$emit('outputSearchData', this.searchContent)
+      this.$emit('outputSearchData', {
+        name: this.searchContent.name,
+        id: this.searchContent.id,
+        description: this.searchContent.description,
+        stitle: this.searchContent.stitle,
+        sseqid: this.searchContent.sseqid,
+        genes: this.searchContent.genes,
+        bin: this.searchContent.bin,
+        classification: this.searchContent.classification,
+        product: this.searchContent.product,
+        lengthLow: this.searchContent.lengthRange[0],
+        lengthHigh: this.searchContent.lengthRange[1],
+        gcLow: this.searchContent.gcRange[0],
+        gcHigh: this.searchContent.gcRange[1],
+        ifSearchStitleUnknown: this.searchContent.ifSearchStitleUnknown,
+        ifSearchSseqidUnknown: this.searchContent.ifSearchSseqidUnknown,
+        ifSearchGenesUnknown: this.searchContent.ifSearchGenesUnknown,
+        ifSearchBinUnknown: this.searchContent.ifSearchBinUnknown,
+        ifSearchClassificationUnknown: this.searchContent.ifSearchClassificationUnknown
+      })
     },
 
     searchConditionsReset() {
       this.searchContent = {
           name: '',
           id: '',
+          description: '',
+          stitle: '',
+          Sseqid: '',
+          genes: '',
+          bin: '',
+          classification: '',
+          product: '',
           lengthRange: [0, 6000],
           gcRange: [0, 100],
-          includeStitle: false,
-          includeSseqid: false,
-          includeGenes: false,
-          includeBin: false,
-          includeClassification: false
+          ifSearchStitleUnknown: false,
+          ifSearchSseqidUnknown: false,
+          ifSearchGenesUnknown: false,
+          ifSearchBinUnknown: false,
+          ifSearchClassificationUnknown: false,
         }
     }
   },
@@ -226,6 +378,11 @@ export default {
   }
   .contigs-project-search-conditions-container {
 
+    .known-checked {
+      display: flex;
+      justify-content: end;
+    } 
+
     .search-condition-container {
       margin-top: 5px;
       .title {
@@ -234,6 +391,12 @@ export default {
       .search-container {
         margin-top: 5px;
       }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
     }
   }
 }

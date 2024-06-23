@@ -8,16 +8,19 @@
     </div>
 
     <div class="run-info-container">
-      <div class="title">
-        Run informations
+      <div class="title-container">
+        <div class="title">
+          Run informations
+        </div>
+        <div class="statistics">
+          {{ 'Run numbers: ' + (Object.keys(runInfo).length? runInfo.data.length : 0) }}
+        </div>
       </div>
+      
       <RunInformation :runData="runInfo" @output-value="viewDetail($event)"></RunInformation>
     </div>
     
     <div class="geneome-information-container">
-      <div class="title">
-        {{ srpInfo['SRAStudy'] + ' contigs' }}
-      </div>
       <ContigsInformation :srp="srpInfo['SRAStudy']"></ContigsInformation>
     </div>
 
@@ -86,7 +89,7 @@ export default {
       const url = config.baseUrl + config.uri.runProjectViewURI + '/' + srp
       axios.get(url, {
         headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
+          'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
         this.runInfo = response.data
@@ -125,6 +128,17 @@ export default {
       font-weight: bold;
       color: #36A3F7;
     }
+    .title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .statistics {
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+      }
+    }
+    
   }
 
   .geneome-information-container {

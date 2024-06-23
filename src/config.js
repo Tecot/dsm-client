@@ -8,9 +8,11 @@ const uriConfigs = {
         srpSearchedProjectViewUIR: 'api/database/bioproject/srpsearchedprojectview',
         runProjectViewURI: 'api/database/bioproject/runprojectview',
         contigsInformationViewURI: 'api/database/bioproject/contigsinformationview',
+        contigsSearchedInformationViewURI: 'api/database/bioproject/contigssearchedinformationview',
 
 
         contigProjectViewURI: 'api/database/contigproject/contigprojectview',
+        contigProjectSearchedViewURI: 'api/database/contigproject/contigprojectsearchedview',
 
         
         proteinSeqViewURI: 'api/database/dataexpress/proteinseqview',

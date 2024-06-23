@@ -61,10 +61,6 @@ export default {
   },
 
   methods: {
-    handleDescription() {
-      
-    },
-
     handleSearchData(value) {
       this.requestBioProjectInfo(value)
       this.ifSearchedSrp = true
@@ -136,8 +132,7 @@ export default {
   .information-container {
     background-color: #FFF;
     margin-top: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 10px 20px 10px;
     border-radius: 5px 5px 5px 5px;
     box-shadow: 5px 5px 5px #ccc;
     margin-bottom: 20px;
@@ -145,16 +140,12 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-right: 10px;
       .title-container {
         font-size: 18px;
-        margin-left: 10px;
         font-weight: 700;
         color: #36A3F7;
       }
     }
   }
-  
-  
 }
 </style>

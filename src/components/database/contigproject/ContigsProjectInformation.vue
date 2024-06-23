@@ -1,5 +1,20 @@
 <template>
   <div class="table-container">
+    <div class="search-container">
+      <div class="title-container">
+        {{ ifSearchedContigsProject? 'Searched contig list' : 'Contig list' }}
+      </div>
+      <div class="search-conditions-container">
+        <ContigsProjectSearch 
+          @outputSrp="handleSrp($event)" 
+          @outputSearchData="handleSearchData($event)"
+          @outputResetSignal="handleResetSignal($event)"
+        >
+        </ContigsProjectSearch>
+      </div>
+      
+    </div>
+    
     <el-table
       :data="tableData"
       :header-cell-style="headerCellStyle"
@@ -19,8 +34,9 @@
       <el-table-column prop="genes" label="Genes"></el-table-column>
       <el-table-column prop="bin" label="Bin"></el-table-column>
       <el-table-column prop="classification" label="Classification"></el-table-column>
-      
-      <el-table-column label="Option" width="100">
+      <el-table-column prop="product" label="Product"></el-table-column>
+    
+      <el-table-column label="Option" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleView(scope.row)">
               View
@@ -29,17 +45,17 @@
       </el-table-column>
     </el-table>
     <div class="pagination-container">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[20, 50, 100]"
-          :page-size="pageSize"
-          layout="total, prev, pager, next, sizes, jumper"
-          :total="total"
-        >
-        </el-pagination>
-      </div>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 50, 100]"
+        :page-size="pageSize"
+        layout="total, prev, pager, next, sizes, jumper"
+        :total="total"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -47,19 +63,15 @@
 import axios from 'axios'
 import config from '@/config'
 import { showLoading, hideLoading } from '@/utils/loading'
+import ContigsProjectSearch from '@/components/database/contigproject/ContigsProjectSearch.vue';
 
 export default {
   name: 'ContigsProjectInformation',
 
-  props: {
-    srp: {
-      type: String,
-      required: true,
-      default() {
-        return ''
-      }
-    }
+  components: {
+    ContigsProjectSearch
   },
+
 
   data() {
     return {
@@ -71,6 +83,10 @@ export default {
       cellStyle: {
         textAlign: 'center'
       },
+
+      srp: '',
+      ifSearchedContigsProject: false,
+      searchData: {},
       displayOriginalTable: true,
       tableData: [],
       header: [],
@@ -84,21 +100,60 @@ export default {
     
   },
 
-  watch: {
-    srp(newValue, oldValue) {
-      if(newValue) {
-        this.pageSize = 20
-        this.currentPage = 1
-        this.requestContigProjectInfo(newValue, this.currentPage, this.pageSize)
-      }
-    }
-  },
-
   methods: {
-    format(str) {
-      return str? str : '-'
+    /**
+     * 
+     * 查询处理
+     */
+    handleSrp(value) {
+      this.srp = value
+      this.currentPage = 1
+      this.pageSize = 20
+      this.ifSearchedContigsProject = false
+      this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
+    },
+    handleSearchData(value) {
+      this.currentPage = 1
+      this.pageSize = 20
+      this.ifSearchedContigsProject = true
+      this.searchData = { 
+        ...value, 
+        srp: this.srp,
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
+      this.requestSerchedContigProjectInformation(this.searchData)
+    },
+    handleResetSignal(value) {
+      if(this.ifSearchedContigsProject) {
+        this.currentPage = 1
+        this.pageSize = 20
+        this.ifSearchedContigsProject = false
+        this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
+      }
+    },
+    async requestSerchedContigProjectInformation(searchConditions) {
+      showLoading()
+      const url = config.baseUrl + config.uri.contigProjectSearchedViewURI
+      return axios.get(url, {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8' 
+        },
+        params: {
+          ...searchConditions
+        }
+      }).then((response) => {
+        this.header = response.data.header
+        this.tableData = response.data.data
+        this.total = response.data.total
+      }).finally(() => {
+        hideLoading()
+      })
     },
 
+    /**
+     * 处理未查询
+     */
     async requestContigProjectInfo(srp, currentPage, pageSize) {
       showLoading()
       const url = config.baseUrl + config.uri.contigProjectViewURI + '/' + srp + '/' + currentPage + '/' + pageSize
@@ -118,12 +173,31 @@ export default {
     handleSizeChange(value) {
       this.pageSize = value
       this.currentPage = 1
-      this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
+      if(this.ifSearchedContigsProject) {
+        this.requestSerchedContigProjectInformation({
+          ...this.searchData,
+          srp: this.srp,
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        })
+      } else {
+        this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
+      }
+      
     },
 
     handleCurrentChange(value) {
       this.currentPage = value
-      this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
+      if(this.ifSearchedContigsProject) {
+        this.requestSerchedContigProjectInformation({
+          ...this.searchData,
+          srp: this.srp,
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        })
+      } else {
+        this.requestContigProjectInfo(this.srp, this.currentPage, this.pageSize)
+      }
     },
 
     handleView(value) {
@@ -140,7 +214,7 @@ export default {
             Length: value.length,
             Sequence: value.sequence,
             // srp: this.srp
-            srp: 'SRP121432'
+            srp: this.srp
           }
         }
       })
@@ -151,7 +225,19 @@ export default {
 
 <style lang="scss" scoped>
 .table-container {
-  margin-top: 20px;
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title-container {
+      font-size: 18px;
+      font-weight: 700;
+      color: #36A3F7;
+    }
+  }
+  .el-table {
+    margin-top: 20px;
+  }
   .pagination-container {
     display: flex;
     justify-content: center;

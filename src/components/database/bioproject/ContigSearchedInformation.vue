@@ -27,13 +27,13 @@
       <div class="srp-search-conditions-container">
         <div class="search-condition-container">
           <div class="title">
-            SRAStudy
+            Name
           </div>
           <div class="search-container">
             <el-input 
-              v-model="searchContent.srastudyText" 
+              v-model="searchContent.name" 
               size="mini"
-              placeholder="Please input SRAStudy"
+              placeholder="Please input name"
             >
             </el-input>
           </div>
@@ -41,13 +41,13 @@
     
         <div class="search-condition-container">
           <div class="title">
-            Bio project
+            ID
           </div>
           <div class="search-container">
             <el-input 
-              v-model="searchContent.bioProjectText" 
+              v-model="searchContent.id" 
               size="mini"
-              placeholder="Please input bio project"
+              placeholder="Please input ID"
             >
             </el-input>
           </div>
@@ -55,13 +55,13 @@
 
         <div class="search-condition-container">
           <div class="title">
-            Project ID
+            Description
           </div>
           <div class="search-container">
             <el-input 
-              v-model="searchContent.projectID" 
+              v-model="searchContent.description" 
               size="mini"
-              placeholder="Please input project ID"
+              placeholder="Please input description"
             >
             </el-input>
           </div>
@@ -69,88 +69,34 @@
 
         <div class="search-condition-container">
           <div class="title">
-            Center name
-          </div>
-          <div class="search-container">
-            <el-input 
-              v-model="searchContent.centerName" 
-              size="mini"
-              placeholder="Please input center name"
-            >
-            </el-input>
-          </div>
-        </div>
-
-        <div class="search-condition-container">
-          <div class="title">
-            Submission
-          </div>
-          <div class="search-container">
-            <el-input 
-              v-model="searchContent.submission" 
-              size="mini"
-              placeholder="Please input submission"
-            >
-            </el-input>
-          </div>
-        </div>
-
-        <div class="search-condition-container">
-          <div class="title">
-            Depth range: {{ '[' + searchContent.depthRange[0] + 'm , ' + searchContent.depthRange[1] + 'm]' }}
+            Length range: {{ '[' + searchContent.lengthRange[0] + ' bp, ' + searchContent.lengthRange[1] + ' bp]' }}
           </div>
           <div class="search-container" style="padding-left: 10px; padding-right: 10px;">
             <el-slider
               range
               show-stops
-              v-model="searchContent.depthRange"
+              v-model="searchContent.lengthRange"
               :max="6000"
-              :format-tooltip="(value) => value + ' m' ">
+							:min="0"
+              :format-tooltip="(value) => value + ' bp' ">
             </el-slider>
-          </div>
-          <div class="known-checked">
-            <el-checkbox v-model="searchContent.includeUnknownDepth">
-              Contain unknown?
-            </el-checkbox>
           </div>
         </div>
 
+        
         <div class="search-condition-container">
           <div class="title">
-            Longitude and latitude range
+            GC range: {{ '[' + searchContent.gcRange[0] + '% , ' + searchContent.gcRange[1] + '%]' }}
           </div>
-          <div class="search-container llr">
-            <div class="left">
-              <div class="sub-title">
-                W~E: {{ '[' + searchContent.weRange[0] + '° , ' + searchContent.weRange[1] + '°]' }}
-              </div>
-              <el-slider
-                range
-                show-stops
-                v-model="searchContent.weRange"
-                :max="180"
-                :min="-180"
-                :format-tooltip="(value) => value + '°' ">
-              </el-slider>
-            </div>
-            <div class="right">
-              <div class="sub-title">
-                S~N: {{ '[' + searchContent.snRange[0] + '° , ' + searchContent.snRange[1] + '°]' }}
-              </div>
-              <el-slider
-                range
-                show-stops
-                v-model="searchContent.snRange"
-                :max="90"
-                :min="-90"
-                :format-tooltip="(value) => value + '°' ">
-              </el-slider>
-            </div>
-          </div>
-          <div class="known-checked">
-            <el-checkbox v-model="searchContent.includeUnknownll">
-              Contain unknown?
-            </el-checkbox>
+          <div class="search-container" style="padding-left: 10px; padding-right: 10px;">
+            <el-slider
+              range
+              show-stops
+              v-model="searchContent.gcRange"
+              :max="100"
+							:min="0"
+              :format-tooltip="(value) => value + '%' ">
+            </el-slider>
           </div>
         </div>
 
@@ -169,7 +115,7 @@
 
 <script>
 export default {
-  name: 'SrpSearch',
+  name: 'ContigSearchedInformation',
 
   components: {
     
@@ -179,16 +125,11 @@ export default {
     return {
       searchConditionsVisible: false,
       searchContent: {
-        srastudyText: '',
-        bioProjectText: '',
-        projectID: '',
-        centerName: '',
-        submission: '',
-        depthRange: [0, 6000],
-        weRange: [-180, 180],
-        snRange: [-90, 90],
-        includeUnknownDepth: true,
-        includeUnknownll: true
+        name: '',
+        id: '',
+        description: '',
+				lengthRange: [0, 6000],
+        gcRange: [0, 100],
       }
     };
   },
@@ -204,21 +145,24 @@ export default {
 
     searchConfirm() {
       this.searchConditionsVisible = false
-      this.$emit('outputSearchData', this.searchContent)
+      this.$emit('outputSearchData', {
+        name: this.searchContent.name,
+        id: this.searchContent.id,
+        description: this.searchContent.description,
+        lengthLow: this.searchContent.lengthRange[0],
+        lengthHigh: this.searchContent.lengthRange[1],
+        gcLow: this.searchContent.gcRange[0],
+        gcHigh: this.searchContent.gcRange[1]
+      })
     },
 
     searchConditionsReset() {
       this.searchContent = {
-        srastudyText: '',
-        bioProjectText: '',
-        projectID: '',
-        centerName: '',
-        submission: '',
-        depthRange: [0, 6000],
-        weRange: [-180, 180],
-        snRange: [-90, 90],
-        includeUnknownDepth: true,
-        includeUnknownll: true
+        name: '',
+        id: '',
+        description: '',
+				lengthRange: [0, 6000],
+        gcRange: [0, 100],
       }
     }
   },
