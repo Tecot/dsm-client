@@ -27,20 +27,6 @@
       <div class="srp-search-conditions-container">
         <div class="search-condition-container">
           <div class="title">
-            SRAStudy
-          </div>
-          <div class="search-container">
-            <el-input 
-              v-model="searchContent.srastudyText" 
-              size="mini"
-              placeholder="Please input SRAStudy"
-            >
-            </el-input>
-          </div>
-        </div>
-    
-        <div class="search-condition-container">
-          <div class="title">
             Bio project
           </div>
           <div class="search-container">
@@ -48,6 +34,20 @@
               v-model="searchContent.bioProjectText" 
               size="mini"
               placeholder="Please input bio project"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            SRAStudy
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.srastudyText" 
+              size="mini"
+              placeholder="Please input SRAStudy"
             >
             </el-input>
           </div>
@@ -90,6 +90,76 @@
               v-model="searchContent.submission" 
               size="mini"
               placeholder="Please input submission"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Gene
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.gene" 
+              size="mini"
+              placeholder="Please input gene"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Vfs
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.stitle" 
+              size="mini"
+              placeholder="Please input vfs"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            ARGs
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.sseqid" 
+              size="mini"
+              placeholder="Please input args"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            Taxonome
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.classification" 
+              size="mini"
+              placeholder="Please input taxonome"
+            >
+            </el-input>
+          </div>
+        </div>
+
+        <div class="search-condition-container">
+          <div class="title">
+            AMPs
+          </div>
+          <div class="search-container">
+            <el-input 
+              v-model="searchContent.product" 
+              size="mini"
+              placeholder="Please input AMPs"
             >
             </el-input>
           </div>
@@ -179,11 +249,16 @@ export default {
     return {
       searchConditionsVisible: false,
       searchContent: {
-        srastudyText: '',
         bioProjectText: '',
+        srastudyText: '',
         projectID: '',
         centerName: '',
         submission: '',
+        gene: '',
+        stitle: '',
+        sseqid: '',
+        classification: '',
+        product: '',
         depthRange: [0, 6000],
         weRange: [-180, 180],
         snRange: [-90, 90],
@@ -209,11 +284,16 @@ export default {
 
     searchConditionsReset() {
       this.searchContent = {
-        srastudyText: '',
         bioProjectText: '',
+        srastudyText: '',
         projectID: '',
         centerName: '',
         submission: '',
+        gene: '',
+        stitle: '',
+        sseqid: '',
+        classification: '',
+        product: '',
         depthRange: [0, 6000],
         weRange: [-180, 180],
         snRange: [-90, 90],

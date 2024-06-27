@@ -52,7 +52,10 @@
         Search
       </el-button>
       <el-button size="mini" type="primary" @click="searchConditionsReset">
-        Reset
+        Reset conditions
+      </el-button>
+      <el-button size="mini" type="primary" @click="dataReset">
+        Reset data
       </el-button>
     </div>
   </div>
@@ -99,6 +102,10 @@ export default {
       this.depthRange = [0, 6000]
       this.weRange = [-180, 180]
       this.snRange = [-90, 90]
+    },
+
+    dataReset() {
+      this.$emit('dataReset', { signal: true })
     }
   },
 };

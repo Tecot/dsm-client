@@ -1,6 +1,6 @@
 <template>
   <el-descriptions
-    :column="5" 
+    :column="6" 
     direction="vertical" 
     size="small"
     border
@@ -19,6 +19,9 @@
     </el-descriptions-item>
     <el-descriptions-item label="Description" :labelStyle="descriptionsItemStyle">
       {{ contigDetail['Description'] }}
+    </el-descriptions-item>
+    <el-descriptions-item label="Protein struct" :labelStyle="descriptionsItemStyle">
+      <el-button type="primary" size="mini" @click="viewProteinStructSignal">View</el-button>
     </el-descriptions-item>
     <el-descriptions-item label="Sequence" :span="5" :labelStyle="descriptionsItemStyle">
       <el-input
@@ -60,6 +63,9 @@ export default {
   methods: {
     getCompleteSeq(contigDetail) {
       return '>' + contigDetail['Description'] + '\n' + contigDetail['Sequence']
+    },
+    viewProteinStructSignal() {
+      this.$emit('viewProteinStructSignal', true)
     }
   },
 };

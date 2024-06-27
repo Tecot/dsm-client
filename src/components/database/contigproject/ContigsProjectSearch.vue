@@ -84,7 +84,7 @@
 
         <div class="search-condition-container">
           <div class="title">
-            Stitle
+            VFs
           </div>
           <div class="search-container">
             <el-input 
@@ -105,7 +105,7 @@
 
         <div class="search-condition-container">
           <div class="title">
-            Sseqid
+            ARGs
           </div>
           <div class="search-container">
             <el-input 
@@ -168,7 +168,7 @@
 
         <div class="search-condition-container">
           <div class="title">
-            Classification
+            Taxonome
           </div>
           <div class="search-container">
             <el-input 
@@ -189,7 +189,7 @@
 
         <div class="search-condition-container">
           <div class="title">
-            Product
+            AMPs
           </div>
           <div class="search-container">
             <el-input 
@@ -336,7 +336,8 @@ export default {
         ifSearchSseqidUnknown: this.searchContent.ifSearchSseqidUnknown,
         ifSearchGenesUnknown: this.searchContent.ifSearchGenesUnknown,
         ifSearchBinUnknown: this.searchContent.ifSearchBinUnknown,
-        ifSearchClassificationUnknown: this.searchContent.ifSearchClassificationUnknown
+        ifSearchClassificationUnknown: this.searchContent.ifSearchClassificationUnknown,
+        ifSearchProductUnknown: this.searchContent.ifSearchProductUnknown
       })
     },
 
@@ -358,6 +359,7 @@ export default {
           ifSearchGenesUnknown: false,
           ifSearchBinUnknown: false,
           ifSearchClassificationUnknown: false,
+          ifSearchProductUnknown: false
         }
     }
   },

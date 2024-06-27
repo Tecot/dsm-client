@@ -1,19 +1,31 @@
 <template>
   <div class="gene-struct-container">
-    <div class="vis-container"></div>
-    <!-- <div class="options-container" v-if="downloadvisible">
+		<div class="view-panel">
+			<div class="vis-container"></div>
+		</div>
+		
+    
+    <div class="options-container" v-if="downloadvisible">
       <el-button size="mini" type="primary" @click="downloadPNG">Download PNG</el-button>
       <el-button size="mini" type="primary" @click="downloadSvg">Download SVG</el-button>
       <el-button size="mini" type="primary" @click="downloadPDF">Download PDF</el-button>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
 import * as d3 from 'd3'
+import { downloadImage2PNG, downloadImage2SVG, downloadImage2PDF } from '@/utils/downloadImage'
 
 export default {
   name: 'GeneStructVis',
+
+	props: {
+		inputData: {
+			type: Object,
+			required: true
+		}
+	},
 
   data() {
     return {
@@ -50,93 +62,45 @@ export default {
 				fontSize: 16,
 				fontWeight: 'normal',
 				rect: {
-					width: 20,
-					height: 20
+					width: 16,
+					height: 16
 				},
 			},
 			metaTextWH: {},
 			flagTextWH: {},
-			testData: {
-        length: 3000,
-        data: {
-          cds: [
-            {
-              gene: 'cds_gene1',
-              start: 30,
-              end: 50,
-              forward: 1,
-            },
-						{
-              gene: 'cds_gene2',
-              start: 80,
-              end: 280,
-              forward: 1,
-            },
-						{
-              gene: 'cds_gene3',
-              start: 350,
-              end: 360,
-              forward: -1
-            },
-            {
-              gene: 'cds_gene4',
-              start: 800,
-              end: 1256,
-              forward: -1
-            }
-          ],
-          vf: [
-            {
-              gene: 'vf_gene1',
-              start: 350,
-              end: 1876,
-              forward: 1,
-            },
-            {
-              gene: 'vf_gene2',
-              start: 2000,
-              end: 2030,
-              forward: -1,
-            },
-          ],
-          resfinder: [
-            {
-              gene: 'resfinder_gene1',
-              start: 660,
-              end: 1080,
-              forward: -1,
-            },
-            {
-              gene: 'resfinder_gene1',
-              start: 1756,
-              end: 2300,
-              forward: 1,
-            },
-          ],
-          region: [
-            {
-              gene: 'region_gene1',
-              start: 20,
-              end: 689,
-            },
-            {
-              gene: 'region_gene2',
-              start: 2000,
-              end: 2680,
-            },
-          ]
-        }
-        
-      }
+			colors: ['#C65C9E', '#7AB5B5', '#78A9C7', '#A4A09C', '#B3DBA9', '#A9CBF3', '#D8CABF', '#87B0A6'],
+			downloadvisible: false,
     };
   },
 
   mounted() {
-    this.initSvg(this.testData)
-		this.drawPlot(this.testData)
+		
   },
 
+	watch: {
+		inputData(newValue, oldValue) {
+			
+			if(newValue && Object.keys(newValue.data).length) {
+				this.initSvg(newValue)
+				this.drawPlot(newValue)
+				this.downloadvisible = true
+			}
+		}
+	},
+
   methods: {
+		downloadPNG() {
+      downloadImage2PNG(document.querySelector('.vis-container>svg'), 'gene_struct.png')
+    },
+
+    downloadSvg() {
+      downloadImage2SVG(document.querySelector('.vis-container>svg'))
+    },
+
+    downloadPDF() {
+      downloadImage2PDF(document.querySelector('.vis-container'))
+    },
+		
 		drawPlot(data) {
 			// 比例尺
       const xAxisLength = this.width - this.margin.left - this.flagWidth - this.margin.right
@@ -176,10 +140,11 @@ export default {
 						.append('line')
 						.attr('x1', this.margin.left + this.flagWidth)
 						.attr('y1', this.margin.top + this.titleArea.height + this.arrowHeadHeight * (index + 1) + this.vSpace * (index + 1) - this.vSpace * 0.5)
-						.attr('x2', this.width - this.margin.left - this.flagWidth - this.margin.right)
+						.attr('x2', this.width - this.margin.right)
 						.attr('y2', this.margin.top + this.titleArea.height + this.arrowHeadHeight * (index + 1) + this.vSpace * (index + 1) - this.vSpace * 0.5)
 						.attr('stroke-width', '1')
 						.attr('stroke', '#000')
+						.attr('opacity', '0.3')
 						.attr('stroke-dasharray', '5,5')
 				}
 				// this.svg
@@ -199,6 +164,7 @@ export default {
 					.attr('class', 'flag-text')
 				flagTextGroup.append('text')
 					.text(key)
+					.style('font-family', this.fontFamily)
 					.attr('transform', `translate(${
 						this.margin.left + 
 						this.flagWidth - 
@@ -235,7 +201,7 @@ export default {
 					})`)
 				let legendXStart = this.margin.left + this.flagWidth	
 				data.data[key].forEach((meta, pos) => {
-					if(key === 'region') {
+					if(key === 'AMPs') {
 						this.svg
 							.append('g')
 							.attr('class', 'rect-group')
@@ -244,7 +210,7 @@ export default {
 							.attr('height', this.arrowTailHeight)
 							.attr('x', xScale(meta.start))
 							.attr('y', 0)
-							.attr('fill', 'red')
+							.attr('fill', this.colors[pos])
 							.attr('transform', `translate(${
 								this.margin.left + this.flagWidth
 							}, ${
@@ -254,9 +220,13 @@ export default {
 								this.hSpace * index - 
 								(this.arrowHeadHeight + this.arrowTailHeight) * 0.5
 							})`)
+							.style('opacity', 0.3)
+							.on('click', () => {
+								console.log(meta.info)
+								this.$emit('viewRegionDescription', meta.info)
+							})
 					} else {
 						let path = ''
-						
 						if(meta.forward === 1) {
 							if(meta.end - meta.start <= this.arrowHeadWidth) {
 								path = `M ${xScale(meta.start)} ${this.arrowHeadHeight * 0.5},` +
@@ -267,11 +237,11 @@ export default {
 							} else {
 								path = `M ${xScale(meta.start)} ${this.arrowHeadHeight * 0.5},` +
 											 `L ${xScale(meta.start)} ${(this.arrowHeadHeight - this.arrowTailHeight) * 0.5},` + 
-											 `L ${xScale(meta.end)} ${(this.arrowHeadHeight - this.arrowTailHeight) * 0.5},` +
-											 `L ${xScale(meta.end)} ${0},` +
-											 `L ${xScale(meta.end + this.arrowHeadWidth)} ${this.arrowHeadHeight * 0.5},` +
-											 `L ${xScale(meta.end)} ${this.arrowHeadHeight},` +
-											 `L ${xScale(meta.end)} ${this.arrowTailHeight + (this.arrowHeadHeight - this.arrowTailHeight) * 0.5},` +
+											 `L ${xScale(meta.end - this.arrowHeadWidth)} ${(this.arrowHeadHeight - this.arrowTailHeight) * 0.5},` +
+											 `L ${xScale(meta.end - this.arrowHeadWidth)} ${0},` +
+											 `L ${xScale(meta.end)} ${this.arrowHeadHeight * 0.5},` +
+											 `L ${xScale(meta.end - this.arrowHeadWidth)} ${this.arrowHeadHeight},` +
+											 `L ${xScale(meta.end - this.arrowHeadWidth)} ${this.arrowTailHeight + (this.arrowHeadHeight - this.arrowTailHeight) * 0.5},` +
 											 `L ${xScale(meta.start)}, ${this.arrowTailHeight + (this.arrowHeadHeight - this.arrowTailHeight) * 0.5},` +
 											 `L ${xScale(meta.start)} ${this.arrowHeadHeight * 0.5}`
 							}
@@ -310,8 +280,13 @@ export default {
 							.attr('d', path)
 							.attr('stroke-width', '0')
 							.attr('stroke', '')
-							.attr('fill', 'red')
+							.attr('fill', this.colors[pos])
 							.style('cursor', 'pointer')
+							.on('click', () => {
+								if(key === 'vf') {
+									this.$emit('viewVfAndResfinderSignal', meta.infos)
+								}
+							})
 					}
 					this.svg
 						.append('g')
@@ -321,7 +296,7 @@ export default {
 						.attr('height', this.legend.rect.height)
 						.attr('x', 0)
 						.attr('y', 0)
-						.attr('fill', 'red')
+						.attr('fill', this.colors[pos])
 						.attr('transform', `translate(${
 							legendXStart
 						}, ${
@@ -333,12 +308,14 @@ export default {
 							this.legend.rowHeight * index - 
 							this.legend.rect.height
 						})`)
-					legendXStart += this.legend.rect.width + this.vSpace
+					legendXStart += this.legend.rect.width + this.vSpace * 0.5
 					this.svg
 						.append('g')
 						.attr('class', 'legend-text')
 						.append('text')
 						.text(meta.gene)
+						.style('font-family', this.fontFamily)
+						.style('font-size', `${this.legend.fontSize}px`)
 						.attr('transform', `translate(${
 							legendXStart
 						}, ${
@@ -374,7 +351,7 @@ export default {
 						.text(meta.gene)
 						.attr('class', 'legend-text')
 						.style('font-family', this.fontFamily)
-						.style('font-size', this.legend.fontSize + 'px')
+						.style('font-size', `${this.legend.fontSize}px`)
 						.style('font-weight', this.legend.fontWeight)
 					const textWidth = text.node().getBBox().width
 					const textHeight = text.node().getBBox().height
@@ -384,25 +361,35 @@ export default {
 			})
 
 			// 计算最宽
-			let maxMetaWidth = 0
-			let maxWidthKey = ''
-			Object.keys(this.metaTextWH).forEach(key => {
-				let tempWidth = 0
-				this.metaTextWH[key].forEach(meta => {
-					tempWidth += meta.width
-				})
-				if(tempWidth > maxMetaWidth) {
-					maxWidthKey = key
+			// let maxMetaWidth = 0
+			// let maxWidthKey = ''
+			// Object.keys(this.metaTextWH).forEach(key => {
+			// 	let tempWidth = 0
+			// 	this.metaTextWH[key].forEach(meta => {
+			// 		tempWidth += meta.width
+			// 	})
+			// 	if(tempWidth > maxMetaWidth) {
+			// 		maxWidthKey = key
+			// 	}
+			// })
+
+			// let currentWidth = this.margin.left + this.flagWidth + this.margin.right
+			// this.metaTextWH[maxWidthKey].forEach(meta => {
+			// 	currentWidth += this.legend.rect.width + meta.width + this.hSpace
+			// })
+			
+			// this.width = currentWidth > this.maxWidth? this.width : this.maxWidth
+			let maxField = ''
+			let maxMetas = 0
+			Object.keys(data.data).forEach(key => {
+				if(data.data[key].length > maxMetas) {
+					maxField = key
 				}
 			})
-
-			let currentWidth = this.margin.left + this.flagWidth + this.margin.right
-			this.metaTextWH[maxWidthKey].forEach(meta => {
-				currentWidth += this.legend.rect.width + meta.width + this.hSpace
-			})
-			
-			this.width = currentWidth > this.maxWidth? this.width : this.maxWidth
-			this.svg.attr('width', this.width).attr('height', this.height).style('border', '1px solid red')
+			this.width = data.data[maxField].length * 200
+			this.width = this.width > this.maxWidth? this.width : this.maxWidth 
+			// this.width = this.maxWidth
+			this.svg.attr('width', this.width).attr('height', this.height)
 
 			// 计算flag的宽度和高度
 			Object.keys(data.data).forEach(key => {
@@ -411,7 +398,7 @@ export default {
 						.text(key)
 						.attr('class', 'flag-text')
 						.style('font-family', this.fontFamily)
-						.style('font-size', this.flagFontSize + 'px')
+						.style('font-size', `${this.flagFontSize}px`)
 						.style('font-weight', this.flagFontWeight)
 				const textWidth = text.node().getBBox().width
 				const textHeight = text.node().getBBox().height
@@ -424,3 +411,22 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.gene-struct-container {
+	.view-panel {
+		display: flex;
+		justify-content: center;
+		.vis-container {
+			overflow: auto;
+		}
+	}
+	
+	
+  .options-container {
+    display: flex;
+    justify-content: center;
+		margin-top: 20px;
+  }
+}
+</style>

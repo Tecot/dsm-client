@@ -13,15 +13,22 @@
       <div class="title-container">
         {{ `${contigDetail.srp}: ${contigDetail.ID} contigs information` }}
       </div>
-      <ContigDescription :contigDetail="contigDetail"></ContigDescription>
-      <MultiRowsArrowVis 
+      <div class="contig-description-information">
+        <ContigDescription :contigDetail="contigDetail" @viewProteinStructSignal="handleProteinStructSignal($event)"></ContigDescription>
+      </div>
+      <!-- <MultiRowsArrowVis 
         ref="multi_rows_arrow_vis"
         :svgAttr="{ width: 1200 }"
         :inputData="multiArrowData"
         @viewProteinStructSignal="handleViewProteinStructSignal($event)"
         @viewVfAndResfinderSignal="handleViewVfAndResfinderSignal($event)"
       >
-      </MultiRowsArrowVis>
+      </MultiRowsArrowVis> -->
+      <GeneStructVis 
+        :inputData="multiArrowData"
+        @viewVfAndResfinderSignal="handleViewVfAndResfinderSignal($event)"
+      >
+      </GeneStructVis>
     </div>
     
     <!-- <div class="arrow-vis-container">
@@ -39,9 +46,12 @@
     </div>
 
     <el-dialog :visible.sync="dialog3DmolVisible" width="50%">
-      <div>
+      <div v-show="proteinSeqInfo && Object.keys(proteinSeqInfo).length">
         <ProteinSeqDescription :proteinSeqInfo="proteinSeqInfo"></ProteinSeqDescription>
         <ProteinStructVis :structData="proteinStruckData"></ProteinStructVis>
+      </div>
+      <div class="temp-information" v-show="!(proteinSeqInfo && Object.keys(proteinSeqInfo).length)">
+        No protein struct information
       </div>
     </el-dialog>
 
@@ -67,6 +77,7 @@ import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqD
 import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
 import VfAndResfinderDescription from '@/components/database/dataexpress/VfAndResfinderDescription.vue';
 import BinDescription from '@/components/database/dataexpress/BinDescription.vue';
+import GeneStructVis from '@/components/visiualization/GeneStructVis.vue';
 
 export default {
   name: 'ContigsDataExpress',
@@ -78,6 +89,7 @@ export default {
     ProteinSeqDescription,
     ProteinStructVis,
     VfAndResfinderDescription,
+    GeneStructVis,
     BinDescription
   },
 
@@ -87,7 +99,7 @@ export default {
 
       contigName: '',
       contigDetail: {},
-      multiArrowData: null,
+      multiArrowData: {},
 
       dialog3DmolVisible: false,
       proteinSeqInfo: {},
@@ -120,18 +132,34 @@ export default {
       const url = config.baseUrl + config.uri.cdsVfResfinderViewURI + '/' + srp + '/' + contigID
       axios.get(url, {
         headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
+          'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        this.multiArrowData = response.data
+        const newData = {}
+        newData['length'] = response.data.length
+        newData['data'] = {}
+        if(response.data.meta.cdsGenes.length) {
+          newData['data']['Genes'] = response.data.meta.cdsGenes
+        }
+        if(response.data.meta.vfGenes.length) {
+          newData['data']['VFs'] = response.data.meta.vfGenes
+        }
+        if(response.data.meta.resfinderGenes.length) {
+          newData['data']['ARGs'] = response.data.meta.resfinderGenes
+        }
+        if(response.data.meta.region.length) {
+          newData['data']['AMPs'] = response.data.meta.region
+        }
+        this.multiArrowData = newData
       }).finally(() => {
         hideLoading()
       })
     },
 
     // 查看蛋白质信息
-    async handleViewProteinStructSignal(signal) {
-      const code = this.contigDetail.Name.split('_')[1]
+    async handleProteinStructSignal(signal) {
+      console.log(this.contigDetail)
+      const code = this.contigDetail.ID.split('_')[1]
       this.requestProteinSeqData(this.contigDetail.srp, code)
       this.requestProteinStructData(this.contigDetail.srp, code)
       this.dialog3DmolVisible = signal
@@ -149,27 +177,29 @@ export default {
 
     async requestProteinStructData(srp, code) {
       // SRP121432_17256
-      // const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + srp + '/' + code
-      const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + 'SRP121432' + '/' + '17256'
+      const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + srp + '/' + code
+      // const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + 'SRP121432' + '/' + '17256'
       axios.get(url, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => { 
-        this.proteinStruckData = response.data.data
+        this.proteinStruckData = response.data.data? response.data.data : ''
       })
     },
 
     async requestProteinSeqData(srp, code) {
       // SRP121432_17256
-      // const url = config.baseUrl + config.uri.proteinPdbViewURI + '/' + srp + '/' + code
-      const url = config.baseUrl + config.uri.proteinOneSeqViewURI + '/' + 'SRP121432' + '/' + '17256'
+      const url = config.baseUrl + config.uri.proteinOneSeqViewURI + '/' + srp + '/' + code
+      console.log(url)
+      // const url = config.baseUrl + config.uri.proteinOneSeqViewURI + '/' + 'SRP121432' + '/' + '17256'
       axios.get(url, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        this.proteinSeqInfo = response.data.data
+        console.log(response.data.data)
+        this.proteinSeqInfo = response.data.data? response.data.data : {}
       })
     }
   }
@@ -237,6 +267,10 @@ export default {
       line-height: 40px;
       color: #36A3F7;
     }
+  }
+  .temp-information {
+    text-align: center;
+    
   }
 }
 </style>

@@ -73,6 +73,12 @@ export default {
         default() {
           return '600px'
         }
+      },
+      dataReset: {
+        type: Object,
+        default() {
+          return {}
+        }
       }
     },
 
@@ -105,6 +111,12 @@ export default {
             }
           })
           this.option.series[0].data = result
+          this.echart.setOption(this.option)
+        }
+      },
+      dataReset(newValue, oldValue) {
+        if(newValue && Object.keys(newValue).length && newValue.signal) {
+          this.option.series[0].data = this.geoData
           this.echart.setOption(this.option)
         }
       }
@@ -144,7 +156,7 @@ export default {
             seriesIndex: 0,
             inverse: true,
             bottom: 0,
-            right: 0,
+            left: 0,
             inRange: {
               color: ['lightskyblue', 'yellow', 'orangered']
             },

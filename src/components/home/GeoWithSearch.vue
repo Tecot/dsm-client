@@ -2,7 +2,7 @@
 <div class="bio-project-container">
   <div class="geo-container" v-show="geoData.length">
     <div class="geo-vis">
-      <GeoVis :geoData="geoData" :height="'600px'" :search="geoSearchData"></GeoVis>
+      <GeoVis :geoData="geoData" :height="'600px'" :search="geoSearchData" :dataReset="dataReset"></GeoVis>
     </div>
 
     <div class="tools-container">
@@ -15,7 +15,7 @@
       <div class="title">
         Search tools
       </div>
-      <GeoSearchConditions @outputSearchData="handleSearchData($event)"></GeoSearchConditions>
+      <GeoSearchConditions @outputSearchData="handleSearchData($event)" @dataReset="handleDataReset($event)"></GeoSearchConditions>
     </div>
   </div>
 </div>
@@ -43,7 +43,8 @@ export default {
   data() {
     return {
       searchVisable: true,
-      geoSearchData: null
+      geoSearchData: null,
+      dataReset: {}
     }
   },
 
@@ -61,6 +62,11 @@ export default {
     handleSearchVisable() {
       this.searchVisable = !this.searchVisable
     },
+
+    // 重设数据
+    handleDataReset(value) {
+      this.dataReset = value
+    }
   },
 };
 </script>

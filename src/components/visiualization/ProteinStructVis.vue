@@ -20,7 +20,10 @@ export default {
   props: {
     structData: {
       type: String,
-      required: true
+      required: true,
+      default() {
+        return ''
+      }
     }
   },
 
@@ -34,7 +37,9 @@ export default {
 
   watch: {
     structData(newValue, oldValue) {
-      this.proteinStructVis(this.structData)
+      if(newValue) {
+        this.proteinStructVis(newValue)
+      }
     }
   },
 

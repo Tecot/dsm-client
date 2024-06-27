@@ -1,6 +1,6 @@
 <template>
-  <div class="protein-seq-detail" v-if="proteinSeqInfo">
-    <el-descriptions 
+  <div class="protein-seq-detail">
+    <el-descriptions
       :title="proteinSeqInfo['ID'] + ' protein detail'" 
       direction="vertical" 
       :column="2" 
@@ -41,9 +41,6 @@ export default {
     proteinSeqInfo: {
       type: Object,
       required: true,
-      default() {
-        return null
-      }
     }
   },
 
