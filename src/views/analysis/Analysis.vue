@@ -1,17 +1,25 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-07-08 11:03:44
+ * @Description: 
+-->
 <template>
   <div>
-    <GeneStructVis></GeneStructVis>
+    <!-- <GeneStructVis></GeneStructVis> -->
+     <WordCloudVis></WordCloudVis>
   </div>
 </template>
 
 <script>
-import GeneStructVis from '@/components/visiualization/GeneStructVis.vue';
+import WordCloudVis from '@/components/visiualization/WordCloudVis.vue'
 
 export default {
   name: 'Analysis',
 
   components: {
-    GeneStructVis
+    WordCloudVis,
   },
 
   data() {

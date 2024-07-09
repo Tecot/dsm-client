@@ -53,26 +53,26 @@
       initChart() {
         this.echart = echarts.init(this.$refs.echart);
         this.option = {
-          backgroundColor: '#FFF',
+          backgroundColor: '#2C3964',
           center: ['50%', '50%'],
           tooltip: {
             trigger: 'item',
             formatter: '{a} <br/>{b} : {c} ({d}%)'
           },
-          legend: {
-            orient: 'vertical',
-            x: 'right',
-            y: 'bottom'
-          },
+          // legend: {
+          //   orient: 'vertical',
+          //   x: 'right',
+          //   y: 'bottom'
+          // },
           series: [
             {
               name: 'Depth range',
               type: 'pie',
-              radius: '75%',
+              radius: '50%',
               center: ['50%', '50%'],
               roseType: 'radius',
               label: {
-                color: '#000',
+                color: '#FFF',
               },
               labelLine: {
                 smooth: 0.2,
@@ -90,7 +90,7 @@
               animationType: 'scale',
               animationEasing: 'elasticOut',
               animationDelay: function (idx) {
-                return Math.random() * 200;
+                return Math.random() * 1000;
               },
               data: this.pieData
             }

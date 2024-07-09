@@ -53,14 +53,15 @@ export default {
     initChart() {
       this.echart = echarts.init(this.$refs.echart);
       this.option = {
+        backgroundColor: '#2C3964',
         center: ['50%', '50%'],
         itemStyle: {
-          color: '#FCD05B',
+          color: '#F76B6B',
           borderRadius: [5, 5, 0, 0]
         },
         label: {
-          show: true,
-          color: '#000',
+          show: false,
+          color: '#FFF',
           position: 'top'
         },
         tooltip: {
@@ -75,11 +76,11 @@ export default {
           right: '4%',
           bottom: '3%',
           containLabel: true,
-          borderColor: '#000'
+          borderColor: '#FFF'
         },
         xAxis: {
           type: 'category',
-          name: 'Geographic location',
+          // name: 'Geographic location',
           data: this.barData.x,
           nameLocation: 'center',
           nameGap: 30,
@@ -88,13 +89,13 @@ export default {
           },
           nameTextStyle: {
             fontSize: 14,
-            color: '#000',
+            color: '#FFF',
           },
           axisTick: {
             show: false,
             alignWithLabel: true,
             lineStyle: {
-              color: '#000',
+              color: '#FFF',
             }
           },
           axisLine: {
@@ -103,7 +104,7 @@ export default {
             },
           },
           axisLabel: {
-            color: '#000000',
+            color: '#FFF',
             rotate: 20,
             fontSize: 12,
             formatter: (value, index) => {
@@ -117,23 +118,24 @@ export default {
         },
         yAxis: {
           type: 'value',
-          name: 'Number of SRP',
+          // name: 'Number of SRP',
           nameLocation: 'center',
           nameGap: 24,
           distance: [0, '80%'],
           nameGap: 30,
+          scale: true,
           splitLine: {
             show: false
           },
           nameTextStyle: {
             fontSize: 14,
-            color: '#000',
+            color: '#FFF',
           },
           axisTick: {
             show: false,
             alignWithLabel: true,
             lineStyle: {
-              color: '#000'
+              color: '#FFF'
             }
           },
           axisLine: {
@@ -142,7 +144,7 @@ export default {
             },
           },
           axisLabel: {
-            color: '#000',
+            color: '#FFF',
             fontSize: 12,
           },
         },
@@ -151,6 +153,11 @@ export default {
             name: 'Direct',
             type: 'bar',
             barWidth: '60%',
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function (idx) {
+              return Math.random() * 1000;
+            },
             data: this.barData.y
           }
         ]

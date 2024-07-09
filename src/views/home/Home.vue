@@ -1,46 +1,22 @@
 <template>
   <div class="home-container">
-    <div class="left">
-      <NavAside></NavAside>
-    </div>
-    <div class="right">
-      <div class="description-container">
-        <div class="title">
-          DeepSeaMicro
-        </div>
-        <el-divider></el-divider>
-        <div class="description">
-          Welcome to PhageScope! PhageScope is an online bacteriophage database that offers comprehensive annotations, including completeness assessment, phenotype annotation, taxonomic annotation, structural annotation, functional annotation, and genome comparison.
-          PhageScope incorporates automatic analysis and interactive visualization for both curated and customized data.
-          Welcome to PhageScope! PhageScope is an online bacteriophage database that offers comprehensive annotations, including completeness assessment, phenotype annotation, taxonomic annotation, structural annotation, functional annotation, and genome comparison.
-          PhageScope incorporates automatic analysis and interactive visualization for both curated and customized data.
-        </div>
-      </div>
+    <div class="up">
+      <div class="left">
+        <div class="statistics">
 
-      <div class="second-title">
-        Map display samples
+        </div>
       </div>
-      <div class="geo-vis-container">
+      <div class="right">
         <GeoWithSearch :geoData="geoData"></GeoWithSearch>
       </div>
-
-      
-      <div class="statistics-plots-container">
-        <div class="statistics-plot">
-          <div class="plot-title">
-            Number of projects in depth range
-          </div>
-          <GradientPieVis :pieData="gradientData" :width="'700px'" :height="'400px'"></GradientPieVis>
-        </div>
-        <div class="statistics-plot">
-          <div class="plot-title">
-            Number of projects in each region
-          </div>
-          <PositionBarVis :barData="positionBarData" :width="'700px'" :height="'350px'"></PositionBarVis>
-        </div>
-      </div>
-
-      
+    </div>
+    <div class="down">
+      <GradientPieVis :pieData="gradientData" :height="'330px'" :width="'360px'"></GradientPieVis>
+      <PositionBarVis :barData="positionBarData" :height="'330px'" :width="'360px'"></PositionBarVis>
+      <WordCloudVis></WordCloudVis>
+      <WordCloudVis></WordCloudVis>
+      <WordCloudVis></WordCloudVis>
+      <!-- <WordCloudVis></WordCloudVis> -->
     </div>
   </div>
 </template>
@@ -53,6 +29,7 @@ import NavAside from '@/components/home/NavAside.vue'
 import GradientPieVis from '@/components/visiualization/GradientPieVis.vue'
 import PositionBarVis from '@/components/visiualization/PositionBarVis.vue'
 import GeoWithSearch from '@/components/home/GeoWithSearch.vue'
+import WordCloudVis from '@/components/visiualization/WordCloudVis.vue'
 
 export default {
   name: 'Home',
@@ -62,6 +39,7 @@ export default {
     GradientPieVis,
     PositionBarVis,
     GeoWithSearch,
+    WordCloudVis
   },
 
   data() {
@@ -69,7 +47,9 @@ export default {
       geoData: [],
       gradientData: [],
       positionBarData: {},
-      description: "Deep-sea microbes are a diverse and fascinating group of organisms that inhabit the extreme environments of the world's oceans. These tiny life forms play crucial roles in the functioning of marine ecosystems, from nutrient cycling to energy flow. The deep sea is characterized by its vastness, darkness, high pressure, and cold temperatures. Despite these harsh conditions, it is home to a staggering array of microbial communities, including bacteria, archaea, viruses, and single-celled eukaryotes. These organisms have adapted to survive in one of the most inhospitable environments on Earth.' One of the key adaptations of deep-sea microbes is their ability to metabolize chemosynthetically, meaning they can obtain energy by oxidizing inorganic compounds such as hydrogen sulfide or methane. This allows them to thrive in areas devoid of sunlight, where photosynthesis is not possible."
+			vfsWordCloudData: [],
+			argsWordCloudData: [],
+			productWordCloudData: []
     };
   },
 
@@ -79,6 +59,9 @@ export default {
       this.geoData = geoDataInfoStore.geoData
       this.gradientData = geoDataInfoStore.gradientData
       this.positionBarData = geoDataInfoStore.positionBarData
+			this.vfsWordCloudData = geoDataInfoStore.vfsWordCloudData
+			this.argsWordCloudData = geoDataInfoStore.argsWordCloudData
+			this.productWordCloudData = geoDataInfoStore.productWordCloudData
     } else {
       this.requestGeoData()
     }
@@ -96,14 +79,56 @@ export default {
         this.geoData = response.data.data
         this.gradientData = this.processGradientData(this.geoData)
         this.positionBarData = this.processPositionBarData(this.geoData)
+				this.vfsWordCloudData = this.processVFsData(this.geoData)
+				this.argsWordCloudData = this.processArgsData(this.geoData)
+				this.productWordCloudData = this.processProductData(this.geoData)
         this.$store.dispatch('setGeoInfoData', {
           geoData: this.geoData,
           gradientData: this.gradientData,
-          positionBarData: this.positionBarData
+          positionBarData: this.positionBarData,
+					vfsWordCloudData: this.vfsWordCloudData,
+					argsWordCloudData: this.argsWordCloudData,
+					productWordCloudData: this.productWordCloudData
         })
       }).finally(() => {
-          hideLoading()
+        hideLoading()
       })
+    },
+
+    processProductData(objData=[]) {
+      let arr = []
+      objData.forEach(item => {
+        if(item.info.product) {
+			const productArr = item.info.product.split(';')
+			arr = [...arr, ...productArr]
+        }
+      })
+      const products = Array.from(new Set(arr))
+      return products
+    },
+
+    processArgsData(objData=[]) {
+      let arr = []
+      objData.forEach(item => {
+        if(item.info.args) {
+          const argsArr = item.info.args.split(';')
+          arr = [...arr, ...argsArr]
+        }
+      })
+      const args = Array.from(new Set(arr))
+      return args
+    },
+
+    processVFsData(objData=[]) {
+      let arr = []
+      objData.forEach(item => {
+        if(item.info.vfs) {
+          const vfArr = item.info.vfs.split(';')
+          arr = [...arr, ...vfArr]
+        }
+      })
+      const vfs = Array.from(new Set(arr))
+      return vfs
     },
 
     processPositionBarData(objData = []) {
@@ -117,10 +142,15 @@ export default {
       objData.forEach((item) => {
         values[gls.indexOf(item['geographic location'].includes(':')? item['geographic location'].split(':')[0] : item['geographic location'])]++
       })
-      return {
+      const arr = {
         x: gls,
         y: values
       }
+      const combined = arr.x.map((value, index) => [value, arr.y[index]])
+      combined.sort((a, b) => b[1] - a[1])
+      arr.x = combined.map(item => item[0])
+      arr.y = combined.map(item => item[1])
+      return arr
     },
 
     processGradientData(objData = []) {
@@ -135,8 +165,8 @@ export default {
         '10000~12000': { value: 0, name: '10000~12000' }
       }
       const data = {
-          maxValue: 0,
-          data: [],
+        maxValue: 0,
+        data: [],
       }
       objData.forEach((item) => {
         if(item.depth === '-') {
@@ -166,9 +196,9 @@ export default {
       Object.keys(meta).forEach(key => {
         result.push(meta[key])
       })
-
       return result
     },
+
     goToLink(value) {
       this.$router.push({
         name: value
@@ -180,54 +210,28 @@ export default {
 
 <style lang="scss" scoped>
 .home-container {
-  display: flex;
-  .left {
-    background-color: #FFF;
+  .up {
+    display: flex;
+    background-color: #2C3964;
+    .left {
+      width: 360px;
+      padding: 10px 10px 0 10px;
+      .statistics {
+        background-color: #3a4569;
+        opacity: 0.8;
+        height: 100%;
+        border-radius: 10px 10px 10px 10px;
+      }
+    }
+    .right {
+      width: 100%;
+    }
   }
-  .right {
-    margin-left: 10px;
-    background-color: #FFF;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 40px;
-    .description-container {
-      .title {
-        font-size: 38px;
-        font-weight: bold;
-        color: #3E5294;
-      }
-      .description {
-        font-size: 18px;
-        color: #44546A;
-      }
-    }
-    .second-title {
-      height: 60px;
-      line-height: 60px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #44546A;
-    }
-    .statistics-plots-container {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 20px;
-      .statistics-plot {
-        box-shadow: 5px 0px 5px #ccc, -5px 0px 5px #ccc, 0px 5px 5px #ccc;
-        .plot-title {
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          font-size: 20px;
-          background-color: #3E5294;
-          color: #FFF;
-        }
-      }
-    }
-    .geo-vis-container {
-      margin-bottom: 20px;
-      box-shadow: 5px 0px 5px #ccc, -5px 0px 5px #ccc, 0px 5px 5px #ccc;
-    }
+  .down {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #2C3964;
   }
 }
 </style>

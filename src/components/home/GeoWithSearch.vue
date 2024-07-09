@@ -2,7 +2,7 @@
 <div class="bio-project-container">
   <div class="geo-container" v-show="geoData.length">
     <div class="geo-vis">
-      <GeoVis :geoData="geoData" :height="'600px'" :search="geoSearchData" :dataReset="dataReset"></GeoVis>
+      <GeoVis :geoData="geoData" :height="'500px'" :search="geoSearchData" :dataReset="dataReset"></GeoVis>
     </div>
 
     <div class="tools-container">
