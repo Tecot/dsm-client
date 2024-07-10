@@ -1,9 +1,68 @@
 <template>
   <div class="home-container">
+    <dv-decoration-7 style="width:100%;height:60px; color: #FFFFFF;font-size: 24px; display: flex; ">
+      <dv-decoration-4 :reverse="true" style="width:100px;height:5px; color: #7ACAEC;" />
+      Distribution and statistics of deep-sea microbial data
+      <dv-decoration-4 :reverse="true" style="width:100px;height:5px;" />
+    </dv-decoration-7>
     <div class="up">
       <div class="left">
         <div class="statistics">
+          <div class="row">
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">MircoDB</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #F76B6B;  text-align: center;margin-top: 10px; ">1243243</div>
+            </div>
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">CHVD</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #73C0DE;  text-align: center;margin-top: 10px; ">244321</div>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">GOV2</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #FCD05B;  text-align: center;margin-top: 10px; ">342211</div>
+            </div>
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">STV</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #409AF7;  text-align: center;margin-top: 10px; ">4032</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">GVD</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #5FE073;  text-align: center;margin-top: 10px; ">234212</div>
+            </div>
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">TemPhD</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #CB62E0;  text-align: center;margin-top: 10px; ">66432</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">GPD</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #FFFB00;  text-align: center;margin-top: 10px; ">234233</div>
+            </div>
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">IGVD</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #FF00B4;  text-align: center;margin-top: 10px; ">15755</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">MGV</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #00FF74;  text-align: center;margin-top: 10px; ">233245</div>
+            </div>
+            <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">IMG/VR</div>
+              <div class="num" style="font-weight: 700;font-size: 18px; color: #8355E8;  text-align: center;margin-top: 10px; ">178765</div>
+            </div>
+          </div>
+          
         </div>
       </div>
       <div class="right">
@@ -12,12 +71,12 @@
     </div>
     <div class="down">
       <GradientPieVis :pieData="gradientData" :height="'330px'" :width="'360px'"></GradientPieVis>
+      <WordCloudVis :words="vfsWordCloudData"></WordCloudVis>
+      <WordCloudVis :words="argsWordCloudData" :fontColor="'#FCD05B'"></WordCloudVis>
+      <WordCloudVis :words="productWordCloudData" :fontColor="'#5AD86A'"></WordCloudVis>
       <PositionBarVis :barData="positionBarData" :height="'330px'" :width="'360px'"></PositionBarVis>
-      <WordCloudVis></WordCloudVis>
-      <WordCloudVis></WordCloudVis>
-      <WordCloudVis></WordCloudVis>
-      <!-- <WordCloudVis></WordCloudVis> -->
     </div>
+    
   </div>
 </template>
 
@@ -39,7 +98,7 @@ export default {
     GradientPieVis,
     PositionBarVis,
     GeoWithSearch,
-    WordCloudVis
+    WordCloudVis,
   },
 
   data() {
@@ -210,6 +269,7 @@ export default {
 
 <style lang="scss" scoped>
 .home-container {
+  background-color: #282C34;
   .up {
     display: flex;
     background-color: #2C3964;
@@ -221,6 +281,11 @@ export default {
         opacity: 0.8;
         height: 100%;
         border-radius: 10px 10px 10px 10px;
+        .row {
+          display: flex;
+          justify-content: space-around;
+          padding: 10px 10px 10px 10px;
+        }
       }
     }
     .right {

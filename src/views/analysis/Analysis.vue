@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import WordCloudVis from '@/components/visiualization/WordCloudVis.vue'
+import WordCloudVis from '@/components/visiualization/dellWordCloudVis.vue'
 
 export default {
   name: 'Analysis',

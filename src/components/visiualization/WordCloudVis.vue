@@ -1,148 +1,117 @@
 <template>
-  <div 
-    ref="loginTimes" 
-    @mouseenter="handleMouseEnter" 
-    @mouseleave="handleMouseLeave" 
-    style="width: 360px;height: 330px;"></div>
+  <div class='svg-container'>
+		<svg :width='width' :height='height' fill="#2C3964" style="border-radius: 150px 150px 150px 150px;"@mousemove='listener($event)'>
+			<a :href="tag.href" v-for='tag in tags'>
+				<text :x='tag.x' :y='tag.y' :fill="fontColor" :font-size='20 * (600/(600-tag.z))' :fill-opacity='((400+tag.z)/600)'>{{tag.text}}</text>
+			</a>
+		</svg>
+  </div>
 </template>
 
 <script>
-import * as echarts from 'echarts';
-import 'echarts-wordcloud';
-
 export default {
   name: 'WordCloudVis',
+
+	props: {
+		words: {
+			type: Array,
+			default() {
+				return []
+			}
+		},
+		fontColor: {
+			type: '',
+			default() {
+				return '#02B9F8'
+			}
+		}
+	},
+
   data() {
     return {
-      soruce: [
-        { value: '30', name: 'VIVO1' },
-        { value: '29', name: 'OPPO2' },
-        { value: '28', name: 'HONOR' },
-        { value: '27', name: 'iPhone 12 pro max3' },
-        { value: '26', name: 'iPhone 12 pro max4' },
-        { value: '25', name: 'HUAWEI MATE 105' },
-        { value: '24', name: 'ONEPLUS6' },
-        { value: '23', name: 'Lenova T4707' },
-        { value: '22', name: 'MacBook Air8 ' },
-        { value: '21', name: 'SAMSUNG9' },
-        { value: '20', name: 'iPad mini111' },
-        { value: '16', name: 'BLACKBERRY222' },
-        { value: '14', name: 'OPPO333' },
-        { value: '13', name: 'SAMSUNG444' },
-        { value: '12', name: '361555' },
-        { value: '10', name: 'Lenova666' }
-      ],
-      currentData: [], // 当前显示的数据组
-      isPaused: false
-    }
+			width:300,//svg宽度
+			height:300,//svg高度
+			RADIUS:200,//球的半径
+			speedX:Math.PI/360,//球一帧绕x轴旋转的角度
+			speedY:Math.PI/360,//球-帧绕y轴旋转的角度
+			tags: []
+    };
   },
+
+	watch: {
+		words(newValue, oldValue) {
+			let currentData = []
+			if(newValue.length > 60) {
+				currentData = newValue.slice(0, 60)
+			} else {
+				currentData = newValue
+			}
+			let tags=[];
+			for(let i = 0; i < currentData.length; i++){
+				let tag = {};
+				let k = -1 + (2 * (i + 1) - 1) / currentData.length;
+				let a = Math.acos(k);
+				let b = a * Math.sqrt(currentData.length * Math.PI)//计算标签相对于球心的角度
+				tag.text = currentData[i];
+				tag.x = this.CX +  this.RADIUS * Math.sin(a) * Math.cos(b);//根据标签角度求出标签的x,y,z坐标
+				tag.y = this.CY +  this.RADIUS * Math.sin(a) * Math.sin(b); 
+				tag.z = this.RADIUS * Math.cos(a);
+				tag.href = 'javascript:void(0);';//给标签添加链接
+				tags.push(tag);
+			}
+			this.tags = tags;//让vue替我们完成视图更新
+		}
+	},
+
+  computed:{
+		CX(){//球心x坐标
+			return this.width/2;
+		},
+		CY(){//球心y坐标
+			return this.height/2;
+		}
+  },
+
   mounted() {
-    this.initCurrentData(); // 初始化当前显示的数据组
-    this.getIint(); // 初始化图表
-    this.startSwitchTimer(); // 开始切换定时器
-    this.bindMouseEvents();
+    setInterval(() => {
+			this.rotateX(this.speedX);
+			this.rotateY(this.speedY);
+		}, 100)
   },
-  beforeDestroy() {
-    this.stopSwitchTimer(); // 组件销毁时停止定时器
-    this.unbindMouseEvents();
-  },
+
   methods: {
-    getIint() {
-      let myChart = echarts.init(this.$refs.loginTimes);
-      const option = {
-        backgroundColor: '#2C3964',
-        series: [{
-          type: 'wordCloud',
-          sizeRange: [8, 18],
-          rotationRange: [-45, 45],
-          gridSize: 25,
-          layoutAnimation: true,
-          data: this.currentData.map(item => ({
-            name: item.name,
-            value: item.value,
-            textStyle: {
-              normal: {
-                fontSize: 8,
-                color: this.getRandomColor()
-              }
-            }
-          }))
-        }]
-      };
-      myChart.setOption(option);
-    },
-    initCurrentData() {
-      // 初始化当前显示的数据组，这里简单取前5个数据作为初始显示
-      this.currentData = this.soruce.slice(0, 8);
-    },
-    switchDataGroup() {
-      // 切换到下一组数据
-      const step = 8;
-      let index = this.currentData.length === step ? 0 : this.currentData.length;
-      this.currentData = this.soruce.slice(index, index + step);
-      this.getIint(); // 更新图表
-    },
-    startSwitchTimer() {
-      // this.switchTimer = setInterval(this.switchDataGroup, 3000);
-      if (!this.switchTimer) {
-        this.switchTimer = setInterval(() => {
-          if (!this.isPaused) {
-            this.switchDataGroup();
-          }
-        }, 3000);
-      }
-    },
-    stopSwitchTimer() {
-      clearInterval(this.switchTimer);
-    },
-    getRandomColor() {
-      const colors = [
-        '#ff4500', '#ff6347', '#ff7f50', '#ffd700', '#9acd32',
-        '#00bfff', '#8a2be2', '#a52a2a', '#deb887', '#5f9ea0'
-      ];
-      return colors[Math.floor(Math.random() * colors.length)];
-    },
-    handleMouseEnter() {
-      this.isPaused = true; // 暂停切换
-    },
-    // 新增方法：处理鼠标离开事件
-    handleMouseLeave() {
-      this.isPaused = false; // 继续切换
-      if (this.switchTimer) this.switchDataGroup(); // 如果有定时器，立即执行一次切换
-    },
-    // 新增方法：绑定鼠标事件
-    bindMouseEvents() {
-      const container = this.$refs.loginTimes;
-      container.addEventListener('mouseenter', this.handleMouseEnter);
-      container.addEventListener('mouseleave', this.handleMouseLeave);
-    },
-    // 新增方法：解绑鼠标事件
-    unbindMouseEvents() {
-      const container = this.$refs.loginTimes;
-      container.removeEventListener('mouseenter', this.handleMouseEnter);
-      container.removeEventListener('mouseleave', this.handleMouseLeave);
-    },
-  }
-}
+    rotateX(angleX){
+			var cos = Math.cos(angleX);
+			var sin = Math.sin(angleX);
+			for(let tag of this.tags){
+				var y1 = (tag.y- this.CY) * cos - tag.z * sin  + this.CY;
+				var z1 = tag.z * cos + (tag.y- this.CY) * sin;
+				tag.y = y1;
+				tag.z = z1;
+			} 
+		},
+		rotateY(angleY){
+			var cos = Math.cos(angleY);
+			var sin = Math.sin(angleY);
+			for(let tag of this.tags){
+				var x1 = (tag.x - this.CX) * cos - tag.z * sin + this.CX;
+				var z1 = tag.z * cos + (tag.x-this.CX) * sin;
+				tag.x = x1;
+				tag.z = z1;
+			} 
+		},
+		listener(event){//响应鼠标移动
+			var x = event.clientX - this.CX;
+			var y = event.clientY - this.CY;
+			this.speedX = x*0.0001>0 ? Math.min(this.RADIUS*0.00002, x*0.0001) : Math.max(-this.RADIUS*0.00002, x*0.0001);
+			this.speedY = y*0.0001>0 ? Math.min(this.RADIUS*0.00002, y*0.0001) : Math.max(-this.RADIUS*0.00002, y*0.0001); 
+		}
+  },
+};
 </script>
 
-
-
-<!-- [
-        { value: '30', name: 'VIVO1' },
-        { value: '29', name: 'OPPO2' },
-        { value: '28', name: 'HONOR' },
-        { value: '27', name: 'iPhone 12 pro max3' },
-        { value: '26', name: 'iPhone 12 pro max4' },
-        { value: '25', name: 'HUAWEI MATE 105' },
-        { value: '24', name: 'ONEPLUS6' },
-        { value: '23', name: 'Lenova T4707' },
-        { value: '22', name: 'MacBook Air8 ' },
-        { value: '21', name: 'SAMSUNG9' },
-        { value: '20', name: 'iPad mini111' },
-        { value: '16', name: 'BLACKBERRY222' },
-        { value: '14', name: 'OPPO333' },
-        { value: '13', name: 'SAMSUNG444' },
-        { value: '12', name: '361555' },
-        { value: '10', name: 'Lenova666' }
-      ], -->
+<style lang="scss" scoped>
+.svg-container {
+	border-radius: 20px 20px;
+}
+</style>
