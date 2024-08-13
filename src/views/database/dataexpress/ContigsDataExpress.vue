@@ -30,19 +30,19 @@
       >
       </GeneStructVis>
     </div>
-    
-    <!-- <div class="arrow-vis-container">
-      <div class="title-container">
-        Genes arrow plot
-      </div>
-      
-    </div> -->
 
     <div class="bin-container">
       <div class="title-container">
         {{ contigDetail.srp + ' bin informations' }}
       </div>
       <BinInformation :srp="contigDetail.srp" :binData="binData" @binDescriptionSignal="handleBinDescriptionSignal($event)"></BinInformation>
+    </div>
+
+    <div class="mop-container">
+      <div class="title-container">
+        {{ contigDetail.srp + ' macrel out prediction informations' }}
+      </div>
+      <MacrelOuPredictionInformation :srp="this.contigDetail.srp" @mopData="processMopData($event)"></MacrelOuPredictionInformation>
     </div>
 
     <el-dialog :visible.sync="dialog3DmolVisible" width="50%">
@@ -63,6 +63,9 @@
       <BinDescription :srp="contigDetail.srp" :binDescription="binDescription"></BinDescription>
     </el-dialog>
     
+    <el-dialog :visible.sync="dialogMopDataVisible" width="50%">
+      <MacrelOutPredictionDescription :mopInfo="mopData"></MacrelOutPredictionDescription>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,6 +81,8 @@ import ProteinStructVis from '@/components/visiualization/ProteinStructVis.vue'
 import VfAndResfinderDescription from '@/components/database/dataexpress/VfAndResfinderDescription.vue';
 import BinDescription from '@/components/database/dataexpress/BinDescription.vue';
 import GeneStructVis from '@/components/visiualization/GeneStructVis.vue';
+import MacrelOuPredictionInformation from '@/components/database/dataexpress/MacrelOuPredictionInformation.vue';
+import MacrelOutPredictionDescription from '@/components/database/dataexpress/MacrelOutPredictionDescription.vue';
 
 export default {
   name: 'ContigsDataExpress',
@@ -90,7 +95,9 @@ export default {
     ProteinStructVis,
     VfAndResfinderDescription,
     GeneStructVis,
-    BinDescription
+    BinDescription,
+    MacrelOuPredictionInformation,
+    MacrelOutPredictionDescription
   },
 
   data() {
@@ -110,7 +117,10 @@ export default {
 
       dialogBinDataVisible: false,
       binData: {},
-      binDescription: {}
+      binDescription: {},
+
+      dialogMopDataVisible: false,
+      mopData: {},
     };
   },
 
@@ -201,6 +211,11 @@ export default {
         console.log(response.data.data)
         this.proteinSeqInfo = response.data.data? response.data.data : {}
       })
+    },
+
+    processMopData(mopData) {
+      this.mopData = mopData
+      this.dialogMopDataVisible = true
     }
   }
 };
@@ -255,6 +270,21 @@ export default {
 
   .bin-container {
     margin-top: 10px;
+    box-shadow: 5px 5px 5px #ccc;
+    background-color: #FFF;
+    border-radius: 5px 5px 5px 5px;
+    padding: 0 10px 20px 10px;
+    .title-container {
+      font-size: 18px;
+      font-weight: 700;
+      height: 40px;
+      line-height: 40px;
+      color: #36A3F7;
+    }
+  }
+
+  .mop-container {
+    margin-top: 10px;
     margin-bottom: 20px;
     box-shadow: 5px 5px 5px #ccc;
     background-color: #FFF;
@@ -268,6 +298,7 @@ export default {
       color: #36A3F7;
     }
   }
+
   .temp-information {
     text-align: center;
     

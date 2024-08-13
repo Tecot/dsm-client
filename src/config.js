@@ -20,6 +20,7 @@ const uriConfigs = {
         cdsVfResfinderViewURI: 'api/database/dataexpress/cdsvfresfinderView',
         proteinOneSeqViewURI: 'api/database/dataexpress/proteinoneseqview',
         binViewURI: 'api/database/dataexpress/binview',
+        macrelOutPredictionViewURI: 'api/database/dataexpress/macreloutpredictionview',
 
         downloadListViewURI: 'api/downloadlist',
         downloadURI: 'api/download'
