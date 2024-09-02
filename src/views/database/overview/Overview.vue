@@ -1,6 +1,6 @@
 <template>
-  <div>
-    afas
+  <div style="text-align: center;font-size: 32px;font-weight: bold">
+    Update...
   </div>
 </template>
 

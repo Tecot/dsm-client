@@ -6,20 +6,18 @@
  * @Description: 
 -->
 <template>
-  <div>
-    <!-- <GeneStructVis></GeneStructVis> -->
-     <WordCloudVis></WordCloudVis>
+  <div style="text-align: center;font-size: 32px;font-weight: bold">
+    Update...
   </div>
 </template>
 
 <script>
-import WordCloudVis from '@/components/visiualization/dellWordCloudVis.vue'
 
 export default {
   name: 'Analysis',
 
   components: {
-    WordCloudVis,
+    
   },
 
   data() {

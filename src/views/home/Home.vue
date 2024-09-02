@@ -10,57 +10,61 @@
         <div class="statistics">
           <div class="row">
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">MircoDB</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #F76B6B;  text-align: center;margin-top: 10px; ">1243243</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Metagenome</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #F76B6B;  text-align: center;margin-top: 10px; ">1,243,243</div>
             </div>
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">CHVD</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #73C0DE;  text-align: center;margin-top: 10px; ">244321</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">WGS</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #73C0DE;  text-align: center;margin-top: 10px; ">244,321</div>
             </div>
           </div>
 
           <div class="row">
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">GOV2</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #FCD05B;  text-align: center;margin-top: 10px; ">342211</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Genes</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #FCD05B;  text-align: center;margin-top: 10px; ">342,211,322</div>
             </div>
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">STV</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #409AF7;  text-align: center;margin-top: 10px; ">4032</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Taxonomy</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #409AF7;  text-align: center;margin-top: 10px; ">4,032</div>
             </div>
           </div>
 
           <div class="row">
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">GVD</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #5FE073;  text-align: center;margin-top: 10px; ">234212</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">ARGs</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #5FE073;  text-align: center;margin-top: 10px; ">234,212</div>
             </div>
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">TemPhD</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #CB62E0;  text-align: center;margin-top: 10px; ">66432</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">VFs</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #CB62E0;  text-align: center;margin-top: 10px; ">66,432</div>
             </div>
           </div>
 
           <div class="row">
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">GPD</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #FFFB00;  text-align: center;margin-top: 10px; ">234233</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Secondary Metabolites</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #FF00B4;  text-align: center;margin-top: 10px; ">15,755</div>
             </div>
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">IGVD</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #FF00B4;  text-align: center;margin-top: 10px; ">15755</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Protein Structure</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #00FF74;  text-align: center;margin-top: 10px; ">233,245</div>
             </div>
           </div>
 
           <div class="row">
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">MGV</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #00FF74;  text-align: center;margin-top: 10px; ">233245</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">AMPs</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #FFFB00;  text-align: center;margin-top: 10px; ">234,233</div>
             </div>
-            <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 24px; color: #FFF; text-align: center; ">IMG/VR</div>
-              <div class="num" style="font-weight: 700;font-size: 18px; color: #8355E8;  text-align: center;margin-top: 10px; ">178765</div>
-            </div>
+            <!-- <div class="item" style="width: 100px;">
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">IMG/VR</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #8355E8;  text-align: center;margin-top: 10px; ">178765</div>
+            </div> -->
+          </div>
+
+          <div style="margin-left: 20px; margin-right: 20px;">
+            <el-button type="primary" style="width: 100%;" @click="handleGoToDownload()">Download Database</el-button>
           </div>
           
         </div>
@@ -70,11 +74,50 @@
       </div>
     </div>
     <div class="down">
-      <GradientPieVis :pieData="gradientData" :height="'330px'" :width="'360px'"></GradientPieVis>
-      <WordCloudVis :words="vfsWordCloudData"></WordCloudVis>
-      <WordCloudVis :words="argsWordCloudData" :fontColor="'#FCD05B'"></WordCloudVis>
-      <WordCloudVis :words="productWordCloudData" :fontColor="'#5AD86A'"></WordCloudVis>
-      <PositionBarVis :barData="positionBarData" :height="'330px'" :width="'360px'"></PositionBarVis>
+      <div class="box">
+        <div class="name border_1">
+          Statistical of Samples from Various Regions
+        </div>
+        <PositionBarVis :barData="positionBarData" :height="'330px'" :width="'320px'"></PositionBarVis>
+      </div>
+      <div class="box">
+        <div class="name border_1">
+          Depth range distribution of samples
+        </div>
+        <GradientPieVis :pieData="gradientData" :height="'330px'" :width="'320px'"></GradientPieVis>
+      </div>
+      <div class="box">
+        <div class="name border_2" style="margin-bottom: 30px;">
+          Taxonome words cloud
+        </div>
+        <WordCloudVis :words="taxonomeWordCloudData"></WordCloudVis>
+      </div>
+      <div class="box">
+        <div class="name border_2" style="margin-bottom: 30px;">
+          VFs
+        </div>
+        <WordCloudVis :words="vfsWordCloudData"></WordCloudVis>
+      </div>
+      
+      <div class="box">
+        <div class="name border_2" style="margin-bottom: 30px;">
+          ARGs
+        </div>
+        <WordCloudVis :words="argsWordCloudData"></WordCloudVis>
+      </div>
+      <div class="box">
+        <div class="name border_3" style="margin-bottom: 30px;">
+          Secondary Metabolites
+        </div>
+        <WordCloudVis :words="productWordCloudData" :fontColor="'#5AD86A'"></WordCloudVis>
+      </div>
+      <div class="box">
+        <div class="name border_3" style="margin-bottom: 30px;">
+          AMPs
+        </div>
+        <WordCloudVis :words="ampsWordCloudData" :fontColor="'#5AD86A'"></WordCloudVis>
+      </div>
+      
     </div>
     
   </div>
@@ -108,7 +151,9 @@ export default {
       positionBarData: {},
 			vfsWordCloudData: [],
 			argsWordCloudData: [],
-			productWordCloudData: []
+			productWordCloudData: [],
+      taxonomeWordCloudData: [],
+      ampsWordCloudData: []
     };
   },
 
@@ -121,6 +166,8 @@ export default {
 			this.vfsWordCloudData = geoDataInfoStore.vfsWordCloudData
 			this.argsWordCloudData = geoDataInfoStore.argsWordCloudData
 			this.productWordCloudData = geoDataInfoStore.productWordCloudData
+      this.taxonomeWordCloudData = geoDataInfoStore.taxonomeWordCloudData
+      this.ampsWordCloudData = geoDataInfoStore.ampsWordCloudData
     } else {
       this.requestGeoData()
     }
@@ -141,13 +188,18 @@ export default {
 				this.vfsWordCloudData = this.processVFsData(this.geoData)
 				this.argsWordCloudData = this.processArgsData(this.geoData)
 				this.productWordCloudData = this.processProductData(this.geoData)
+        this.taxonomeWordCloudData = this.processTaxonomeWordCloudData(this.geoData)
+        this.ampsWordCloudData = this.processAmpsWordCloudData(this.geoData)
+        console.log(this.geoData)
         this.$store.dispatch('setGeoInfoData', {
           geoData: this.geoData,
           gradientData: this.gradientData,
           positionBarData: this.positionBarData,
 					vfsWordCloudData: this.vfsWordCloudData,
 					argsWordCloudData: this.argsWordCloudData,
-					productWordCloudData: this.productWordCloudData
+					productWordCloudData: this.productWordCloudData,
+          taxonomeWordCloudData: this.taxonomeWordCloudData,
+          ampsWordCloudData: this.ampsWordCloudData
         })
       }).finally(() => {
         hideLoading()
@@ -258,9 +310,39 @@ export default {
       return result
     },
 
+    processTaxonomeWordCloudData(objData = []) {
+      let tempArr = []
+      objData.forEach(item => {
+        if(item.info.taxonome) {
+          const strs = item.info.taxonome.replace(/s__/g, '').split(';')
+          tempArr = [...tempArr, ...strs]
+        }
+      })
+      const setArr = [...new Set(tempArr)]
+      return setArr
+    },
+
+    processAmpsWordCloudData(objData = []) {
+      let tempArr = []
+      objData.forEach(item => {
+        if(item.info.amps && item.info.amps !== '-') {
+          const strs = item.info.amps.split(';')
+          tempArr = [...tempArr, ...strs]
+        }
+      })
+      const setArr = [...new Set(tempArr)]
+      return setArr
+    },
+
     goToLink(value) {
       this.$router.push({
         name: value
+      })
+    },
+
+    handleGoToDownload() {
+      this.$router.push({
+        name: 'download'
       })
     }
   }
@@ -295,8 +377,29 @@ export default {
   .down {
     display: flex;
     justify-content: space-around;
-    align-items: center;
     background-color: #2C3964;
+    .box {
+      margin-top: 10px;
+      .name {
+        height: 40px;
+        width: 95%;
+        line-height: 40px;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 18px;
+        color: #FFF;
+        box-sizing: border-box;
+      }
+      .border_1 {
+        border-top: 4px solid #FF7575;
+      }
+      .border_2 {
+        border-top: 4px solid #03B5F4;
+      }
+      .border_3 {
+        border-top: 4px solid #58CF6A;
+      }
+    }
   }
 }
 </style>
