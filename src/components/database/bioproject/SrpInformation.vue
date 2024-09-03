@@ -21,14 +21,16 @@
             {{ scope.row['genes']? scope.row['genes'].split(';').slice(0, 3).join(';') + '......' : '' }}
           </template>
         </el-table-column>
-        <el-table-column prop="vfs" label="VFs" width="400">
-        <template slot-scope="scope">
-            {{ scope.row['vfs']? scope.row['vfs'].split(';').slice(0, 3).join(';') + '......' : '' }}
-          </template>
-      </el-table-column>
-        <el-table-column prop="args" label="ARGs" width="600"></el-table-column> 
         <el-table-column prop="taxonome" label="Taxonome" width="600"></el-table-column>
-        <el-table-column prop="product" label="Product" width="600"></el-table-column>
+        <el-table-column prop="vfs" label="VFs" width="400">
+          <template slot-scope="scope">
+              {{ scope.row['vfs']? scope.row['vfs'].split(';').slice(0, 3).join(';') + '......' : '' }}
+            </template>
+          </el-table-column>
+        <el-table-column prop="args" label="ARGs" width="600"></el-table-column> 
+        <el-table-column prop="product" label="Secondary Metabolites" width="600"></el-table-column>
+
+        <!-- amps -->
         
         <el-table-column label="Option" width="100" class-name="header-end-cell" fixed="right">
           <template slot-scope="scope">

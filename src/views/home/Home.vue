@@ -47,15 +47,15 @@
               <div class="num" style="font-weight: 700;font-size: 16px; color: #FF00B4;  text-align: center;margin-top: 10px; ">15,755</div>
             </div>
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Protein Structure</div>
-              <div class="num" style="font-weight: 700;font-size: 16px; color: #00FF74;  text-align: center;margin-top: 10px; ">233,245</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">AMPs</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #FFFB00;  text-align: center;margin-top: 10px; ">234,233</div>
             </div>
           </div>
 
           <div class="row">
             <div class="item" style="width: 100px;">
-              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">AMPs</div>
-              <div class="num" style="font-weight: 700;font-size: 16px; color: #FFFB00;  text-align: center;margin-top: 10px; ">234,233</div>
+              <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">Protein Structure</div>
+              <div class="num" style="font-weight: 700;font-size: 16px; color: #00FF74;  text-align: center;margin-top: 10px; ">233,245</div>
             </div>
             <!-- <div class="item" style="width: 100px;">
               <div class="title" style="font-weight: 700;font-size: 18px; color: #FFF; text-align: center; ">IMG/VR</div>
@@ -78,17 +78,17 @@
         <div class="name border_1">
           Statistical of Samples from Various Regions
         </div>
-        <PositionBarVis :barData="positionBarData" :height="'330px'" :width="'320px'"></PositionBarVis>
+        <PositionBarVis :barData="positionBarData" :height="'330px'" :width="'300px'"></PositionBarVis>
       </div>
       <div class="box">
         <div class="name border_1">
           Depth range distribution of samples
         </div>
-        <GradientPieVis :pieData="gradientData" :height="'330px'" :width="'320px'"></GradientPieVis>
+        <GradientPieVis :pieData="gradientData" :height="'330px'" :width="'300px'"></GradientPieVis>
       </div>
       <div class="box">
         <div class="name border_2" style="margin-bottom: 30px;">
-          Taxonome words cloud
+          Taxonome
         </div>
         <WordCloudVis :words="taxonomeWordCloudData"></WordCloudVis>
       </div>
@@ -154,7 +154,7 @@ export default {
 			productWordCloudData: [],
       taxonomeWordCloudData: [],
       ampsWordCloudData: []
-    };
+    }
   },
 
   mounted() {
@@ -190,7 +190,6 @@ export default {
 				this.productWordCloudData = this.processProductData(this.geoData)
         this.taxonomeWordCloudData = this.processTaxonomeWordCloudData(this.geoData)
         this.ampsWordCloudData = this.processAmpsWordCloudData(this.geoData)
-        console.log(this.geoData)
         this.$store.dispatch('setGeoInfoData', {
           geoData: this.geoData,
           gradientData: this.gradientData,
@@ -331,7 +330,7 @@ export default {
         }
       })
       const setArr = [...new Set(tempArr)]
-      return setArr
+      return ['ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP',]
     },
 
     goToLink(value) {

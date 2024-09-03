@@ -29,13 +29,13 @@
       <el-table-column prop="description" label="Description" width="300"></el-table-column>
       <el-table-column prop="length" label="Length"></el-table-column>
       <el-table-column prop="gc" label="GC"></el-table-column>
-      <el-table-column prop="stitle" label="VFs"></el-table-column>
-      <el-table-column prop="sseqid" label="ARGs"></el-table-column>
       <el-table-column prop="genes" label="Genes"></el-table-column>
       <el-table-column prop="bin" label="Bin"></el-table-column>
       <el-table-column prop="classification" label="Taxonome"></el-table-column>
-      <el-table-column prop="product" label="AMPs"></el-table-column>
-    
+      <el-table-column prop="stitle" label="VFs"></el-table-column>
+      <el-table-column prop="sseqid" label="ARGs"></el-table-column>
+      <el-table-column prop="product" label="Secondary Metabolites" width="200"></el-table-column>
+      <el-table-column prop="amps" label="AMPs"></el-table-column>
       <el-table-column label="Option" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleView(scope.row)">

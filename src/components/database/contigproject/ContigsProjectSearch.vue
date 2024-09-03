@@ -189,14 +189,14 @@
 
         <div class="search-condition-container">
           <div class="title">
-            AMPs
+            Secondary Metabolites
           </div>
           <div class="search-container">
             <el-input 
               v-model="searchContent.product"
               :disabled="searchContent.ifSearchProductUnknown" 
               size="mini"
-              placeholder="Please input product"
+              placeholder="Please input secondary metabolites"
             >
             </el-input>
           </div>
