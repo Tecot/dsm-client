@@ -33,14 +33,14 @@
 
     <div class="bin-container">
       <div class="title-container">
-        {{ contigDetail.srp + ' bin informations' }}
+        {{ contigDetail.srp + ' The results of binning' }}
       </div>
       <BinInformation :srp="contigDetail.srp" :binData="binData" @binDescriptionSignal="handleBinDescriptionSignal($event)"></BinInformation>
     </div>
 
     <div class="mop-container">
       <div class="title-container">
-        {{ contigDetail.srp + ' macrel out prediction informations' }}
+        {{ contigDetail.srp + ' The predicted results of AMP' }}
       </div>
       <MacrelOuPredictionInformation :srp="this.contigDetail.srp" @mopData="processMopData($event)"></MacrelOuPredictionInformation>
     </div>

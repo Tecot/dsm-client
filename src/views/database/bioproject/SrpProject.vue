@@ -14,7 +14,7 @@
     <div class="information-container">
       <div class="title-and-search-container">
         <div class="title-container">
-          {{ ifSearchedSrp? 'Searched bio project list' : 'Bio project list'}}
+          {{ ifSearchedSrp? 'Searched bioproject list' : 'Bioproject list'}}
         </div>
         <SrpSearch @outputSearchData="handleSearchData($event)" @outputResetSignal="handleResetSignal($event)"></SrpSearch>
       </div>
