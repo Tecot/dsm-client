@@ -16,6 +16,12 @@ const routes = [
     redirect: {
       name: 'index'
     }
+  },
+  {
+    path: '',
+    redirect: {
+      name: 'index'
+    }
   }
 ]
 
