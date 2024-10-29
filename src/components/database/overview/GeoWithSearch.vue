@@ -23,7 +23,7 @@
 
 <script>
 import GeoVis from '@/components/visiualization/GeoVis.vue'
-import GeoSearchConditions from '@/components/home/GeoSearchConditions.vue'
+import GeoSearchConditions from './GeoSearchConditions.vue';
 
 export default {
   name: 'GeoWithSearch',

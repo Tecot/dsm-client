@@ -2,6 +2,7 @@ const uriConfigs = {
     baseUrl: 'http://127.0.0.1:8000/',
     uri: {
         srpDirNamesViewURI: 'api/shared/srpdirnamesview',
+        getTargetSrpValueURI: 'api/shared/gettargetsrpvalue',
 
         geoDataViewURI: 'api/database/bioproject/geodataview',
         srpProjectViewURI: 'api/database/bioproject/srpprojectview',

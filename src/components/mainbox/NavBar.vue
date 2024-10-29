@@ -1,3 +1,10 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-10-29 14:18:32
+ * @Description: 
+-->
 <template>
   <div class="menu-container">
     <!-- <el-image
@@ -10,7 +17,7 @@
     <el-menu 
       class="el-menu" 
       mode="horizontal" 
-      background-color="#555658"
+      background-color="#031558"
       active-text-color="#FFD04B"
       text-color="#FFF"
       :default-active="$route.path" 
@@ -76,7 +83,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #555658;
+  background-color: #031558;
   opacity: 0.8;
   height: 80px;
   .el-menu {

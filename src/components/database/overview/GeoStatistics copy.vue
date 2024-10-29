@@ -44,7 +44,7 @@ import GeoVis from '@/components/visiualization/GeoVis.vue'
 import GradientVis from '@/components/visiualization/GradientVis.vue'
 import GradientPieVis from '@/components/visiualization/GradientPieVis.vue'
 import PositionBarVis from '@/components/visiualization/PositionBarVis.vue'
-import GeoSearchConditions from '@/components/home/GeoSearchConditions.vue'
+import GeoSearchConditions from './GeoSearchConditions.vue'
 
 export default {
   name: 'GeoStatisticsCopy',
