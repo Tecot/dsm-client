@@ -1,3 +1,10 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-10-30 09:18:41
+ * @Description: 
+-->
 <template>
   <div class="home-container">
     <div class="search-container">
@@ -6,11 +13,11 @@
       </div>
       <div class="search-input">
         <el-input style="width: 40%;"v-model="searchData" :placeholder="placeholder"></el-input>
-        <el-button @click="handuleSearchData()">Search</el-button>
+        <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
       </div>
     </div>
     <div class="description-container">
-
+      
     </div>
   </div>
 </template>
@@ -24,7 +31,7 @@ export default {
   data() {
     return {
       searchData: '',
-      placeholder: 'Search for SRA/SRP project',
+      placeholder: 'Search for SRA/SRP project. Examples: SRP080036, ERP109052',
       srpDirNames: [],
     };
   },
@@ -64,8 +71,8 @@ export default {
         }
       }
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -90,9 +97,6 @@ export default {
         margin-left: 10px;
         color: #1371B9;
       }
-    }
-    .description-container {
-      
     }
   }
 }

@@ -1,5 +1,14 @@
+/*
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-11-04 11:55:05
+ * @Description: 
+ */
 import Home from '@/views/home/Home.vue'
 import Analysis from '@/views/analysis/Analysis.vue'
+
+import workspace from '@/views/workspace/workspace.vue'
 
 import Overview from '@/views/database/overview/Overview.vue'
 import SrpProject from '@/views/database/bioproject/SrpProject.vue'
@@ -19,6 +28,11 @@ const routesConfig = [
         path: '/index',
         name: 'index',
         component: Home
+    },
+    {
+        path: '/workspace',
+        name: 'workspace',
+        component: workspace 
     },
     {
         path: '/analysis',

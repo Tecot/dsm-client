@@ -1,3 +1,10 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-10-30 09:53:35
+ * @Description: 
+-->
 <template>
     <div class="common-layout">
         <el-container direction="vertical">

@@ -1,3 +1,10 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-10-30 10:37:57
+ * @Description: 
+-->
 <template>
   <router-view/>
 </template>
@@ -6,7 +13,8 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  
+  font-family: 'Times New Roman', Times, serif;
 }
 
 body {

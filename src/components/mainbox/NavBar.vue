@@ -26,6 +26,9 @@
       <el-menu-item index="/index">
         Home
       </el-menu-item>
+      <el-menu-item index="/workspace">
+        Workspace
+      </el-menu-item>
       <el-menu-item index="/analysis">
         Analysis
       </el-menu-item>
