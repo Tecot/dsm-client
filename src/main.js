@@ -18,6 +18,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import dataV from '@jiaminghi/data-view'
+import Particles from 'vue-particles';
 
 library.add(fas)
 
@@ -25,7 +26,7 @@ Vue.config.productionTip = false
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-Vue.use(ElementUI).use(VueClipBoard).use(dataV)
+Vue.use(ElementUI).use(VueClipBoard).use(dataV).use(Particles)
 
 ElementLocale.use(elementEnLocale);
 
