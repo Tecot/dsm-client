@@ -15,20 +15,44 @@
         :data="treeData"
         :props="defaultProps"
         :default-expand-all="true"
+        :current-node-key="11"
         @node-click="handuleNodeClick">
       </el-tree>
     </div>
-    <div class="right" ref="anchorRef" @scroll="handuleScroll()">
-      <div class="title-box" ref="anchor-1">
+    <div class="right">
+      <div class="title-box">
         <div class="rect"></div>
-        <span>Analysis relevant to drug design</span>
+        <span>{{ leafInfo.title }}</span>
       </div>
-      
+      <div class="content" >
+        <div class="upload">
+          <el-upload
+            drag
+            action=""
+            accept=".fa,.fasta,.fastq,.fq"
+            list-type="text"
+            :http-request="dummyRequest"
+            :on-remove="handleRemove"
+            :on-change="handleChange"
+            :auto-upload="false"
+            :limit="1">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">Drag the file here, or <em>click upload</em></div>
+          </el-upload>
+        </div>
+        <div class="submit">
+          <el-button style="height: 40px; width: 400px;"type="primary" @click="handleSubmit">Submit</el-button>
+        </div>
+        
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import config from '@/config'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default {
   name: 'Analysis',
@@ -77,25 +101,82 @@ export default {
           ]
         }
       ],
+      labelMap: {
+
+      },
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+
+      leafInfo: {
+        id: 11,
+        title: 'Prediction of secondary metabolites',
+        parentInfo: {
+          id: '1',
+          title: 'Analysis relevant to drug design'
+        }
+      },
+      file: null,
     };
   },
 
   mounted() {
+    const cookies = Cookies.get();
+    for (let key in cookies) {
+      console.log(key + ':' + cookies[key])
+    }
     
   },
 
   methods: {
     handuleNodeClick(value1, value2, value3) {
-      console.log(value1)
-      console.log(value2)
-      console.log(value3)
+      if(!value1['children']) {
+        this.leafInfo.title = value1.id
+        this.leafInfo.title = value1.label
+        this.leafInfo.parentInfo.id = value2.parent.data.id
+        this.leafInfo.parentInfo.id = value2.parent.data.label
+      }
     },
-    handuleScroll() {
-
+    handleChange(file, fileList) {
+      this.file = file.raw
+    },
+    handleRemove(file, fileList) {
+      this.file = null
+    },
+    dummyRequest({ file, onSuccess }) {
+      onSuccess("ok")
+    },
+    handleSubmit() {
+      if(this.file) {
+        const formData = new FormData();
+        formData.append('file', this.file)
+        const url = config.baseUrl + config.uri.analysisURI
+        axios.post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          const expires = new Date(new Date() * 1 + response.data.data['age'] * 1000)
+          Cookies.set(response.data.data['key'], response.data.data['value'], { expires: expires })
+          
+          this.$notify({
+            message: 'Upload success',
+            type: 'success'
+          });
+        })
+        .catch(error => {
+          this.$notify.error({
+            message: '服务器忙碌，请稍后再试！',
+          })
+        })
+      } else {
+        this.$notify.error({
+          message: '请上传数据！',
+        })
+      }
+      
     }
   },
 };
@@ -137,7 +218,17 @@ export default {
         background-color: aquamarine;
       }
     }
-    
+    .content {
+      margin-top: 20px;
+      .upload, .submit {
+        display: flex;
+        justify-content: center;
+        align-items: center;  
+      }
+      .submit {
+        margin-top: 20px;
+      }
+    }
   }
 }
 </style>

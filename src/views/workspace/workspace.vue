@@ -139,6 +139,7 @@ export default {
     }
   }
   .submitted-tasks {
+    margin-top: 100px;
     .up {
       height: 40px;
       font-size: 24px;

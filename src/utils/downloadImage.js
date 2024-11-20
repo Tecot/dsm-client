@@ -20,11 +20,12 @@ export const downloadImage2PDF = async (svgElement) => {
       // 使用html2canvas将Vue组件渲染为图片
       const canvas = await html2canvas(svgElement)
       // 创建新的jsPDF文档
-      const pdf = new jsPDF('p', 'mm', 'a4')
+      const pdf = new jsPDF('l', 'mm', [300, 100])
       // 将渲染的图片添加到PDF文档中
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298)
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 290, 80)
       // 下载PDF文件
-      pdf.save('my-pdf-document.pdf')
+
+      pdf.save(new Date().valueOf() + '.pdf')
 }
 
 

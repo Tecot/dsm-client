@@ -24,7 +24,9 @@ const uriConfigs = {
         macrelOutPredictionViewURI: 'api/database/dataexpress/macreloutpredictionview',
 
         downloadListViewURI: 'api/downloadlist',
-        downloadURI: 'api/download'
+        downloadURI: 'api/download',
+
+        analysisURI: 'api/analysis/analysisview'
     }
 }
 
