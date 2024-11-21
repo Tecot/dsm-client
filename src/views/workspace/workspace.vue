@@ -5,7 +5,7 @@
     </div>
     <div class="search">
       <div class="search-input">
-        <el-input style="width: 40%;"v-model="searchData" :placeholder="placeholder"></el-input>
+        <el-input style="width: 40%;"v-model="searchData" placeholder="Please enter your task ID"></el-input>
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
       </div>
       <div class="tip">
@@ -30,11 +30,11 @@
           :header-cell-style="headerCellStyle"
           :cell-style="cellStyle"
         >
-          <el-table-column prop="ID" label="Task ID"></el-table-column>
+          <el-table-column prop="id" label="Task ID" width="200px" fixed="left"></el-table-column>
           <el-table-column prop="name" label="Task Name"></el-table-column>
           <el-table-column prop="status" label="Status"></el-table-column>
-          <el-table-column prop="create_time" label="Create Time"></el-table-column>
-          <el-table-column label="Option" width="100" fixed="right">
+          <el-table-column prop="createTime" label="Create Time"></el-table-column>
+          <el-table-column label="Option" width="200px" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" size="mini">
                 View detail
@@ -51,10 +51,10 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[20, 50, 100]"
+          :page-sizes="[5, 10, 20]"
           :page-size="pageSize"
           layout="total, prev, pager, next, sizes, jumper"
-          :total="total"
+          :total="tasks.length"
         >
         </el-pagination>
       </div>
@@ -63,13 +63,14 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
+
 export default {
   name: 'Workspace',
 
   data() {
     return {
       searchData: '',
-      placeholder: 'Please enter your task ID',
       headerCellStyle: {
         textAlign: 'center', 
         backgroundColor: '#C8D6DF', 
@@ -78,15 +79,28 @@ export default {
       cellStyle: {
         textAlign: 'center'
       },
+      tasks: [],
       tabelData: [],
       currentPage: 1,
-      pageSize: 20,
-      total: 0
+      pageSize: 5,
     };
   },
 
   mounted() {
-    
+    const cookies = Cookies.get();
+    const tasks = []
+    for (let key in cookies) {
+      if(key.startsWith('dsm')) {
+        const value = cookies[key]
+        tasks.push({
+          id: key,
+          name: value.split('_')[0],
+          createTime:value.split('_')[1],
+        })
+      }
+    }
+    this.tasks = tasks
+    this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
   },
 
   methods: {
@@ -97,12 +111,24 @@ export default {
 
     },
     handleSizeChange(value) {
-      
+      this.currentPage = 1
+      this.pageSize = value
+      this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
     },
-
     handleCurrentChange(value) {
-
+      this.currentPage = value
+      this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
     },
+    paginationControler(array, currentPage, pageSize) {
+      const totle = array.length
+      let sliceData = []
+      if(totle - pageSize * currentPage > 0) {
+        sliceData = array.slice(pageSize * (currentPage - 1), pageSize * currentPage)
+      } else {
+        sliceData = array.slice(pageSize * (currentPage - 1), totle)
+      }
+      return sliceData
+    }
   },
 };
 </script>

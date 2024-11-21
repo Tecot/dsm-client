@@ -122,10 +122,7 @@ export default {
   },
 
   mounted() {
-    const cookies = Cookies.get();
-    for (let key in cookies) {
-      console.log(key + ':' + cookies[key])
-    }
+    
     
   },
 
@@ -151,6 +148,8 @@ export default {
       if(this.file) {
         const formData = new FormData();
         formData.append('file', this.file)
+        formData.append('name', this.leafInfo.title)
+        console.log(this.leafInfo.title)
         const url = config.baseUrl + config.uri.analysisURI
         axios.post(url, formData, {
           headers: {
@@ -193,14 +192,14 @@ export default {
   .left {
     padding-top: 10px;
     background-color: #FFF;
-    width: 400px;
+    width: 500px;
     height: 100%;
     border-right: 1px solid #f4f1f1;
     box-sizing: border-box;
   }
   .right {
     padding: 10px 10px 0 10px;
-    width: calc(100% - 400px);
+    width: calc(100% - 500px);
     background-color: #FFF;
     overflow-y: scroll;
     .title-box {
