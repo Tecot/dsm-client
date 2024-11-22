@@ -149,7 +149,6 @@ export default {
         const formData = new FormData();
         formData.append('file', this.file)
         formData.append('name', this.leafInfo.title)
-        console.log(this.leafInfo.title)
         const url = config.baseUrl + config.uri.analysisURI
         axios.post(url, formData, {
           headers: {
@@ -159,11 +158,16 @@ export default {
         .then((response) => {
           const expires = new Date(new Date() * 1 + response.data.data['age'] * 1000)
           Cookies.set(response.data.data['key'], response.data.data['value'], { expires: expires })
-          
           this.$notify({
             message: 'Upload success',
-            type: 'success'
-          });
+            type: 'success',
+            duration: 2000,
+            onClose: () => {
+              this.$router.push({
+                name: 'workspace'
+              })
+            }
+          })
         })
         .catch(error => {
           this.$notify.error({
@@ -183,16 +187,18 @@ export default {
 
 <style lang="scss" scoped>
 .analysis-cotainer {
+  ::v-deep .el-tree-node__content {
+    height: 50px;
+  }
   ::v-deep .el-tree-node__label {
-    font-size: 14px;
+    font-size: 16px;
     color: #44546A;
   }
   height: calc(100vh - 80px);
   display: flex;
   .left {
-    padding-top: 10px;
     background-color: #FFF;
-    width: 500px;
+    width: 450px;
     height: 100%;
     border-right: 1px solid #f4f1f1;
     box-sizing: border-box;

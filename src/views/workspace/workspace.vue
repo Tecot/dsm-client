@@ -32,8 +32,8 @@
         >
           <el-table-column prop="id" label="Task ID" width="200px" fixed="left"></el-table-column>
           <el-table-column prop="name" label="Task Name"></el-table-column>
-          <el-table-column prop="status" label="Status"></el-table-column>
           <el-table-column prop="createTime" label="Create Time"></el-table-column>
+          <el-table-column prop="status" label="Status"></el-table-column>
           <el-table-column label="Option" width="200px" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" size="mini">
@@ -105,7 +105,37 @@ export default {
 
   methods: {
     handuleSearchData() {
-
+      const cookies = Cookies.get();
+      const tasks = []
+      this.currentPage = 1
+      this.pageSize = 5
+      if(this.searchData) {
+        for (let key in cookies) {
+          if(key.startsWith('dsm')) {
+            const value = cookies[key]
+            if(key.includes(this.searchData)) {
+              tasks.push({
+                id: key,
+                name: value.split('_')[0],
+                createTime:value.split('_')[1],
+              })
+            }
+          }
+        }
+      } else {
+        for (let key in cookies) {
+          if(key.startsWith('dsm')) {
+            const value = cookies[key]
+            tasks.push({
+              id: key,
+              name: value.split('_')[0],
+              createTime:value.split('_')[1],
+            })
+          }
+        }
+      }
+      this.tasks = tasks
+      this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
     },
     handleRowData(rowData) {
 

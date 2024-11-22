@@ -25,8 +25,8 @@
       </div>
     </div>
     <div class="description-container">
-      <div>AlphaFold DB provides open access to over 200 million protein</div>
-      <div>structure predictions to accelerate scientific research.</div>
+      AlphaFold DB provides open access to over 200 million protein<br>
+      structure predictions to accelerate scientific research.
     </div>
     
     <div class="background-container">
@@ -159,21 +159,19 @@ export default {
     }
   }
   .description-container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
     background-color: #D1E3F6;
-    font-size: 1.5rem;
-    div:nth-child(1) {
-      height: 3.75rem;
-      text-align: center;
-      line-height: 60px;
-    }
-    div:nth-child(2) {
-      height: 3.75rem;
-      text-align: center;
-    }
+    font-size: 1.8rem;
+    text-align: center;
+    color: #2f3a48;
   }
   .background-container {
-    padding: 0.525rem 20rem 0 20rem;
+    padding: 0.525rem 10rem 0 10rem;
+    color: #2f3a48;
     .label-container {
       height: 3rem;
       font-size: 2.5rem;
@@ -184,6 +182,7 @@ export default {
     }
     .content {
       padding: 1rem 1rem 1rem 0;
+      line-height: 40px;
       .up {
         font-size: 1.2rem;
       }
