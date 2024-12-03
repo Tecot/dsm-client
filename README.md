@@ -1,3 +1,4 @@
+
 # client
 
 ## Project setup
@@ -7,7 +8,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run serve || ./run.sh
 ```
 
 ### Compiles and minifies for production
@@ -17,3 +18,13 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+```rust
+
+```
+
+
+```rust
+
+```

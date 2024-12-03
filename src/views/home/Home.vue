@@ -8,6 +8,7 @@
 <template>
   <div class="home-container">
     <vue-particles 
+      v-show="isShow"
       color="#dedede" 
       shapeType="star" 
       linesColor="#dedede" 
@@ -89,6 +90,7 @@ export default {
 
   data() {
     return {
+      isShow: true,
       searchData: '',
       placeholder: 'Search for SRA/SRP project. Examples: SRP080036, ERP109052',
       srpDirNames: [],
@@ -96,6 +98,7 @@ export default {
   },
 
   mounted() {
+    window.addEventListener('scroll', this.handleScroll)
     axios.get(config .baseUrl + config.uri.srpDirNamesViewURI, {
       headers: {
         'Content-Type': 'application/json; charset=utf-8' 
@@ -106,6 +109,9 @@ export default {
   },
 
   methods: {
+    handleScroll() {
+      window.scrollY > 400? this.isShow = false: this.isShow = true
+    },
     handuleSearchData() {
       if(this.searchData) {
         if(this.srpDirNames.includes(this.searchData)) {
@@ -130,6 +136,9 @@ export default {
         }
       }
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 }
 </script>
@@ -148,11 +157,13 @@ export default {
       align-items: center;
     }
     .search-input {
+      z-index: 1;
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: 20px;
       .el-button {
+        z-index: 1;
         margin-left: 10px;
         color: #1371B9;
       }
