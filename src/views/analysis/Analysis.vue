@@ -3,7 +3,7 @@
  * @Author: Tecot (tyx_cqbs@163.com)
  * @Version: V1.0
  * @Date: 2024-07-08 11:03:44
- * @Description: 
+ * @Description:
 -->
 <template>
   <div class="analysis-cotainer">
@@ -102,7 +102,14 @@ export default {
         }
       ],
       labelMap: {
-
+        'Analysis relevant to drug design': 'artdd',
+        'Prediction of secondary metabolites': 'posm',
+        'Prediction of antimicrobial peptide': 'poap',
+        'Prediction of Protein structure': 'pops',
+        'Analysis related to disease prevention': 'artdp',
+        'Prediction of virulence factor': 'povf',
+        'Prediction of drug resistance factor': 'podrf',
+        'Prediction of microorganism (Pathogenic microorganism)': 'pom'
       },
       defaultProps: {
         children: 'children',
@@ -148,7 +155,7 @@ export default {
       if(this.file) {
         const formData = new FormData();
         formData.append('file', this.file)
-        formData.append('name', this.leafInfo.title)
+        formData.append('name', this.labelMap[this.leafInfo.title])
         const url = config.baseUrl + config.uri.analysisURI
         axios.post(url, formData, {
           headers: {

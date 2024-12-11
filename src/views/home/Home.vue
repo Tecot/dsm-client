@@ -99,7 +99,7 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll)
-    axios.get(config .baseUrl + config.uri.srpDirNamesViewURI, {
+    axios.get(config.baseUrl + config.uri.srpDirNamesViewURI, {
       headers: {
         'Content-Type': 'application/json; charset=utf-8' 
       }

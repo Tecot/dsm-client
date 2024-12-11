@@ -1,3 +1,10 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-12-11 13:28:06
+ * @Description: 
+-->
 <template>
   <div class="container">
     <div class="title">
@@ -14,7 +21,7 @@
     </div>
     <div class="submitted-tasks">
       <div class="up">
-        Submitted task(s) <el-button icon="el-icon-refresh" size="mini" type="primary">Refresh status</el-button>
+        Submitted task(s) <el-button icon="el-icon-refresh" size="mini" type="primary" @click="refreshTask()">Refresh status</el-button>
       </div>
       <div class="tip">
         You could check the submitted task by Task ID.
@@ -63,6 +70,9 @@
 </template>
 
 <script>
+import axios from 'axios';
+import config from '@/config'
+import { showLoading, hideLoading } from '@/utils/loading'
 import Cookies from 'js-cookie';
 
 export default {
@@ -80,61 +90,94 @@ export default {
         textAlign: 'center'
       },
       tasks: [],
+      memberTasks: [],
       tabelData: [],
       currentPage: 1,
       pageSize: 5,
+      reverseLabelMap: {
+        'artdd': 'Analysis relevant to drug design',
+        'posm': 'Prediction of secondary metabolites',
+        'poap': 'Prediction of antimicrobial peptide',
+        'pops': 'Prediction of Protein structure',
+        'artdp': 'Analysis related to disease prevention',
+        'povf': 'Prediction of virulence factor',
+        'podrf': 'Prediction of drug resistance factor',
+        'pom': 'Prediction of microorganism (Pathogenic microorganism)'
+      },
     };
   },
 
   mounted() {
-    const cookies = Cookies.get();
-    const tasks = []
-    for (let key in cookies) {
-      if(key.startsWith('dsm')) {
-        const value = cookies[key]
-        tasks.push({
-          id: key,
-          name: value.split('_')[0],
-          createTime:value.split('_')[1],
-        })
-      }
-    }
-    this.tasks = tasks
-    this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
+    this.refreshTask()
   },
 
   methods: {
-    handuleSearchData() {
+    refreshTask() {
+      this.searchData = ''
       const cookies = Cookies.get();
       const tasks = []
+      const keys = []
+      for (let key in cookies) {
+        if(key.startsWith('dsm')) {
+          keys.push(key)
+          const value = cookies[key]
+          tasks.push({
+            id: key,
+            name: this.reverseLabelMap[value],
+            createTime: this.processCreateTime(key.split('-')[1]),
+          })
+        }
+      }
+      // 请求状态
+      if(keys.length) {
+        showLoading()
+        axios.get(config.baseUrl + config.uri.taskStatuesViewURI + '/' + keys.join('$'), {
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8' 
+          }
+        }).then((response) => {
+          const data = response.data.data
+          console.log(data)
+          const ptasks = []
+          console.log(tasks.length)
+          tasks.forEach((item) => {
+            for(let i = 0; i < data.length; i++) {
+              if(item.id === data[i].key) {
+                ptasks.push({
+                  ...item,
+                  status: data[i].status
+                })
+              }
+            }
+          })
+          this.tasks = ptasks
+          this.memberTasks = ptasks
+          this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
+        })
+        .finally(() => {
+          hideLoading()
+        })
+      }
+    },
+    processCreateTime(str_time) {
+      const timeArray = str_time.split('~')
+      let formatTime = timeArray[0].replaceAll('_', '-') + ' ' + timeArray[1].replaceAll('_', ':')
+      return formatTime
+    },
+    handuleSearchData() {
       this.currentPage = 1
       this.pageSize = 5
       if(this.searchData) {
-        for (let key in cookies) {
-          if(key.startsWith('dsm')) {
-            const value = cookies[key]
-            if(key.includes(this.searchData)) {
-              tasks.push({
-                id: key,
-                name: value.split('_')[0],
-                createTime:value.split('_')[1],
-              })
-            }
+        const searchTasks = []
+        this.memberTasks.forEach((task) => {
+          if(task['id'].includes(this.searchData)) {
+            searchTasks.push(task)
           }
-        }
+        })
+        this.tasks = searchTasks
       } else {
-        for (let key in cookies) {
-          if(key.startsWith('dsm')) {
-            const value = cookies[key]
-            tasks.push({
-              id: key,
-              name: value.split('_')[0],
-              createTime:value.split('_')[1],
-            })
-          }
-        }
+        this.tasks = this.memberTasks
       }
-      this.tasks = tasks
       this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
     },
     handleRowData(rowData) {

@@ -26,7 +26,9 @@ const uriConfigs = {
         downloadListViewURI: 'api/downloadlist',
         downloadURI: 'api/download',
 
-        analysisURI: 'api/analysis/analysisview'
+        analysisURI: 'api/analysis/analysisview',
+
+        taskStatuesViewURI: 'api/workspace/taskstatuesview'
     }
 }
 
