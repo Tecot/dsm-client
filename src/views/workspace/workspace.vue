@@ -40,14 +40,15 @@
           <el-table-column prop="id" label="Task ID" width="200px" fixed="left"></el-table-column>
           <el-table-column prop="name" label="Task Name"></el-table-column>
           <el-table-column prop="createTime" label="Create Time"></el-table-column>
-          <el-table-column prop="status" label="Status"></el-table-column>
+          <el-table-column label="Status">
+            <template slot-scope="scope">
+              <el-tag :type="processStatusesColor(scope.row['status'])">{{ scope.row['status'] | statusesFormat }}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column label="Option" width="200px" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" size="mini">
                 View detail
-              </el-button>
-              <el-button type="success" size="mini">
-                Task log
               </el-button>
             </template>
           </el-table-column>
@@ -133,7 +134,7 @@ export default {
         showLoading()
         axios.get(config.baseUrl + config.uri.taskStatuesViewURI + '/' + keys.join('$'), {
           headers: {
-            'Content-Type': 'application/json; charset=utf-8' 
+            'Content-Type': 'application/json; charset=utf-8'
           }
         }).then((response) => {
           const data = response.data.data
@@ -160,7 +161,7 @@ export default {
       }
     },
     processCreateTime(str_time) {
-      const timeArray = str_time.split('~')
+      const timeArray = str_time.split('__')
       let formatTime = timeArray[0].replaceAll('_', '-') + ' ' + timeArray[1].replaceAll('_', ':')
       return formatTime
     },
@@ -201,8 +202,32 @@ export default {
         sliceData = array.slice(pageSize * (currentPage - 1), totle)
       }
       return sliceData
+    },
+    processStatusesColor(value) {
+      if(value === 0) {
+        return 'success'
+      }
+      if(value === 1) {
+        return 'danger'
+      }
+      if(value === 2) {
+        return 'warning'
+      }
     }
   },
+  filters: {
+    statusesFormat(value) {
+      if(value === 0) {
+        return 'Success'
+      }
+      if(value === 1) {
+        return 'Faild'
+      }
+      if(value === 2) {
+        return 'Processing'
+      }
+    }
+  }
 };
 </script>
 

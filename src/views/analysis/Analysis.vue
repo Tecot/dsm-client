@@ -26,20 +26,39 @@
       </div>
       <div class="content" >
         <div class="upload">
-          <el-upload
-            drag
-            action=""
-            accept=".fa,.fasta,.fastq,.fq"
-            list-type="text"
-            :http-request="dummyRequest"
-            :on-remove="handleRemove"
-            :on-change="handleChange"
-            :auto-upload="false"
-            :limit="1">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">Drag the file here, or <em>click upload</em></div>
-          </el-upload>
-        </div>
+          <div class="uplaod-left">
+            <div class="tip">Please input read 1 (.fastq/.fq)</div>
+            <el-upload
+              drag
+              action=""
+              accept=".fastq,.fq"
+              list-type="text"
+              :http-request="dummyFastq1Request"
+              :on-remove="handleFastq1Remove"
+              :on-change="handleFastq1Change"
+              :auto-upload="false"
+              :limit="1">
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">Drag the file here, or <em>click upload</em></div>
+            </el-upload>
+          </div>
+          <div class="upload-right">
+            <div class="tip">Please input read 2 (.fastq/.fq)</div>
+            <el-upload
+              drag
+              action=""
+              accept=".fastq,.fq"
+              list-type="text"
+              :http-request="dummyFastq2Request"
+              :on-remove="handleFastq2Remove"
+              :on-change="handleFastq2Change"
+              :auto-upload="false"
+              :limit="1">
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">Drag the file here, or <em>click upload</em></div>
+            </el-upload>
+          </div>
+          </div>
         <div class="submit">
           <el-button style="height: 40px; width: 400px;"type="primary" @click="handleSubmit">Submit</el-button>
         </div>
@@ -52,6 +71,7 @@
 <script>
 import config from '@/config'
 import axios from 'axios';
+import { showLoading, hideLoading } from '@/utils/loading'
 import Cookies from 'js-cookie';
 
 export default {
@@ -115,7 +135,6 @@ export default {
         children: 'children',
         label: 'label'
       },
-
       leafInfo: {
         id: 11,
         title: 'Prediction of secondary metabolites',
@@ -124,7 +143,8 @@ export default {
           title: 'Analysis relevant to drug design'
         }
       },
-      file: null,
+      file1: null,
+      file2: null,
     };
   },
 
@@ -142,19 +162,30 @@ export default {
         this.leafInfo.parentInfo.id = value2.parent.data.label
       }
     },
-    handleChange(file, fileList) {
-      this.file = file.raw
+    handleFastq1Change(file, fileList) {
+      this.file1 = file.raw
     },
-    handleRemove(file, fileList) {
-      this.file = null
+    handleFastq1Remove(file, fileList) {
+      this.file1 = null
     },
-    dummyRequest({ file, onSuccess }) {
+    dummyFastq1Request({ file, onSuccess }) {
+      onSuccess("ok")
+    },
+    handleFastq2Change(file, fileList) {
+      this.file2 = file.raw
+    },
+    handleFastq2Remove(file, fileList) {
+      this.file2 = null
+    },
+    dummyFastq2Request({ file, onSuccess }) {
       onSuccess("ok")
     },
     handleSubmit() {
-      if(this.file) {
+      if(this.file1 && this.file2) {
+        showLoading()
         const formData = new FormData();
-        formData.append('file', this.file)
+        formData.append('file1', this.file1)
+        formData.append('file2', this.file2)
         formData.append('name', this.labelMap[this.leafInfo.title])
         const url = config.baseUrl + config.uri.analysisURI
         axios.post(url, formData, {
@@ -177,9 +208,13 @@ export default {
           })
         })
         .catch(error => {
+          hideLoading()
           this.$notify.error({
             message: '服务器忙碌，请稍后再试！',
           })
+        })
+        .finally(() => {
+          hideLoading()
         })
       } else {
         this.$notify.error({
@@ -231,14 +266,19 @@ export default {
       }
     }
     .content {
-      margin-top: 20px;
-      .upload, .submit {
+      .upload {
         display: flex;
         justify-content: center;
-        align-items: center;  
-      }
-      .submit {
-        margin-top: 20px;
+        align-items: center;
+        .upload-left, .upload-right {
+          padding: 10px 10px 10px 10px;
+        }
+        .tip {
+          text-align: center;
+          height: 40px;
+          line-height: 40px;
+          color: #44546A;
+        }
       }
     }
   }
