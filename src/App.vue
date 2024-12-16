@@ -6,8 +6,22 @@
  * @Description: 
 -->
 <template>
-  <router-view/>
+  <div>
+    <router-view/>
+    <PrivacyPolicy></PrivacyPolicy>
+  </div>
 </template>
+
+<script>
+import PrivacyPolicy from './components/shared/PrivacyPolicy.vue'
+
+export default {
+  name: 'App',
+  components: {
+    PrivacyPolicy
+  },
+}
+</script>
 
 <style lang="scss">
 * {

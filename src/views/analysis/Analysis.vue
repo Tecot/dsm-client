@@ -7,6 +7,7 @@
 -->
 <template>
   <div class="analysis-cotainer">
+
     <div class="left">
       <el-tree 
         style="height: 100%;"
@@ -58,7 +59,11 @@
               <div class="el-upload__text">Drag the file here, or <em>click upload</em></div>
             </el-upload>
           </div>
-          </div>
+        </div>
+        <div class="quast">
+          <el-checkbox v-model="checkedQuast">Quast</el-checkbox>
+          <span>* Checking this option will perform Quast evaluation on genome assembly.</span>
+        </div>
         <div class="submit">
           <el-button style="height: 40px; width: 400px;"type="primary" @click="handleSubmit">Submit</el-button>
         </div>
@@ -96,10 +101,10 @@ export default {
               id: 12,
               label: 'Prediction of antimicrobial peptide',
             },
-            {
-              id: 13,
-              label: 'Prediction of Protein structure',
-            }
+            // {
+            //   id: 13,
+            //   label: 'Prediction of Protein structure',
+            // }
           ]
         },
         {
@@ -123,13 +128,13 @@ export default {
       ],
       labelMap: {
         'Analysis relevant to drug design': 'artdd',
-        'Prediction of secondary metabolites': 'posm',
-        'Prediction of antimicrobial peptide': 'poap',
-        'Prediction of Protein structure': 'pops',
+        'Prediction of secondary metabolites': 'second',
+        'Prediction of antimicrobial peptide': 'macrel',
+        // 'Prediction of Protein structure': 'pops',
         'Analysis related to disease prevention': 'artdp',
-        'Prediction of virulence factor': 'povf',
-        'Prediction of drug resistance factor': 'podrf',
-        'Prediction of microorganism (Pathogenic microorganism)': 'pom'
+        'Prediction of virulence factor': 'vf',
+        'Prediction of drug resistance factor': 'res',
+        'Prediction of microorganism (Pathogenic microorganism)': 'binning'
       },
       defaultProps: {
         children: 'children',
@@ -145,6 +150,7 @@ export default {
       },
       file1: null,
       file2: null,
+      checkedQuast: true
     };
   },
 
@@ -187,6 +193,7 @@ export default {
         formData.append('file1', this.file1)
         formData.append('file2', this.file2)
         formData.append('name', this.labelMap[this.leafInfo.title])
+        formData.append('flag', this.checkedQuast === true? '1' : '0')
         const url = config.baseUrl + config.uri.analysisURI
         axios.post(url, formData, {
           headers: {
@@ -210,7 +217,7 @@ export default {
         .catch(error => {
           hideLoading()
           this.$notify.error({
-            message: '服务器忙碌，请稍后再试！',
+            message: 'The server is busy, please try again later!',
           })
         })
         .finally(() => {
@@ -218,7 +225,7 @@ export default {
         })
       } else {
         this.$notify.error({
-          message: '请上传数据！',
+          message: 'Please upload data!',
         })
       }
       
@@ -247,9 +254,8 @@ export default {
   }
   .right {
     padding: 10px 10px 0 10px;
-    width: calc(100% - 500px);
+    width: calc(100% - 450px);
     background-color: #FFF;
-    overflow-y: scroll;
     .title-box {
       height: 30px;
       font-size: 24px;
@@ -266,6 +272,13 @@ export default {
       }
     }
     .content {
+      width: 70%;
+      margin-top: 40px;
+      margin-left: 15%;
+      background-color: #fcfafa;
+      padding: 20px 0 20px 0;
+      border-radius: 10px 10px 10px 10px;
+      box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
       .upload {
         display: flex;
         justify-content: center;
@@ -274,11 +287,32 @@ export default {
           padding: 10px 10px 10px 10px;
         }
         .tip {
+          background-color: darkcyan;
           text-align: center;
           height: 40px;
           line-height: 40px;
           color: #44546A;
+          margin-bottom: 10px;
+          color: #FFF;
+          border-radius: 5px 5px;
         }
+      }
+      .quast {
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span {
+          font-size: 12px;
+          color: #a3a2a2;
+          margin-left: 20px;
+        }
+      }
+      .submit {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

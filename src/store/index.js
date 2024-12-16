@@ -1,3 +1,10 @@
+/*
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2024-12-16 11:21:55
+ * @Description: 
+ */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
@@ -9,6 +16,7 @@ export default new Vuex.Store({
     geoInfoData: '',
     databaseRunProjectData: '',
     contigDetailData: '',
+    ifShowedPrivacyPolicy: false,
   },
 
   getters: {
@@ -23,6 +31,9 @@ export default new Vuex.Store({
     },
     SET_CONTIG_DETAIL_DATA(state, payload) {
       state.contigDetailData = payload
+    },
+    SET_IF_SHOWED_PRIVACY_POLICY(state, payload) {
+      state.ifShowedPrivacyPolicy = payload
     }
   },
 
@@ -35,6 +46,9 @@ export default new Vuex.Store({
     },
     setContigDetailData(context, payload) {
       context.commit('SET_CONTIG_DETAIL_DATA', payload)
+    },
+    setIfShowedPrivacyPolicy(context, payload) {
+      context.commit('SET_IF_SHOWED_PRIVACY_POLICY', payload)
     }
   },
 

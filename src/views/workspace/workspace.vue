@@ -47,8 +47,8 @@
           </el-table-column>
           <el-table-column label="Option" width="200px" fixed="right">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini">
-                View detail
+              <el-button :disabled="processResultButtonStatus(scope.row['status'])" type="success" size="mini">
+                Result
               </el-button>
             </template>
           </el-table-column>
@@ -97,13 +97,13 @@ export default {
       pageSize: 5,
       reverseLabelMap: {
         'artdd': 'Analysis relevant to drug design',
-        'posm': 'Prediction of secondary metabolites',
-        'poap': 'Prediction of antimicrobial peptide',
-        'pops': 'Prediction of Protein structure',
+        'second': 'Prediction of secondary metabolites',
+        'macrel': 'Prediction of antimicrobial peptide',
+        // 'pops': 'Prediction of Protein structure',
         'artdp': 'Analysis related to disease prevention',
-        'povf': 'Prediction of virulence factor',
-        'podrf': 'Prediction of drug resistance factor',
-        'pom': 'Prediction of microorganism (Pathogenic microorganism)'
+        'vf': 'Prediction of virulence factor',
+        'pres': 'Prediction of drug resistance factor',
+        'binning': 'Prediction of microorganism (Pathogenic microorganism)'
       },
     };
   },
@@ -213,6 +213,12 @@ export default {
       if(value === 2) {
         return 'warning'
       }
+    },
+    processResultButtonStatus(value) {
+      if(value === 0) {
+        return false
+      }
+      return true
     }
   },
   filters: {
