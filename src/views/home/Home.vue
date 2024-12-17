@@ -18,16 +18,20 @@
     </vue-particles>
     <div class="search-container">
       <div class="search-label" style="padding-top: 100px;" >
-        Deep Sea Microorganism
+        Marine Metagenome Database
       </div>
       <div class="search-input">
-        <el-input style="width: 40%;"v-model="searchData" :placeholder="placeholder"></el-input>
+        <el-input style="width: 40%;"v-model="searchData"></el-input>
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
+      </div>
+      <div class="tip">
+        Search for SRA/SRP/ERP/DRP project. Examples: SRP080036, ERP109052, ERP122143, DRP005636'
       </div>
     </div>
     <div class="description-container">
-      AlphaFold DB provides open access to over 200 million protein<br>
-      structure predictions to accelerate scientific research.
+      The Marine Metagenome Database contains 100,000 data results related to pathogenicity and drug
+      design in marine environments, 
+      and these data results are presented in an interactive <i @click="goToMap" style="color: #3B6FB6; cursor: pointer;">map</i>.
     </div>
     
     <div class="background-container">
@@ -61,13 +65,13 @@
         <div class="bottom">
           <ul>
             <li>
-              Analysis relevant to drug design<br>
+              <span style="font-weight: bold; color: #3B6FB6;">Analysis relevant to drug design</span><br>
               Prediction of secondary metabolites<br>
               Prediction of antimicrobial peptides<br>
               Prediction of protein structure
             </li>
             <li>
-              Analysis related to disease prevention<br>
+              <span style="font-weight: bold; color: #3B6FB6;">Analysis related to disease prevention</span><br>
               Prediction of virulence factors<br>
               Prediction of drug resistance factors<br>
               Prediction of microorganisms (Pathogenic microorganisms)
@@ -92,7 +96,6 @@ export default {
     return {
       isShow: true,
       searchData: '',
-      placeholder: 'Search for SRA/SRP project. Examples: SRP080036, ERP109052',
       srpDirNames: [],
     };
   },
@@ -111,6 +114,11 @@ export default {
   methods: {
     handleScroll() {
       window.scrollY > 400? this.isShow = false: this.isShow = true
+    },
+    goToMap() {
+      this.$router.push({
+        name: 'overview'
+      })
     },
     handuleSearchData() {
       if(this.searchData) {
@@ -168,15 +176,23 @@ export default {
         color: #1371B9;
       }
     }
+    .tip {
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 16px;
+      color: #FFF;
+    }
   }
   .description-container {
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
     font-weight: bold;
     background-color: #D1E3F6;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     text-align: center;
     color: #2f3a48;
   }

@@ -237,7 +237,7 @@ export default {
 <style lang="scss" scoped>
 .analysis-cotainer {
   ::v-deep .el-tree-node__content {
-    height: 50px;
+    height: 60px;
   }
   ::v-deep .el-tree-node__label {
     font-size: 16px;
@@ -247,14 +247,14 @@ export default {
   display: flex;
   .left {
     background-color: #FFF;
-    width: 450px;
+    width: 500px;
     height: 100%;
     border-right: 1px solid #f4f1f1;
     box-sizing: border-box;
   }
   .right {
     padding: 10px 10px 0 10px;
-    width: calc(100% - 450px);
+    width: calc(100% - 500px);
     background-color: #FFF;
     .title-box {
       height: 30px;

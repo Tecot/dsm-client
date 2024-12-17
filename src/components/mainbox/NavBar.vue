@@ -7,13 +7,17 @@
 -->
 <template>
   <div class="menu-container">
-    <!-- <el-image
-      :src="require('../../assets/images/logo.png')"
-      fit="fill">
-    </el-image> -->
-    <div style="font-size: 32px;font-family: 'Lucida Sans';color: #FFF;padding-left: 20px;">
-      DeepSeaMicro
+    <div style="display: flex; justify-content: left;align-items: center;padding-left: 20px;" >
+        <el-image
+          :src="require('../../assets/images/logo.png')"
+          style="width: 100px; height: 40px;"
+          fit="fill">
+        </el-image>
+      <div style="font-size: 38px; color: #FFF;padding-left: 10px; font-weight: bold; ">
+        <i>MMD</i>
+      </div>
     </div>
+    
     <el-menu 
       class="el-menu" 
       mode="horizontal" 
