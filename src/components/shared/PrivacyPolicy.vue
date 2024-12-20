@@ -16,7 +16,7 @@
         it will be deemed that you agree to the use of cookies.
       </span>
       <div class="aDiv">
-        <a href="##" style="margin-left:2.16em;" @click="closeDiv">确定</a>
+        <a href="##" style="margin-left:2.16em;" @click="closeDiv">Confirm</a>
       </div>
     </div>
     <el-dialog
