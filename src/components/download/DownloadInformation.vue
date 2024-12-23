@@ -234,7 +234,7 @@
     },
   
     methods: {
-      requestDownloadListInfo(currentPage, pageSize) {
+      async requestDownloadListInfo(currentPage, pageSize) {
         showLoading()
         const url = config.baseUrl + config.uri.downloadListViewURI + '/' + currentPage + '/' + pageSize
         return axios.get(url, {
@@ -250,7 +250,7 @@
         })
       },
   
-      requestDownload(srp) {
+      async requestDownload(srp) {
         const url = config.baseUrl + config.uri.downloadURI + '/' + srp
         showLoading()
         return axios({

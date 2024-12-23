@@ -3,6 +3,7 @@ const uriConfigs = {
     uri: {
         srpDirNamesViewURI: 'api/shared/srpdirnamesview',
         getTargetSrpValueURI: 'api/shared/gettargetsrpvalue',
+        downloadSampleDataURI: 'api/shared/downloadsampledata',
 
         geoDataViewURI: 'api/database/bioproject/geodataview',
         srpProjectViewURI: 'api/database/bioproject/srpprojectview',

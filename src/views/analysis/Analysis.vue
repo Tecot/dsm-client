@@ -60,6 +60,11 @@
             </el-upload>
           </div>
         </div>
+        <div class="sample-download">
+          <el-button size="mini" type="success" @click="downloadSampleData()">
+            Click here to download the demo data
+          </el-button>
+        </div>
         <div class="quast">
           <el-checkbox v-model="checkedQuast">Quast</el-checkbox>
           <span>* Checking this option will perform Quast evaluation on genome assembly.</span>
@@ -186,6 +191,40 @@ export default {
     dummyFastq2Request({ file, onSuccess }) {
       onSuccess("ok")
     },
+    downloadSampleData() {
+      this.requestDownloadListInfo()
+    },
+    async requestDownloadListInfo() {
+      const url = config.baseUrl + config.uri.downloadSampleDataURI
+      showLoading()
+      return axios({
+        url: url,
+        method: 'GET',
+        responseType: 'blob'
+      }).then((response) => {
+        this.blobDownload(response)
+      }).catch((e) => {
+        this.$notify({
+          title: 'Error',
+          message: 'Download error',
+          type: 'error'
+        });
+      }).finally(() => {
+        hideLoading()
+      })
+    },
+    blobDownload(blobObject) {
+      const url = window.URL.createObjectURL(new Blob([blobObject.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.id = 'download_link'
+      link.setAttribute('download', 'sample_data.zip'); 
+      document.body.appendChild(link);
+      link.click();
+      const elementToRemove = document.getElementById(link.id);
+      const parentElement = elementToRemove.parentNode;
+      parentElement.removeChild(elementToRemove);
+    },
     handleSubmit() {
       if(this.file1 && this.file2) {
         showLoading()
@@ -297,8 +336,8 @@ export default {
           border-radius: 5px 5px;
         }
       }
-      .quast {
-        height: 40px;
+      .quast, .sample-download {
+        height: 30px;
         display: flex;
         justify-content: center;
         align-items: center;
