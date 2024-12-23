@@ -185,16 +185,12 @@ export default {
     }
   }
   .description-container {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 50px 50px 50px 50px;
     font-weight: bold;
     background-color: #D1E3F6;
     font-size: 1.5rem;
     text-align: center;
-    color: #2f3a48;
+    color: #445265;
   }
   .background-container {
     padding: 0.525rem 10rem 0 10rem;

@@ -47,7 +47,7 @@
           </el-table-column>
           <el-table-column label="Option" width="200px" fixed="right">
             <template slot-scope="scope">
-              <el-button :disabled="processResultButtonStatus(scope.row['status'])" type="success" size="mini">
+              <el-button :disabled="processResultButtonStatus(scope.row['status'])" @click="processDownloadResult(scope.row['id'])" type="success" size="mini">
                 Result
               </el-button>
             </template>
@@ -138,9 +138,7 @@ export default {
           }
         }).then((response) => {
           const data = response.data.data
-          console.log(data)
           const ptasks = []
-          console.log(tasks.length)
           tasks.forEach((item) => {
             for(let i = 0; i < data.length; i++) {
               if(item.id === data[i].key) {
@@ -181,9 +179,6 @@ export default {
       }
       this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
     },
-    handleRowData(rowData) {
-
-    },
     handleSizeChange(value) {
       this.currentPage = 1
       this.pageSize = value
@@ -219,7 +214,38 @@ export default {
         return false
       }
       return true
-    }
+    },
+    processDownloadResult(id) {
+      this.requestDownload(id)
+    },
+    async requestDownload(id) {
+      const url = config.baseUrl + config.uri.downloadTaskreSultURI + '/' + id
+      return axios({
+        url: url,
+        method: 'GET',
+        responseType: 'blob'
+      }).then((response) => {
+        this.blobDownload(response)
+      }).catch((e) => {
+        this.$notify({
+          title: 'Error',
+          message: 'Download error',
+          type: 'error'
+        });
+      })
+    },
+    blobDownload(blobObject) {
+      const url = window.URL.createObjectURL(new Blob([blobObject.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.id = 'download_link'
+      link.setAttribute('download', 'file.zip'); 
+      document.body.appendChild(link);
+      link.click();
+      const elementToRemove = document.getElementById(link.id);
+      const parentElement = elementToRemove.parentNode;
+      parentElement.removeChild(elementToRemove);
+    },
   },
   filters: {
     statusesFormat(value) {

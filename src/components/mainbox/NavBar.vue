@@ -14,7 +14,7 @@
           fit="fill">
         </el-image>
       <div style="font-size: 38px; color: #FFF;padding-left: 10px; font-weight: bold; ">
-        <i>MMD</i>
+        <i><span style="color: #39B9ED;">M</span><span style="color: #CFDBB0;">M</span><span style="color: #FFF;">Database</span></i>
       </div>
     </div>
     

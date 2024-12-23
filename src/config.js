@@ -29,7 +29,8 @@ const uriConfigs = {
 
         analysisURI: 'api/analysis/analysisview',
 
-        taskStatuesViewURI: 'api/workspace/taskstatuesview'
+        taskStatuesViewURI: 'api/workspace/taskstatuesview',
+        downloadTaskreSultURI: 'api/workspace/downloadtaskresultview'
     }
 }
 
