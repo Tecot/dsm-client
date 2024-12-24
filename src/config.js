@@ -1,5 +1,5 @@
 const uriConfigs = {
-    baseUrl: 'http://127.0.0.1:8000/',
+    baseUrl: 'http://127.0.0.1:8173/',
     uri: {
         srpDirNamesViewURI: 'api/shared/srpdirnamesview',
         getTargetSrpValueURI: 'api/shared/gettargetsrpvalue',
