@@ -35,3 +35,4 @@ const uriConfigs = {
 }
 
 export default uriConfigs
+
