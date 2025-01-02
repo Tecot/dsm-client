@@ -22,16 +22,6 @@
 			<el-descriptions-item label="Hemolytic probability">
         {{ mopInfo['Hemolytic_probability'] }}
       </el-descriptions-item>
-      <el-descriptions-item label="Sequence" :span="5">
-        <el-input
-          type="textarea"
-          :value="mopInfo['Sequence']"
-          :autosize="true"
-          :spellcheck="false"
-          resize="none"
-        >
-        </el-input>
-      </el-descriptions-item>
     </el-descriptions>
   </div>
 </template>

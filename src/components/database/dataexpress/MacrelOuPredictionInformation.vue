@@ -2,6 +2,13 @@
  * @File name: 
  * @Author: Tecot (tyx_cqbs@163.com)
  * @Version: V1.0
+ * @Date: 2025-01-02 09:46:35
+ * @Description: 
+-->
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
  * @Date: 2024-08-13 12:10:01
  * @Description: 
 -->
@@ -21,11 +28,6 @@
         <el-table-column prop="AMP_probability" label="AMP probability"></el-table-column>
         <el-table-column prop="Hemolytic" label="Hemolytic"></el-table-column>
         <el-table-column prop="Hemolytic_probability" label="Hemolytic probability"  width="350"></el-table-column>
-        <el-table-column label="Sequence">
-          <template slot-scope="scope">
-            {{ scope.row['Sequence']? scope.row['Sequence'].slice(0, 10) + '......' : '' }}
-          </template>
-        </el-table-column>
         
         <el-table-column label="Option" width="100" class-name="header-end-cell" fixed="right">
           <template slot-scope="scope">

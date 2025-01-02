@@ -9,6 +9,12 @@ const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  chainWebpack: (conf) => {
+    conf.plugin('html').tap((args) => {
+      args[0].title = 'Marine Metagenome Database'
+      return args
+    })
+  },
   devServer: {
     proxy: {
       '/api': {
