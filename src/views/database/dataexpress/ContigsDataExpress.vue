@@ -260,7 +260,7 @@ export default {
       font-weight: 700;
       height: 50px;
       line-height: 50px;
-      color: #36A3F7;
+      color: #36A3F7; 
     }
     ::v-deep textarea {
       font-size: 12px;
@@ -279,7 +279,7 @@ export default {
       font-weight: 700;
       height: 40px;
       line-height: 40px;
-      color: #36A3F7;
+      color: #FF7575;
     }
   }
 
@@ -295,7 +295,7 @@ export default {
       font-weight: 700;
       height: 40px;
       line-height: 40px;
-      color: #36A3F7;
+      color: #58CF6A;
     }
   }
 

@@ -31,7 +31,7 @@
         
       <el-table-column label="Option" width="100" fixed="right">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleView(scope.row)">
+          <el-button type="danger" size="mini" @click="handleView(scope.row)">
             Detail
           </el-button>
         </template>

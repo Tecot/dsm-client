@@ -196,34 +196,18 @@ export default {
     },
     async requestDownloadListInfo() {
       const url = config.baseUrl + config.uri.downloadSampleDataURI
-      showLoading()
       return axios({
         url: url,
         method: 'GET',
         responseType: 'blob'
       }).then((response) => {
-        this.blobDownload(response)
-      }).catch((e) => {
-        this.$notify({
-          title: 'Error',
-          message: 'Download error',
-          type: 'error'
-        });
-      }).finally(() => {
-        hideLoading()
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'SRR6787536.sra'); // or any other extension
+        document.body.appendChild(link);
+        link.click();
       })
-    },
-    blobDownload(blobObject) {
-      const url = window.URL.createObjectURL(new Blob([blobObject.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.id = 'download_link'
-      link.setAttribute('download', 'sample_data.zip'); 
-      document.body.appendChild(link);
-      link.click();
-      const elementToRemove = document.getElementById(link.id);
-      const parentElement = elementToRemove.parentNode;
-      parentElement.removeChild(elementToRemove);
     },
     handleSubmit() {
       if(this.file1 && this.file2) {

@@ -90,20 +90,20 @@
         <div class="name border_2" style="margin-bottom: 30px;">
           Taxonome
         </div>
-        <WordCloudVis :words="taxonomeWordCloudData"></WordCloudVis>
+        <WordCloudVis :words="taxonomeWordCloudData" :fontColor="'#F76B6B'"></WordCloudVis>
       </div>
       <div class="box">
         <div class="name border_2" style="margin-bottom: 30px;">
           VFs
         </div>
-        <WordCloudVis :words="vfsWordCloudData"></WordCloudVis>
+        <WordCloudVis :words="vfsWordCloudData" :fontColor="'#F76B6B'"></WordCloudVis>
       </div>
       
       <div class="box">
         <div class="name border_2" style="margin-bottom: 30px;">
           ARGs
         </div>
-        <WordCloudVis :words="argsWordCloudData"></WordCloudVis>
+        <WordCloudVis :words="argsWordCloudData" :fontColor="'#F76B6B'"></WordCloudVis>
       </div>
       <div class="box">
         <div class="name border_3" style="margin-bottom: 30px;">
@@ -390,10 +390,10 @@ export default {
         box-sizing: border-box;
       }
       .border_1 {
-        border-top: 4px solid #FF7575;
+        border-top: 4px solid #03B5F4;
       }
       .border_2 {
-        border-top: 4px solid #03B5F4;
+        border-top: 4px solid #FF7575;
       }
       .border_3 {
         border-top: 4px solid #58CF6A;

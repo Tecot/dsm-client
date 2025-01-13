@@ -6,9 +6,9 @@
 		
     
     <div class="options-container" v-if="downloadvisible">
-      <el-button size="mini" type="primary" @click="downloadPNG">Download PNG</el-button>
-      <el-button size="mini" type="primary" @click="downloadSvg">Download SVG</el-button>
-      <el-button size="mini" type="primary" @click="downloadPDF">Download PDF</el-button>
+      <el-button size="mini" @click="downloadPNG">Download PNG</el-button>
+      <el-button size="mini" @click="downloadSvg">Download SVG</el-button>
+      <el-button size="mini" @click="downloadPDF">Download PDF</el-button>
     </div>
   </div>
 </template>
@@ -426,7 +426,11 @@ export default {
   .options-container {
     display: flex;
     justify-content: center;
-		margin-top: 20px;
+	margin-top: 20px;
+	.el-button {
+		background-color: #008B8B;
+		color: #FFF;
+	}
   }
 }
 </style>

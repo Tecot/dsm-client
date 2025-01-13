@@ -31,7 +31,7 @@
         
         <el-table-column label="Option" width="100" class-name="header-end-cell" fixed="right">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleDetail(scope.row)">
+            <el-button type="success" size="mini" @click="handleDetail(scope.row)">
               Detail
             </el-button>
           </template>
@@ -136,10 +136,6 @@ export default {
 <style lang="scss"scoped>
 .mop-information-container {
   .table-container {
-    ::v-deep .header-end-cell>.cell {
-      color: #409EFF;
-      font-size: 14px;
-    }
     .pagination-container {
       display: flex;
       justify-content: center;
