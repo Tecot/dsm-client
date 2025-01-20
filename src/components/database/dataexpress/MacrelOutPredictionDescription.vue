@@ -1,6 +1,14 @@
+<!--
+ * @File name: 
+ * @Author: Tecot (tyx_cqbs@163.com)
+ * @Version: V1.0
+ * @Date: 2025-01-20 15:13:15
+ * @Description: 
+-->
 <template>
   <div class="protein-seq-detail">
     <el-descriptions
+      style="color: #58CF6A;"
       :title="mopInfo['Access'] + ' macrel out prediction description'" 
       direction="vertical" 
       :column="5" 

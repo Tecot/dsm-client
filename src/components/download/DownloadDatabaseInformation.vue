@@ -1,7 +1,7 @@
 <template>
 <div class="download-database-information-container">
 	<div class="title-container">
-		<span>Download SRP project</span>
+		<span>Download database</span>
 	</div>
 	<div class="table-container">
 		<el-table

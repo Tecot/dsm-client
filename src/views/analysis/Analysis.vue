@@ -260,11 +260,15 @@ export default {
 <style lang="scss" scoped>
 .analysis-cotainer {
   ::v-deep .el-tree-node__content {
-    height: 60px;
+    height: 80px;
   }
   ::v-deep .el-tree-node__label {
+    padding-left: 20px;
     font-size: 16px;
     color: #44546A;
+  }
+  ::v-deep .el-tree-node__expand-icon {
+    display: none;
   }
   height: calc(100vh - 80px);
   display: flex;

@@ -1,6 +1,7 @@
 <template>
   <div class="bin-description-container">
     <el-descriptions 
+      style="color: #FF7575;"
       :title="srp + ' bin detail'" 
       direction="vertical" 
       :column="4" 
