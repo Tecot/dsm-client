@@ -1,10 +1,10 @@
 <template>
   <div class="overview-container">
-    <dv-decoration-7 style="width:100%;height:40px; color: #FFFFFF;font-size: 24px; display: flex; ">
+    <!-- <dv-decoration-7 style="width:100%;height:40px; color: #FFFFFF;font-size: 24px; display: flex; ">
       <dv-decoration-4 :reverse="true" style="width:100px;height:5px; color: #7ACAEC;" />
-      Distribution and statistics of deep-sea microbial data
+        Distribution and statistics of deep-sea microbial data
       <dv-decoration-4 :reverse="true" style="width:100px;height:5px;" />
-    </dv-decoration-7>
+    </dv-decoration-7> -->
     <div class="up">
       <div class="left">
         <div class="statistics">
@@ -98,25 +98,24 @@
         </div>
         <WordCloudVis :words="vfsWordCloudData"></WordCloudVis>
       </div>
-      
       <div class="box">
         <div class="name border_2" style="margin-bottom: 30px;">
           ARGs
         </div>
         <WordCloudVis :words="argsWordCloudData"></WordCloudVis>
       </div>
-      <div class="box">
+      <!-- <div class="box">
         <div class="name border_3" style="margin-bottom: 30px;">
           Secondary Metabolites
         </div>
         <WordCloudVis :words="productWordCloudData" :fontColor="'#5AD86A'"></WordCloudVis>
-      </div>
-      <div class="box">
+      </div> -->
+      <!-- <div class="box">
         <div class="name border_3" style="margin-bottom: 30px;">
           AMPs
         </div>
         <WordCloudVis :words="ampsWordCloudData" :fontColor="'#5AD86A'"></WordCloudVis>
-      </div>
+      </div> -->
       
     </div>
     
@@ -190,6 +189,11 @@ export default {
 				this.productWordCloudData = this.processProductData(this.geoData)
         this.taxonomeWordCloudData = this.processTaxonomeWordCloudData(this.geoData)
         this.ampsWordCloudData = this.processAmpsWordCloudData(this.geoData)
+        console.log(this.vfsWordCloudData)
+        console.log(this.argsWordCloudData)
+        console.log(this.productWordCloudData)
+        console.log(this.taxonomeWordCloudData)
+        console.log(this.ampsWordCloudData)
         this.$store.dispatch('setGeoInfoData', {
           geoData: this.geoData,
           gradientData: this.gradientData,
@@ -330,7 +334,8 @@ export default {
         }
       })
       const setArr = [...new Set(tempArr)]
-      return ['ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP',]
+      return setArr
+      // return ['ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP',]
     },
 
     goToLink(value) {

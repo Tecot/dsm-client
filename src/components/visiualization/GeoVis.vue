@@ -146,7 +146,7 @@ export default {
           },
           visualMap: {
             min: 0,
-            max: 8000,
+            max: 12000,
             text: ['Depth'],
             realtime: true,
             calculable: true,

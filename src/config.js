@@ -1,4 +1,5 @@
 const uriConfigs = {
+    // baseUrl: 'https://mmdapi.deepomics.org/',
     baseUrl: 'http://127.0.0.1:8173/',
     uri: {
         srpDirNamesViewURI: 'api/shared/srpdirnamesview',

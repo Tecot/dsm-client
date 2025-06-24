@@ -21,7 +21,7 @@
         Marine Metagenome Database
       </div>
       <div class="search-input">
-        <el-input style="width: 40%;"v-model="searchData"></el-input>
+        <el-input style="width: 40%;" v-model="searchData"></el-input>
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
       </div>
       <div class="tip">

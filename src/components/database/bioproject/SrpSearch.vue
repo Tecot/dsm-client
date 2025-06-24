@@ -174,7 +174,7 @@
               range
               show-stops
               v-model="searchContent.depthRange"
-              :max="6000"
+              :max="12000"
               :format-tooltip="(value) => value + ' m' ">
             </el-slider>
           </div>
@@ -259,7 +259,7 @@ export default {
         sseqid: '',
         classification: '',
         product: '',
-        depthRange: [0, 6000],
+        depthRange: [0, 12000],
         weRange: [-180, 180],
         snRange: [-90, 90],
         includeUnknownDepth: true,
@@ -294,7 +294,7 @@ export default {
         sseqid: '',
         classification: '',
         product: '',
-        depthRange: [0, 6000],
+        depthRange: [0, 12000],
         weRange: [-180, 180],
         snRange: [-90, 90],
         includeUnknownDepth: true,
