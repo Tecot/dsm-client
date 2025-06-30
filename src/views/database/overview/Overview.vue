@@ -217,7 +217,7 @@ export default {
 			arr = [...arr, ...productArr]
         }
       })
-      const products = Array.from(new Set(arr))
+      const products = Array.from(new Set(arr)).splice(1, 20)
       return products
     },
 
@@ -229,7 +229,7 @@ export default {
           arr = [...arr, ...argsArr]
         }
       })
-      const args = Array.from(new Set(arr))
+      const args = Array.from(new Set(arr)).splice(1, 20)
       return args
     },
 
@@ -241,7 +241,7 @@ export default {
           arr = [...arr, ...vfArr]
         }
       })
-      const vfs = Array.from(new Set(arr))
+      const vfs = Array.from(new Set(arr)).splice(1, 20)
       return vfs
     },
 
@@ -321,7 +321,7 @@ export default {
           tempArr = [...tempArr, ...strs]
         }
       })
-      const setArr = [...new Set(tempArr)]
+      const setArr = [...new Set(tempArr)].splice(1, 20)
       return setArr
     },
 
@@ -333,7 +333,7 @@ export default {
           tempArr = [...tempArr, ...strs]
         }
       })
-      const setArr = [...new Set(tempArr)]
+      const setArr = [...new Set(tempArr)].splice(1, 20)
       return setArr
       // return ['ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP','ALP','ADP','CDP','CLP',]
     },

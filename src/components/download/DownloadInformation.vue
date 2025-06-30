@@ -13,28 +13,9 @@
         max-height="600"
         style="width: 100%"
       >
-        <el-table-column prop="BioProject" label="Bio project" width="200"></el-table-column>
-        <el-table-column prop="SRAStudy" label="SRAStudy" width="200"></el-table-column>
-        <el-table-column prop="ProjectID" label="Project ID" width="200"></el-table-column>
-        <el-table-column prop="Submission" label="Submission" width="200"></el-table-column>
-        <el-table-column prop="Depth range" label="Depth range" width="200"></el-table-column>
-        <el-table-column prop="Longitude and latitude range" label="Longitude and latitude range"  width="350"></el-table-column>
-        <el-table-column prop="CenterName" label="Center name" width="500"></el-table-column>
-        <el-table-column prop="genes" label="Genes" width="200">
-            <template slot-scope="scope">
-              {{ scope.row['genes']? scope.row['genes'].split(';').slice(0, 3).join(';') + '......' : '' }}
-            </template>
-        </el-table-column>
-        <el-table-column prop="vfs" label="VFs" width="400">
-          <template slot-scope="scope">
-              {{ scope.row['vfs']? scope.row['vfs'].split(';').slice(0, 3).join(';') + '......' : '' }}
-            </template>
-        </el-table-column>
-          <el-table-column prop="args" label="ARGs" width="600"></el-table-column> 
-        <el-table-column prop="taxonome" label="Taxonome" width="600"></el-table-column>
-        <el-table-column prop="product" label="Product" width="600"></el-table-column>
-            
-        <el-table-column label="Option" width="100" fixed="right">
+        <el-table-column prop="file" label="File"></el-table-column>
+        
+        <el-table-column label="Option">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="handleDownload(scope.row)">
               Download
@@ -42,18 +23,6 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
-
-    <div class="pagination-container">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[20, 50, 100]"
-        :page-size="pageSize"
-        layout="total, prev, pager, next, sizes, jumper"
-        :total="total">
-      </el-pagination>
     </div>
   </div>
 </template>
@@ -77,52 +46,54 @@ export default {
         textAlign: 'center'
       },
       tableData: [],
-      header: [],
-      currentPage: 1,
-      pageSize: 20,
-      total: 0
     };
   },
 
   mounted() {
-    this.requestDownloadListInfo(this.currentPage, this.pageSize)
+    this.requestDownloadListInfo()
   },
 
   methods: {
-    async requestDownloadListInfo(currentPage, pageSize) {
+    async requestDownloadListInfo() {
       showLoading()
-      const url = config.baseUrl + config.uri.downloadListViewURI + '/' + currentPage + '/' + pageSize
+      const url = config.baseUrl + config.uri.downloadListViewURI
       return axios.get(url, {
         headers: {
             'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        this.header = response.data.header
         this.tableData = response.data.data
-        this.total = response.data.total
       }).finally(() => {
         hideLoading()
       })
     },
 
     async requestDownload(srp) {
-      const url = config.baseUrl + config.uri.downloadURI + '/' + srp
-      showLoading()
-      return axios({
-        url: url,
-        method: 'GET',
-        responseType: 'blob'
-      }).then((response) => {
-        this.blobDownload(response)
-      }).catch((e) => {
+      try {
+        const response = await axios({
+          url: config.baseUrl + config.uri.downloadURI + '/' + srp,
+          method: 'GET',
+          responseType: 'blob', // 关键：指定响应类型为二进制
+        });
+
+        // 创建下载链接
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', srp); // 设置文件名
+        document.body.appendChild(link);
+        link.click();
+        
+        // 清理资源
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
         this.$notify({
           title: 'Error',
           message: 'Download error',
           type: 'error'
-        });
-      }).finally(() => {
-        hideLoading()
-      })
+        })
+      }
     },
 
     blobDownload(blobObject) {
@@ -138,20 +109,9 @@ export default {
       parentElement.removeChild(elementToRemove);
     },
 
-    handleSizeChange(value) {
-      this.pageSize = value
-      this.currentPage = 1
-      this.requestDownloadListInfo(this.currentPage, this.pageSize)
-    },
-
-    handleCurrentChange(value) {
-      this.currentPage = value
-      this.requestDownloadListInfo(this.currentPage, this.pageSize)
-    },
-
     handleDownload(value) {
-      // TODO
-      this.requestDownload('SRP080056')
+      const file = value.file
+      this.requestDownload(file)
     }
   },
 };
