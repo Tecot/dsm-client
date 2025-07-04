@@ -137,7 +137,6 @@ export default {
               'Content-Type': 'application/json; charset=utf-8' 
             }
           }).then((response) => {
-            console.log(response.data.data)
             this.$router.push({
               name: 'runproject', 
               params: { 

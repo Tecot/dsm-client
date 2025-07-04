@@ -86,12 +86,10 @@ export default {
 
 	watch: {
 		inputData(newValue, oldValue) {
-			
 			if(newValue && Object.keys(newValue.data).length) {
 				this.initSvg(newValue)
 				this.drawPlot(newValue)
 				this.downloadvisible = true
-				console.log(newValue)
 			}
 		}
 	},

@@ -189,11 +189,6 @@ export default {
 				this.productWordCloudData = this.processProductData(this.geoData)
         this.taxonomeWordCloudData = this.processTaxonomeWordCloudData(this.geoData)
         this.ampsWordCloudData = this.processAmpsWordCloudData(this.geoData)
-        console.log(this.vfsWordCloudData)
-        console.log(this.argsWordCloudData)
-        console.log(this.productWordCloudData)
-        console.log(this.taxonomeWordCloudData)
-        console.log(this.ampsWordCloudData)
         this.$store.dispatch('setGeoInfoData', {
           geoData: this.geoData,
           gradientData: this.gradientData,

@@ -27,8 +27,8 @@
       <el-input
         type="textarea"
         resize="none"
+        :autosize="{ minRows: 2, maxRows: 10 }"
         :value="getCompleteSeq(contigDetail)"
-        :autosize="true"
         :spellcheck="false"
       >
       </el-input>

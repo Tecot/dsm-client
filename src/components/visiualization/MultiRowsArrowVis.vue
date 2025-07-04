@@ -413,7 +413,6 @@ export default {
               })
             })
             .on('click', () => {
-              console.log(item1.infos)
               this.$emit('viewVfAndResfinderSignal', item1.infos)
             })
         })

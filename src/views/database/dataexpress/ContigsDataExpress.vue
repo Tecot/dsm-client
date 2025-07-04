@@ -159,7 +159,6 @@ export default {
 
     // 查看蛋白质信息
     async handleProteinStructSignal(signal) {
-      console.log(this.contigDetail)
       const code = this.contigDetail.ID.split('_')[1]
       this.requestProteinSeqData(this.contigDetail.srp, code)
       this.requestProteinStructData(this.contigDetail.srp, code)
@@ -192,14 +191,12 @@ export default {
     async requestProteinSeqData(srp, code) {
       // SRP121432_17256
       const url = config.baseUrl + config.uri.proteinOneSeqViewURI + '/' + srp + '/' + code
-      console.log(url)
       // const url = config.baseUrl + config.uri.proteinOneSeqViewURI + '/' + 'SRP121432' + '/' + '17256'
       axios.get(url, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8' 
         }
       }).then((response) => {
-        console.log(response.data.data)
         this.proteinSeqInfo = response.data.data? response.data.data : {}
       })
     },
