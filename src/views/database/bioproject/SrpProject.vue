@@ -50,7 +50,7 @@ export default {
 
   data() {
     return {
-      ifShowDescription: false,
+      ifShowDescription: true,
       searchedSrptableData: [],
       ifSearchedSrp: false
     }

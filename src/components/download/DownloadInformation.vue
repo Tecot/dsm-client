@@ -1,7 +1,7 @@
 <template>
   <div class="download-container">
     <div class="title-container">
-      <span>Download SRP project</span>
+      <span>Download SRA project</span>
     </div>
     
     <div class="table-container">

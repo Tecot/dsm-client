@@ -21,7 +21,15 @@
         Marine Metagenome Database
       </div>
       <div class="search-input">
-        <el-input style="width: 40%;" v-model="searchData"></el-input>
+        <!-- <el-input style="width: 40%;" v-model="searchData"></el-input> -->
+        <el-select style="width: 40%;" v-model="searchData" filterable placeholder="">
+          <el-option
+            v-for="item in srpDirNames"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
       </div>
       <div class="tip">
@@ -94,6 +102,7 @@ export default {
 
   data() {
     return {
+      state: '',
       isShow: true,
       searchData: '',
       srpDirNames: [],
@@ -128,6 +137,7 @@ export default {
               'Content-Type': 'application/json; charset=utf-8' 
             }
           }).then((response) => {
+            console.log(response.data.data)
             this.$router.push({
               name: 'runproject', 
               params: { 

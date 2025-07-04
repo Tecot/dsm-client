@@ -16,14 +16,6 @@
       <div class="contig-description-information">
         <ContigDescription :contigDetail="contigDetail" @viewProteinStructSignal="handleProteinStructSignal($event)"></ContigDescription>
       </div>
-      <!-- <MultiRowsArrowVis 
-        ref="multi_rows_arrow_vis"
-        :svgAttr="{ width: 1200 }"
-        :inputData="multiArrowData"
-        @viewProteinStructSignal="handleViewProteinStructSignal($event)"
-        @viewVfAndResfinderSignal="handleViewVfAndResfinderSignal($event)"
-      >
-      </MultiRowsArrowVis> -->
       <GeneStructVis 
         :inputData="multiArrowData"
         @viewVfAndResfinderSignal="handleViewVfAndResfinderSignal($event)"
@@ -73,7 +65,6 @@
 import config from '@/config'
 import axios from 'axios'
 import { showLoading, hideLoading } from '@/utils/loading'
-import MultiRowsArrowVis from '@/components/visiualization/MultiRowsArrowVis.vue';
 import BinInformation from '@/components/database/dataexpress/BinInformation.vue';
 import ContigDescription from '@/components/database/dataexpress/ContigDescription.vue'
 import ProteinSeqDescription from '@/components/database/dataexpress/ProteinSeqDescription.vue'
@@ -89,7 +80,6 @@ export default {
 
   components: {
     ContigDescription,
-    MultiRowsArrowVis,
     BinInformation,
     ProteinSeqDescription,
     ProteinStructVis,
@@ -148,6 +138,7 @@ export default {
         const newData = {}
         newData['length'] = response.data.length
         newData['data'] = {}
+        
         if(response.data.meta.cdsGenes.length) {
           newData['data']['Genes'] = response.data.meta.cdsGenes
         }

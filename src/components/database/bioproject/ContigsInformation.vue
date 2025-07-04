@@ -39,18 +39,9 @@
           </template>
         </el-table-column>
       </el-table>
-
-    <div class="pagination-container">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[20, 50, 100]"
-        :page-size="pageSize"
-        layout="total, prev, pager, next, sizes, jumper"
-        :total="total">
-      </el-pagination>
-    </div>
+      <div class="number">
+        Number: {{ tableData.length }}
+      </div>
   </div>
 </template>
 
@@ -91,8 +82,6 @@ export default {
       ifSearchedContigList: false,
 
       tableData: [],
-      currentPage: 1,
-      pageSize: 20,
       total: 0,
     };
   },
@@ -100,9 +89,7 @@ export default {
   watch: {
     srp(newValue, oldValue) {
       if(newValue) {
-        // TODO
-        // this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
-        this.requestContigsInformation(this.srp, this.currentPage, this.pageSize)
+        this.requestContigsInformation(this.srp)
       }
     }
   },
@@ -111,24 +98,18 @@ export default {
 
   methods: {
     handleSearchData(value) {
-      this.currentPage = 1
-      this.pageSize = 20
       this.ifSearchedContigList = true
       this.searchData = { 
         ...value, 
-        srp: this.srp,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
+        srp: this.srp
       }
       this.requestContigsSearchedInformation(this.searchData)
     },
 
     handleResetSignal(value) {
       if(this.ifSearchedContigList) {
-        this.currentPage = 1
-        this.pageSize = 20
         this.ifSearchedContigList = false
-        this.requestContigsInformation(this.srp, this.currentPage, this.pageSize)
+        this.requestContigsInformation(this.srp)
       }
     },
 
@@ -153,7 +134,7 @@ export default {
 
     requestContigsInformation(srp, currentPage, pageSize) {
       showLoading()
-      const url = config.baseUrl + config.uri.contigsInformationViewURI + '/' + srp + '/' + currentPage + '/' + pageSize
+      const url = config.baseUrl + config.uri.contigsInformationViewURI + '/' + srp
       axios.get(url, {
         headers: {
         'Content-Type': 'application/json; charset=utf-8' 
@@ -178,37 +159,6 @@ export default {
         }
       })
     },
-
-    handleSizeChange(value) {
-      this.pageSize = value
-      this.currentPage = 1
-      // this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
-      if(this.ifSearchedContigList) {
-        this.requestContigsSearchedInformation({ 
-          ...this.searchData, 
-          srp: 'SRP121432',
-          currentPage: this.currentPage,
-          pageSize: this.pageSize
-        })
-      } else {
-        this.requestContigsInformation('SRP121432', this.currentPage, this.pageSize)
-      }
-    },
-
-    handleCurrentChange(value) {
-      this.currentPage = value
-      // this.requestGeneomeSeqInfo(this.srp, this.currentPage, this.pageSize)
-      if(this.ifSearchedContigList) {
-        this.requestContigsSearchedInformation({ 
-          ...this.searchData, 
-          srp: 'SRP121432',
-          currentPage: this.currentPage,
-          pageSize: this.pageSize
-        })
-      } else {
-        this.requestContigsInformation('SRP121432', this.currentPage, this.pageSize)
-      }
-    },
   },
 };
 </script>
@@ -228,10 +178,12 @@ export default {
   .el-table {
     margin-top: 20px;
   }
-  .pagination-container {
+  .number {
     display: flex;
-    justify-content: center;
+    justify-content: right;
+    align-items: center;
     margin-top: 20px;
+    color: #44546A;
   }
 }
 </style>

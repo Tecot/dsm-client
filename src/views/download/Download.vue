@@ -7,9 +7,9 @@
 -->
 <template>
   <div class="download-container">
-    <div class="download-source">
+    <!-- <div class="download-source">
       <DownloadDatabaseInformation></DownloadDatabaseInformation>
-    </div>
+    </div> -->
     
 
     <div class="download-source">
