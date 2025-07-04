@@ -170,6 +170,7 @@ export default {
     }
   },
   mounted() {
+    
     if(!this.$store.state.showPrivacyPolicy) {
       this.cookieDivOr = true
       this.setIfShowedPrivacyPolicy(true)

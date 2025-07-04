@@ -14,10 +14,11 @@
           fit="fill">
         </el-image>
       <div style="font-size: 38px; color: #FFF;padding-left: 10px; font-weight: bold; ">
-        <i><span style="color: #39B9ED;">D</span>
-          <span style="color: #CFDBB0;">S</span>
+        <i>
+          <span style="color: #39B9ED;">M</span>
           <span style="color: #BCD2EE;">M</span>
-          <span style="color: #FFF">Database</span></i>
+          <span style="color: #FFF">Database</span>
+        </i>
       </div>
     </div>
     

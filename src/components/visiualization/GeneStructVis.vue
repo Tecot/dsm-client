@@ -91,6 +91,7 @@ export default {
 				this.initSvg(newValue)
 				this.drawPlot(newValue)
 				this.downloadvisible = true
+				console.log(newValue)
 			}
 		}
 	},

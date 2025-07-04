@@ -33,7 +33,7 @@
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
       </div>
       <div class="tip">
-        Search for SRA/SRP/ERP/DRP project. Examples: SRP080036, ERP109052, ERP122143, DRP005636'
+        Search for SRA/SRP/ERP/DRP project. Examples: DRP005856, ERP122143, ERP122143, DRP005636
       </div>
     </div>
     <div class="description-container">
