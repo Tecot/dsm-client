@@ -1,16 +1,20 @@
 <template>
-  <div class="gene-struct-container">
-		<div class="view-panel">
-			<div class="vis-container"></div>
+	<div class="gene-struct-container">
+			<div class="tip">
+				<el-tag type="warning">
+					Tip: Please swipe left and right to view the complete gene structure diagram. 
+					Note: Some genes may overlap due to their similar positions and lengths.
+				</el-tag>
+			</div>
+			<div class="view-panel">
+				<div class="vis-container"></div>
+			</div>
+		<div class="options-container" v-if="downloadvisible">
+		<el-button size="mini" type="primary" @click="downloadPNG">Download PNG</el-button>
+		<el-button size="mini" type="primary" @click="downloadSvg">Download SVG</el-button>
+		<el-button size="mini" type="primary" @click="downloadPDF">Download PDF</el-button>
 		</div>
-		
-    
-    <div class="options-container" v-if="downloadvisible">
-      <el-button size="mini" type="primary" @click="downloadPNG">Download PNG</el-button>
-      <el-button size="mini" type="primary" @click="downloadSvg">Download SVG</el-button>
-      <el-button size="mini" type="primary" @click="downloadPDF">Download PDF</el-button>
-    </div>
-  </div>
+	</div>
 </template>
 
 <script>
@@ -31,7 +35,7 @@ export default {
     return {
       svg: null,
 			width: 0,
-			maxWidth: 2500,
+			maxWidth: 6000,
 			height: 0,
 			margin: {
 				top: 20,
@@ -74,7 +78,9 @@ export default {
 				'#e65d5d', '#5de6c3', '#d15de6', '#e6e35d', '#5d7ce6',
 				'#e68a5d', '#5de6a8', '#b85de6', '#e6e35d', '#5d8fe6',
 				'#e65d9d', '#5de6d1', '#8a5de6', '#e6b85d', '#5dafe6',
-				'#e6625d', '#5de68a', '#c35de6', '#e6e35d', '#5d7ce6'
+				'#e6625d', '#5de68a', '#c35de6', '#e6e35d', '#5d7ce6',
+				'#ABccdd', '#BAAABB', '#9eABcc', '#76abCD', '#3Cddcc',
+				'#cbaabc', '#bccfff', '#ffcc23', '#2122cd', '#1cbacb'
 			],
 			downloadvisible: false,
     };
@@ -269,7 +275,7 @@ export default {
 						.attr('stroke', '')
 						.attr('fill', this.colors[pos])
 						.style('cursor', 'pointer')
-						.style('opacity', '0.5')
+						// .style('opacity', '0.5')
 						.on('click', () => {
 							if(key === 'vf') {
 								this.$emit('viewVfAndResfinderSignal', meta.infos)
@@ -381,6 +387,11 @@ export default {
 
 <style lang="scss" scoped>
 .gene-struct-container {
+	.tip {
+		height: 3rem;
+		display: flex;
+		align-items: center;
+	}
 	.view-panel {
 		display: flex;
 		justify-content: center;

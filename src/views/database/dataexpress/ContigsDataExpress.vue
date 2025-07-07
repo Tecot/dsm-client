@@ -25,14 +25,14 @@
 
     <div class="bin-container">
       <div class="title-container">
-        {{ contigDetail.srp + ' The results of binning' }}
+        {{ contigDetail.srp + ': The results of binning' }}
       </div>
       <BinInformation :srp="contigDetail.srp" :binData="binData" @binDescriptionSignal="handleBinDescriptionSignal($event)"></BinInformation>
     </div>
 
     <div class="mop-container">
       <div class="title-container">
-        {{ contigDetail.srp + ' The predicted results of AMP' }}
+        {{ contigDetail.srp + ': The predicted results of AMP' }}
       </div>
       <MacrelOuPredictionInformation :srp="this.contigDetail.srp" @mopData="processMopData($event)"></MacrelOuPredictionInformation>
     </div>
@@ -92,7 +92,7 @@ export default {
 
   data() {
     return {
-      ifShowDescription: false,
+      ifShowDescription: true,
 
       contigName: '',
       contigDetail: {},
