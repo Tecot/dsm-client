@@ -27,7 +27,7 @@
       <div class="srp-search-conditions-container">
         <div class="search-condition-container">
           <div class="title">
-            Bio project
+            Bioproject
           </div>
           <div class="search-container">
             <el-input 
@@ -53,7 +53,7 @@
           </div>
         </div>
 
-        <div class="search-condition-container">
+        <!-- <div class="search-condition-container">
           <div class="title">
             Project ID
           </div>
@@ -65,9 +65,9 @@
             >
             </el-input>
           </div>
-        </div>
+        </div> -->
 
-        <div class="search-condition-container">
+        <!-- <div class="search-condition-container">
           <div class="title">
             Center name
           </div>
@@ -79,9 +79,9 @@
             >
             </el-input>
           </div>
-        </div>
+        </div> -->
 
-        <div class="search-condition-container">
+        <!-- <div class="search-condition-container">
           <div class="title">
             Submission
           </div>
@@ -93,7 +93,7 @@
             >
             </el-input>
           </div>
-        </div>
+        </div> -->
 
         <div class="search-condition-container">
           <div class="title">
@@ -251,9 +251,9 @@ export default {
       searchContent: {
         bioProjectText: '',
         srastudyText: '',
-        projectID: '',
-        centerName: '',
-        submission: '',
+        // projectID: '',
+        // centerName: '',
+        // submission: '',
         gene: '',
         stitle: '',
         sseqid: '',
@@ -286,9 +286,9 @@ export default {
       this.searchContent = {
         bioProjectText: '',
         srastudyText: '',
-        projectID: '',
-        centerName: '',
-        submission: '',
+        // projectID: '',
+        // centerName: '',
+        // submission: '',
         gene: '',
         stitle: '',
         sseqid: '',

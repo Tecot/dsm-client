@@ -31,9 +31,9 @@ export default {
 		}
 	},
 
-  data() {
-    return {
-      svg: null,
+  	data() {
+		return {
+			svg: null,
 			width: 0,
 			maxWidth: 6000,
 			height: 0,
@@ -83,7 +83,7 @@ export default {
 				'#cbaabc', '#bccfff', '#ffcc23', '#2122cd', '#1cbacb'
 			],
 			downloadvisible: false,
-    };
+		};
   },
 
   mounted() {

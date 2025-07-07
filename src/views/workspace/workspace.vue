@@ -12,7 +12,7 @@
     </div>
     <div class="search">
       <div class="search-input">
-        <el-input style="width: 40%;"v-model="searchData" placeholder="Please enter your task ID"></el-input>
+        <el-input style="width: 40%;" v-model="searchData" placeholder="Please enter your task ID"></el-input>
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
       </div>
       <div class="tip">
