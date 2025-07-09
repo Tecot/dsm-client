@@ -8,7 +8,7 @@
 import Home from '@/views/home/Home.vue'
 import Analysis from '@/views/analysis/Analysis.vue'
 
-import workspace from '@/views/workspace/workspace.vue'
+import Workspace from '@/views/workspace/Workspace.vue'
 
 import Overview from '@/views/database/overview/Overview.vue'
 import SrpProject from '@/views/database/bioproject/SrpProject.vue'
@@ -32,7 +32,7 @@ const routesConfig = [
     {
         path: '/workspace',
         name: 'workspace',
-        component: workspace 
+        component: Workspace 
     },
     {
         path: '/analysis',

@@ -29,6 +29,7 @@ const uriConfigs = {
         downloadURI: 'api/download',
 
         analysisURI: 'api/analysis/analysisview',
+        analysisMethodsURI: 'api/analysis/analysismethods',
 
         taskStatuesViewURI: 'api/workspace/taskstatuesview',
         downloadTaskreSultURI: 'api/workspace/downloadtaskresultview'
