@@ -216,7 +216,7 @@ export default {
         method: 'GET',
         responseType: 'blob'
       }).then((response) => {
-        this.blobDownload(response)
+        this.blobDownload(response, id)
       }).catch((e) => {
         this.$notify({
           title: 'Error',
@@ -225,12 +225,12 @@ export default {
         });
       })
     },
-    blobDownload(blobObject) {
+    blobDownload(blobObject, id) {
       const url = window.URL.createObjectURL(new Blob([blobObject.data]));
       const link = document.createElement('a');
       link.href = url;
       link.id = 'download_link'
-      link.setAttribute('download', 'file.zip'); 
+      link.setAttribute('download', id + '.zip'); 
       document.body.appendChild(link);
       link.click();
       const elementToRemove = document.getElementById(link.id);

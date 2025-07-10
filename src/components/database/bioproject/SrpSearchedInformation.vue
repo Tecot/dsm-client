@@ -9,7 +9,7 @@
         max-height="600"
         style="width: 100%"
       >
-      <el-table-column prop="BioProject" label="Bio project" width="200"></el-table-column>
+      <el-table-column prop="BioProject" label="Bioproject" width="200"></el-table-column>
       <el-table-column prop="SRAStudy" label="SRAStudy" width="200"></el-table-column>
       <el-table-column prop="ProjectID" label="Project ID" width="200"></el-table-column>
       <el-table-column prop="Submission" label="Submission" width="200"></el-table-column>

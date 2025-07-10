@@ -33,7 +33,7 @@
             <el-input 
               v-model="searchContent.bioProjectText" 
               size="mini"
-              placeholder="Please input bio project"
+              placeholder="Please input bioproject"
             >
             </el-input>
           </div>
