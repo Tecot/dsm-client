@@ -9,9 +9,9 @@
                     action=""
                     accept=".fasta,.fa,.fas"
                     list-type="text"
-                    :http-request="dummyFastq1Request"
-                    :on-remove="handleFastq1Remove"
-                    :on-change="handleFastq1Change"
+                    :http-request="dummyFastaRequest"
+                    :on-remove="handleFastaRemove"
+                    :on-change="handleFastaChange"
                     :auto-upload="false"
                     :limit="1">
                     <i class="el-icon-upload"></i>
@@ -26,9 +26,9 @@
                 action=""
                 accept=".graph"
                 list-type="text"
-                :http-request="dummyFastq2Request"
-                :on-remove="handleFastq2Remove"
-                :on-change="handleFastq2Change"
+                :http-request="dummyGraphRequest"
+                :on-remove="handleGraphRemove"
+                :on-change="handleGraphChange"
                 :auto-upload="false"
                 :limit="1">
                 <i class="el-icon-upload"></i>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="options">
-            <el-button icon="el-icon-upload">Submit</el-button>
+            <el-button icon="el-icon-upload" @click="handleSubmit()">Submit</el-button>
             <el-button icon="el-icon-download" @click="requestSampleData()">Demo data</el-button>
         </div>
     </div>
@@ -64,6 +64,8 @@ export default {
     data() {
         return {
             analysis_methods: [],
+            fasta: null,
+            graph: null,
             checkList: []
         }
     },
@@ -124,6 +126,89 @@ export default {
             const parentElement = elementToRemove.parentNode;
             parentElement.removeChild(elementToRemove);
         },
+        handleFastaChange(file, fileList) {
+            this.fasta = file.raw
+        },
+        handleFastaRemove(file, fileList) {
+            this.fasta = null
+        },
+        dummyFastaRequest({ file, onSuccess }) {
+            onSuccess("ok")
+        },
+        handleGraphChange(file, fileList) {
+            this.graph = file.raw
+        },
+        handleGraphRemove(file, fileList) {
+            this.graph = null
+        },
+        dummyGraphRequest({ file, onSuccess }) {
+            onSuccess("ok")
+        },
+        handleSubmit() {
+            if(!this.checkList.length) {
+                this.$notify.error({
+                    message: 'The analysis process was not selected!',
+                })
+                return
+            }
+            if(this.fasta) {
+                const formData = new FormData()
+                const labels = []
+                this.checkList.forEach((item) => {
+                    this.analysis_methods.forEach((method) => {
+                        if(item === method.description) {
+                            labels.push(method.name)
+                        }
+                    })
+                })
+                formData.append('labels', labels)
+                formData.append('fasta', this.fasta)
+                if(this.graph) {
+                    formData.append('have_graph', true)
+                    formData.append('graph', this.graph)
+                } else {
+                    formData.append('have_graph', false)
+                }
+                
+                const url = config.baseUrl + config.uri.analysisURI
+                showLoading()
+                axios.post(url, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((response) => {
+                    console.log(response.data)
+                    const expires = new Date(new Date() * 1 + response.data.data['age'] * 1000)
+                    Cookies.set(response.data.data['key'], response.data.data['value'], { expires: expires })
+                    this.$notify({
+                        message: 'Upload success',
+                        type: 'success',
+                        duration: 2000,
+                        onClose: () => {
+                            this.$router.push({
+                                name: 'workspace'
+                            })
+                        }
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                    hideLoading()
+                    this.$notify.error({
+                        message: 'The server is busy, please try again later!',
+                    })
+                })
+                .finally(() => {
+                    hideLoading()
+                })
+            } else {
+                this.$notify.error({
+                    message: 'At least upload the fasta file!',
+                })
+                return
+            }
+        }
     }
 }
 </script>

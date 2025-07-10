@@ -20,7 +20,7 @@ import ContigProject from '@/views/database/contigproject/ContigProject.vue'
 import ContigsDataExpress from '@/views/database/dataexpress/ContigsDataExpress.vue'
 
 import Download from '@/views/download/Download.vue'
-import Tutorial from '@/views/tutorial/Tutorial.vue'
+// import Tutorial from '@/views/tutorial/Tutorial.vue'
 import NotFound from '@/views/notfound/NotFound.vue'
 
 const routesConfig = [
@@ -74,11 +74,11 @@ const routesConfig = [
         name: 'download',
         component: Download
     },
-    {
-        path: '/tutorial',
-        name: 'tutorial',
-        component: Tutorial
-    },
+    // {
+    //     path: '/tutorial',
+    //     name: 'tutorial',
+    //     component: Tutorial
+    // },
     {
         path: '/:pathMatch(.*)*',
         name: 'notfound',

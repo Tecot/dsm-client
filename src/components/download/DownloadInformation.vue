@@ -15,11 +15,9 @@
       >
         <el-table-column prop="file" label="File"></el-table-column>
         
-        <el-table-column label="Option">
+        <el-table-column label="Download">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleDownload(scope.row)">
-              Download
-            </el-button>
+            <el-button size="large" @click="handleDownload(scope.row)" icon="el-icon-download"></el-button>
           </template>
         </el-table-column>
       </el-table>

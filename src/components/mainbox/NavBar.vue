@@ -57,9 +57,9 @@
       <el-menu-item index="/download">
         Download
       </el-menu-item>
-      <el-menu-item index="/tutorial">
+      <!-- <el-menu-item index="/tutorial">
         Tutorial
-      </el-menu-item>
+      </el-menu-item> -->
     </el-menu>
   </div>
   

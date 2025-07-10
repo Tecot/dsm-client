@@ -14,6 +14,7 @@
       <div class="search-input">
         <el-input style="width: 40%;" v-model="searchData" placeholder="Please enter your task ID"></el-input>
         <el-button icon="el-icon-search" @click="handuleSearchData()">Search</el-button>
+        <el-button icon="el-icon-help" @click="handuleReset()">Reset</el-button>
       </div>
       <div class="tip">
         You could check the submitted task by Task ID.
@@ -38,7 +39,6 @@
           :cell-style="cellStyle"
         >
           <el-table-column prop="id" label="Task ID" width="200px" fixed="left"></el-table-column>
-          <el-table-column prop="name" label="Task Name"></el-table-column>
           <el-table-column prop="createTime" label="Create Time"></el-table-column>
           <el-table-column label="Status">
             <template slot-scope="scope">
@@ -94,17 +94,7 @@ export default {
       memberTasks: [],
       tabelData: [],
       currentPage: 1,
-      pageSize: 5,
-      reverseLabelMap: {
-        'artdd': 'Analysis relevant to drug design',
-        'second': 'Prediction of secondary metabolites',
-        'macrel': 'Prediction of antimicrobial peptide',
-        // 'pops': 'Prediction of Protein structure',
-        'artdp': 'Analysis related to disease prevention',
-        'vf': 'Prediction of virulence factor',
-        'pres': 'Prediction of drug resistance factor',
-        'binning': 'Prediction of microorganism (Pathogenic microorganism)'
-      },
+      pageSize: 5
     };
   },
 
@@ -119,12 +109,10 @@ export default {
       const tasks = []
       const keys = []
       for (let key in cookies) {
-        if(key.startsWith('dsm')) {
+        if(key.startsWith('mmd')) {
           keys.push(key)
-          const value = cookies[key]
           tasks.push({
             id: key,
-            name: this.reverseLabelMap[value],
             createTime: this.processCreateTime(key.split('-')[1]),
           })
         }
@@ -178,6 +166,9 @@ export default {
         this.tasks = this.memberTasks
       }
       this.tabelData = this.paginationControler(this.tasks, this.currentPage, this.pageSize)
+    },
+    handuleReset() {
+      this.refreshTask()
     },
     handleSizeChange(value) {
       this.currentPage = 1
