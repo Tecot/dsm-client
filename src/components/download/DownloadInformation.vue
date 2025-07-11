@@ -13,11 +13,11 @@
         max-height="600"
         style="width: 100%"
       >
-        <el-table-column prop="file" label="File"></el-table-column>
+        <el-table-column prop="file" label="SRA project"></el-table-column>
         
         <el-table-column label="Download">
           <template slot-scope="scope">
-            <el-button size="large" @click="handleDownload(scope.row)" icon="el-icon-download"></el-button>
+            <el-button size="large" @click="handleDownload(scope.row)" icon="el-icon-download" style="border: none;"></el-button>
           </template>
         </el-table-column>
       </el-table>
